@@ -35,7 +35,7 @@ export function AppShell({ zone, user, nav, children }: Props) {
         <div className="mx-auto flex max-w-[1440px] items-center gap-4 px-4 py-3 sm:px-8">
           <Link to="/" className="flex items-center gap-2">
             <div className={`grid h-9 w-9 place-items-center rounded-lg ${zoneTone[zone]} text-sm font-bold`}>
-              EE
+              P2
             </div>
             <div className="hidden sm:block">
               <p className="text-sm font-bold text-on-surface">Place2Invest</p>

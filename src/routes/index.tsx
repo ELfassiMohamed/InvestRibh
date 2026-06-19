@@ -1,25 +1,41 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Building2, TrendingUp, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, Building2, Bitcoin, Rocket, Sparkles, Gem, Briefcase, TrendingUp, ShieldCheck } from "lucide-react";
 
 import { TopUtilityBar } from "@/components/TopUtilityBar";
-import { CategoryNav } from "@/components/CategoryNav";
 import { HeroSearch } from "@/components/HeroSearch";
 import { ProjectCard } from "@/components/ProjectCard";
 import { projects } from "@/lib/mock-data";
 
+import heroImage from "@/assets/hero-place2invest.jpg";
+import catImmobilier from "@/assets/cat-immobilier.jpg";
+import catCrypto from "@/assets/cat-crypto.jpg";
+import catStartup from "@/assets/cat-startup.jpg";
+import catTalent from "@/assets/cat-talent.jpg";
+import catValeur from "@/assets/cat-valeur.jpg";
+import catAffaires from "@/assets/cat-affaires.jpg";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Elevated Equity — L'excellence immobilière à votre portée" },
+      { title: "Place2Invest — Investissez dans le futur, aujourd'hui." },
       {
         name: "description",
         content:
-          "Investissez dans la pierre marocaine à partir de 5 000 MAD. Projets analysés par IA, conformes AMMC, suivi temps réel.",
+          "Place2Invest est votre plateforme digitale pour diversifier vos investissements : immobilier, startups, art, crypto et talent.",
       },
     ],
   }),
   component: HomePage,
 });
+
+const categories = [
+  { label: "Immobilier", to: "/investisseur/projets" as const, icon: Building2, image: catImmobilier },
+  { label: "Monnaie virtuelle & Crypto", to: "/investisseur/projets" as const, icon: Bitcoin, image: catCrypto },
+  { label: "Startup & Affaires", to: "/investisseur/projets" as const, icon: Rocket, image: catStartup },
+  { label: "Talent", to: "/investisseur/projets" as const, icon: Sparkles, image: catTalent },
+  { label: "Objets de valeur", to: "/investisseur/projets" as const, icon: Gem, image: catValeur },
+  { label: "Espace affaires", to: "/porteur-de-projet" as const, icon: Briefcase, image: catAffaires },
+];
 
 const espaces = [
   {
@@ -51,91 +67,85 @@ const espaces = [
 function HomePage() {
   const enCollecte = projects.filter((p) => p.statut === "En collecte");
   const featured = projects.filter((p) => p.featured);
-  const residentiel = projects.filter((p) => p.typologie === "Résidentiel");
-  const commercial = projects.filter((p) => p.typologie === "Commercial & Bureaux");
 
   return (
     <div className="min-h-screen bg-surface">
-      <TopUtilityBar />
+      <div className="relative">
+        <TopUtilityBar />
 
-      {/* HERO */}
-      <section className="relative overflow-hidden bg-surface-lowest">
-        <div className="mx-auto grid max-w-[1280px] gap-10 px-4 py-12 sm:px-10 lg:grid-cols-[1.1fr_1fr] lg:py-20">
-          <div className="flex flex-col justify-center">
-            <span className="label-sm w-fit rounded-md bg-primary-container/20 px-3 py-1.5 text-primary">
-              Financement participatif immobilier · Maroc
-            </span>
-            <h1 className="display-lg mt-6 text-on-surface">
-              L'excellence immobilière
-              <br />
-              <span className="text-primary">à votre portée.</span>
-            </h1>
-            <p className="body-lg mt-6 max-w-xl text-on-surface-variant">
-              Investissez à partir de 5 000 MAD dans des projets marocains
-              rigoureusement sélectionnés et analysés par notre pipeline
-              d'intelligence artificielle. Conforme au cadre AMMC loi 15-18.
-            </p>
+        {/* HERO full-bleed */}
+        <section className="relative overflow-hidden">
+          <img
+            src={heroImage}
+            alt="Équipe de professionnels Place2Invest analysant des tableaux de bord financiers"
+            width={1920}
+            height={1080}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/55" />
 
-            <div className="mt-8 max-w-2xl">
+          <div className="relative mx-auto max-w-[1280px] px-4 pt-12 pb-48 sm:px-10 sm:pt-16 sm:pb-56 lg:pb-64">
+            {/* Logo badge */}
+            <div className="mx-auto w-fit">
+              <Link
+                to="/"
+                className="inline-flex items-center rounded-2xl bg-[#1d4dd8] px-6 py-3 shadow-elevated ring-1 ring-white/20"
+              >
+                <span className="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
+                  Place
+                  <span className="text-[#ff4ea1]">2</span>
+                  invest
+                </span>
+              </Link>
+            </div>
+
+            {/* Search */}
+            <div className="mx-auto mt-10 max-w-3xl">
               <HeroSearch />
             </div>
 
-            <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-on-surface-variant">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-primary" />
-                Agréé cadre AMMC 15-18
-              </div>
-              <div className="flex items-center gap-2">
-                <Sparkles className="h-4 w-4 text-primary" />
-                Analyse IA multi-agents
-              </div>
-              <div className="flex items-center gap-2">
-                <Building2 className="h-4 w-4 text-primary" />
-                +120 M MAD investis
-              </div>
+            {/* Headline */}
+            <div className="mt-16 max-w-2xl text-white sm:mt-24">
+              <h1 className="display-lg drop-shadow-md">
+                Investissez dans le futur,
+                <br />
+                aujourd'hui.
+              </h1>
+              <p className="body-md mt-5 max-w-xl text-white/90 drop-shadow">
+                Place2Invest est votre plateforme digitale pour diversifier vos
+                investissements dans l'immobilier, les startups, l'art, la crypto
+                et le talent, tout en soutenant l'économie sociale et solidaire.
+              </p>
             </div>
           </div>
+        </section>
 
-          <div className="relative">
-            <div className="absolute -right-8 -top-8 h-64 w-64 rounded-full bg-primary-container/30 blur-3xl" />
-            <div className="relative overflow-hidden rounded-3xl shadow-elevated">
-              <img
-                src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80"
-                alt="Vue architecturale d'un projet immobilier marocain de standing"
-                className="aspect-[4/5] w-full object-cover"
-              />
-              <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between gap-2">
-                {[0, 1, 2, 3].map((i) => (
-                  <span
-                    key={i}
-                    className={`h-1.5 flex-1 rounded-full ${
-                      i === 0 ? "bg-surface-lowest" : "bg-surface-lowest/40"
-                    }`}
-                  />
-                ))}
+        {/* Category grid — overlapping hero bottom */}
+        <div className="relative z-10 -mt-40 sm:-mt-44 lg:-mt-48">
+          <div className="mx-auto max-w-[1280px] px-4 sm:px-10">
+            <div className="grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-5">
+              {categories.slice(0, 5).map((c) => (
+                <CategoryCard key={c.label} {...c} />
+              ))}
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-5">
+              <div className="lg:col-start-2">
+                <CategoryCard {...categories[5]} />
               </div>
             </div>
           </div>
         </div>
-      </section>
-
-      <CategoryNav />
+      </div>
 
       {/* 3 espaces */}
-      <section className="mx-auto max-w-[1280px] px-4 py-16 sm:px-10">
-        <div className="mb-10 flex items-end justify-between gap-4">
-          <div>
-            <p className="label-sm text-primary">Nos espaces</p>
-            <h2 className="headline-lg mt-2 text-on-surface">Une plateforme, trois métiers</h2>
-          </div>
+      <section className="mx-auto max-w-[1280px] px-4 py-20 sm:px-10">
+        <div className="mb-10">
+          <p className="label-sm text-primary">Nos espaces</p>
+          <h2 className="headline-lg mt-2 text-on-surface">Une plateforme, trois métiers</h2>
         </div>
         <div className="grid gap-6 md:grid-cols-3">
           {espaces.map(({ to, label, titre, description, icon: Icon }) => (
-            <Link
-              key={to}
-              to={to}
-              className="card-elevated group flex flex-col gap-4 p-6 hover:card-elevated-hover"
-            >
+            <Link key={to} to={to} className="card-elevated group flex flex-col gap-4 p-6 hover:card-elevated-hover">
               <div className="grid h-12 w-12 place-items-center rounded-xl bg-primary text-on-primary">
                 <Icon className="h-6 w-6" />
               </div>
@@ -153,71 +163,77 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Projets en collecte */}
-      <ProjectSection
-        eyebrow="En ce moment"
-        title="Projets en collecte"
-        items={enCollecte}
-        ctaLabel="Accéder à l'espace Investisseur"
-      />
-
-      {/* Coups de cœur */}
+      {/* Projects */}
+      <ProjectSection eyebrow="En ce moment" title="Projets en collecte" items={enCollecte} ctaLabel="Voir tous les projets" />
       <section className="bg-surface-low">
-        <ProjectSection
-          eyebrow="Coups de cœur"
-          title="Sélection de l'équipe"
-          items={featured}
-          ctaLabel="Voir tous les coups de cœur"
-        />
-      </section>
-
-      {/* Résidentiel */}
-      <ProjectSection
-        eyebrow="Typologie"
-        title="Immobilier résidentiel"
-        items={residentiel}
-      />
-
-      {/* Commercial */}
-      <section className="bg-surface-low">
-        <ProjectSection
-          eyebrow="Typologie"
-          title="Commercial & bureaux"
-          items={commercial}
-        />
+        <ProjectSection eyebrow="Coups de cœur" title="Sélection de l'équipe" items={featured} />
       </section>
 
       {/* Footer */}
       <footer className="bg-inverse-surface text-inverse-on-surface">
         <div className="mx-auto grid max-w-[1280px] gap-8 px-4 py-12 sm:px-10 md:grid-cols-4">
           <div>
-            <p className="text-lg font-bold">Elevated Equity</p>
+            <p className="text-lg font-bold">
+              Place<span className="text-inverse-primary">2</span>invest
+            </p>
             <p className="mt-2 text-sm opacity-70">
-              Plateforme de financement participatif immobilier régulée au Maroc.
+              Plateforme digitale d'investissement multi-actifs régulée au Maroc.
             </p>
           </div>
           {[
             { titre: "Plateforme", liens: ["Projets", "Comment ça marche", "Fiscalité MA", "Sécurité"] },
             { titre: "Société", liens: ["À propos", "Carrières", "Presse", "Contact"] },
-            { titre: "Légal", liens: ["Mentions légales", "Conformité AMMC", "Politique de confidentialité", "Cookies"] },
+            { titre: "Légal", liens: ["Mentions légales", "Conformité AMMC", "Confidentialité", "Cookies"] },
           ].map((col) => (
             <div key={col.titre}>
               <p className="label-sm">{col.titre}</p>
               <ul className="mt-3 space-y-2 text-sm opacity-80">
-                {col.liens.map((l) => (
-                  <li key={l} className="hover:opacity-100">{l}</li>
-                ))}
+                {col.liens.map((l) => <li key={l} className="hover:opacity-100">{l}</li>)}
               </ul>
             </div>
           ))}
         </div>
         <div className="border-t border-inverse-on-surface/10">
           <p className="mx-auto max-w-[1280px] px-4 py-4 text-xs opacity-60 sm:px-10">
-            © {new Date().getFullYear()} Elevated Equity. Les performances passées ne préjugent pas des performances futures. Investir comporte un risque de perte en capital.
+            © {new Date().getFullYear()} Place2Invest. Investir comporte un risque de perte en capital.
           </p>
         </div>
       </footer>
     </div>
+  );
+}
+
+function CategoryCard({
+  label,
+  to,
+  icon: Icon,
+  image,
+}: {
+  label: string;
+  to: "/investisseur/projets" | "/porteur-de-projet";
+  icon: typeof Building2;
+  image: string;
+}) {
+  return (
+    <Link
+      to={to}
+      className="card-elevated group flex flex-col overflow-hidden bg-surface-lowest transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
+    >
+      <div className="aspect-[4/3] w-full overflow-hidden">
+        <img
+          src={image}
+          alt={label}
+          loading="lazy"
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      </div>
+      <div className="flex items-center gap-2 px-4 py-3">
+        <Icon className="h-4 w-4 shrink-0 text-primary" />
+        <span className="truncate text-xs font-bold uppercase tracking-wider text-on-surface">
+          {label}
+        </span>
+      </div>
+    </Link>
   );
 }
 

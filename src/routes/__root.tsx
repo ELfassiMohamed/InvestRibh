@@ -76,13 +76,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Elevated Equity — Investissement immobilier fractionné au Maroc" },
+      { title: "Place2Invest — Investissez dans le futur, aujourd'hui." },
       {
         name: "description",
         content:
-          "Plateforme de financement participatif immobilier au Maroc : investissez à partir de 5 000 MAD dans des projets analysés par IA, conformes AMMC.",
+          "Place2Invest, la plateforme digitale pour diversifier vos investissements : immobilier, startups, art, crypto et talent, au service de l'économie sociale et solidaire.",
       },
-      { property: "og:title", content: "Elevated Equity — Investissement immobilier fractionné au Maroc" },
+      { property: "og:title", content: "Place2Invest — Investissez dans le futur, aujourd'hui." },
       {
         property: "og:description",
         content:

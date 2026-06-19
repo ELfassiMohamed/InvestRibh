@@ -38,7 +38,7 @@ export function AppShell({ zone, user, nav, children }: Props) {
               EE
             </div>
             <div className="hidden sm:block">
-              <p className="text-sm font-bold text-on-surface">Elevated Equity</p>
+              <p className="text-sm font-bold text-on-surface">Place2Invest</p>
               <p className="text-xs text-on-surface-variant">Espace {zone}</p>
             </div>
           </Link>

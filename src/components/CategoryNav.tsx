@@ -1,7 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
 
-const items = [
+type NavItem = { label: string; to: string; hasMenu?: boolean };
+
+const items: NavItem[] = [
   { label: "Page principale", to: "/" },
   { label: "Biens", to: "/investisseur/projets" },
   { label: "Investissements collectifs", to: "/investisseur/projets", hasMenu: true },
@@ -10,7 +12,7 @@ const items = [
   { label: "Pratique", to: "/" },
   { label: "Espace communautaire", to: "/" },
   { label: "Marketplace", to: "/" },
-] as const;
+];
 
 export function CategoryNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });

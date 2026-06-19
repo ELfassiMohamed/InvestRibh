@@ -30,7 +30,7 @@ export const Route = createFileRoute("/investisseur/projets/$id")({
 });
 
 function ProjetDetailPage() {
-  const { project } = Route.useLoaderData();
+  const { project } = Route.useLoaderData() as { project: Project };
   const [unites, setUnites] = useState(1);
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
 

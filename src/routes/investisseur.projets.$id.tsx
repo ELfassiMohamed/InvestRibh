@@ -18,8 +18,10 @@ import { RiskScoreBadge } from "@/components/RiskScoreBadge";
 import { getProject } from "@/lib/mock-data";
 import { formatMAD, formatPercent } from "@/lib/format";
 
+import type { Project } from "@/lib/mock-data";
+
 export const Route = createFileRoute("/investisseur/projets/$id")({
-  loader: ({ params }) => {
+  loader: ({ params }): { project: Project } => {
     const project = getProject(params.id);
     if (!project) throw notFound();
     return { project };

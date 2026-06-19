@@ -9,38 +9,123 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as InvestisseurRouteImport } from './routes/investisseur'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as InvestisseurIndexRouteImport } from './routes/investisseur.index'
+import { Route as InvestisseurSimulateurRoiRouteImport } from './routes/investisseur.simulateur-roi'
+import { Route as InvestisseurPortefeuilleRouteImport } from './routes/investisseur.portefeuille'
+import { Route as InvestisseurProjetsIndexRouteImport } from './routes/investisseur.projets.index'
+import { Route as InvestisseurProjetsIdRouteImport } from './routes/investisseur.projets.$id'
 
+const InvestisseurRoute = InvestisseurRouteImport.update({
+  id: '/investisseur',
+  path: '/investisseur',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InvestisseurIndexRoute = InvestisseurIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => InvestisseurRoute,
+} as any)
+const InvestisseurSimulateurRoiRoute =
+  InvestisseurSimulateurRoiRouteImport.update({
+    id: '/simulateur-roi',
+    path: '/simulateur-roi',
+    getParentRoute: () => InvestisseurRoute,
+  } as any)
+const InvestisseurPortefeuilleRoute =
+  InvestisseurPortefeuilleRouteImport.update({
+    id: '/portefeuille',
+    path: '/portefeuille',
+    getParentRoute: () => InvestisseurRoute,
+  } as any)
+const InvestisseurProjetsIndexRoute =
+  InvestisseurProjetsIndexRouteImport.update({
+    id: '/projets/',
+    path: '/projets/',
+    getParentRoute: () => InvestisseurRoute,
+  } as any)
+const InvestisseurProjetsIdRoute = InvestisseurProjetsIdRouteImport.update({
+  id: '/projets/$id',
+  path: '/projets/$id',
+  getParentRoute: () => InvestisseurRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/investisseur': typeof InvestisseurRouteWithChildren
+  '/investisseur/portefeuille': typeof InvestisseurPortefeuilleRoute
+  '/investisseur/simulateur-roi': typeof InvestisseurSimulateurRoiRoute
+  '/investisseur/': typeof InvestisseurIndexRoute
+  '/investisseur/projets/$id': typeof InvestisseurProjetsIdRoute
+  '/investisseur/projets/': typeof InvestisseurProjetsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/investisseur/portefeuille': typeof InvestisseurPortefeuilleRoute
+  '/investisseur/simulateur-roi': typeof InvestisseurSimulateurRoiRoute
+  '/investisseur': typeof InvestisseurIndexRoute
+  '/investisseur/projets/$id': typeof InvestisseurProjetsIdRoute
+  '/investisseur/projets': typeof InvestisseurProjetsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/investisseur': typeof InvestisseurRouteWithChildren
+  '/investisseur/portefeuille': typeof InvestisseurPortefeuilleRoute
+  '/investisseur/simulateur-roi': typeof InvestisseurSimulateurRoiRoute
+  '/investisseur/': typeof InvestisseurIndexRoute
+  '/investisseur/projets/$id': typeof InvestisseurProjetsIdRoute
+  '/investisseur/projets/': typeof InvestisseurProjetsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/investisseur'
+    | '/investisseur/portefeuille'
+    | '/investisseur/simulateur-roi'
+    | '/investisseur/'
+    | '/investisseur/projets/$id'
+    | '/investisseur/projets/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/investisseur/portefeuille'
+    | '/investisseur/simulateur-roi'
+    | '/investisseur'
+    | '/investisseur/projets/$id'
+    | '/investisseur/projets'
+  id:
+    | '__root__'
+    | '/'
+    | '/investisseur'
+    | '/investisseur/portefeuille'
+    | '/investisseur/simulateur-roi'
+    | '/investisseur/'
+    | '/investisseur/projets/$id'
+    | '/investisseur/projets/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  InvestisseurRoute: typeof InvestisseurRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/investisseur': {
+      id: '/investisseur'
+      path: '/investisseur'
+      fullPath: '/investisseur'
+      preLoaderRoute: typeof InvestisseurRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +133,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/investisseur/': {
+      id: '/investisseur/'
+      path: '/'
+      fullPath: '/investisseur/'
+      preLoaderRoute: typeof InvestisseurIndexRouteImport
+      parentRoute: typeof InvestisseurRoute
+    }
+    '/investisseur/simulateur-roi': {
+      id: '/investisseur/simulateur-roi'
+      path: '/simulateur-roi'
+      fullPath: '/investisseur/simulateur-roi'
+      preLoaderRoute: typeof InvestisseurSimulateurRoiRouteImport
+      parentRoute: typeof InvestisseurRoute
+    }
+    '/investisseur/portefeuille': {
+      id: '/investisseur/portefeuille'
+      path: '/portefeuille'
+      fullPath: '/investisseur/portefeuille'
+      preLoaderRoute: typeof InvestisseurPortefeuilleRouteImport
+      parentRoute: typeof InvestisseurRoute
+    }
+    '/investisseur/projets/': {
+      id: '/investisseur/projets/'
+      path: '/projets'
+      fullPath: '/investisseur/projets/'
+      preLoaderRoute: typeof InvestisseurProjetsIndexRouteImport
+      parentRoute: typeof InvestisseurRoute
+    }
+    '/investisseur/projets/$id': {
+      id: '/investisseur/projets/$id'
+      path: '/projets/$id'
+      fullPath: '/investisseur/projets/$id'
+      preLoaderRoute: typeof InvestisseurProjetsIdRouteImport
+      parentRoute: typeof InvestisseurRoute
+    }
   }
 }
 
+interface InvestisseurRouteChildren {
+  InvestisseurPortefeuilleRoute: typeof InvestisseurPortefeuilleRoute
+  InvestisseurSimulateurRoiRoute: typeof InvestisseurSimulateurRoiRoute
+  InvestisseurIndexRoute: typeof InvestisseurIndexRoute
+  InvestisseurProjetsIdRoute: typeof InvestisseurProjetsIdRoute
+  InvestisseurProjetsIndexRoute: typeof InvestisseurProjetsIndexRoute
+}
+
+const InvestisseurRouteChildren: InvestisseurRouteChildren = {
+  InvestisseurPortefeuilleRoute: InvestisseurPortefeuilleRoute,
+  InvestisseurSimulateurRoiRoute: InvestisseurSimulateurRoiRoute,
+  InvestisseurIndexRoute: InvestisseurIndexRoute,
+  InvestisseurProjetsIdRoute: InvestisseurProjetsIdRoute,
+  InvestisseurProjetsIndexRoute: InvestisseurProjetsIndexRoute,
+}
+
+const InvestisseurRouteWithChildren = InvestisseurRoute._addFileChildren(
+  InvestisseurRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  InvestisseurRoute: InvestisseurRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

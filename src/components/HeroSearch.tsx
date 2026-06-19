@@ -1,7 +1,7 @@
 import { Search, ChevronDown } from "lucide-react";
 import { useState } from "react";
 
-const types = ["Tous types de biens", "Résidentiel", "Commercial & Bureaux", "Terrains & Lotissements", "Projets neufs en collecte"];
+const types = ["Tous", "Immobilier", "Crypto", "Startup & Affaires", "Talent", "Objets de valeur"];
 
 export function HeroSearch() {
   const [type, setType] = useState(types[0]);
@@ -37,7 +37,7 @@ export function HeroSearch() {
       <div className="hidden h-6 w-px bg-outline-variant sm:block" />
       <input
         type="text"
-        placeholder="Ville, quartier, type de projet…"
+        placeholder="Que cherchez-vous ?"
         className="min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-on-surface outline-none placeholder:text-on-surface-variant"
       />
       <button

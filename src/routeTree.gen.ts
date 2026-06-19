@@ -9,17 +9,36 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PorteurDeProjetRouteImport } from './routes/porteur-de-projet'
 import { Route as InvestisseurRouteImport } from './routes/investisseur'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PorteurDeProjetIndexRouteImport } from './routes/porteur-de-projet.index'
 import { Route as InvestisseurIndexRouteImport } from './routes/investisseur.index'
+import { Route as PorteurDeProjetSoumissionRouteImport } from './routes/porteur-de-projet.soumission'
 import { Route as InvestisseurSimulateurRoiRouteImport } from './routes/investisseur.simulateur-roi'
 import { Route as InvestisseurPortefeuilleRouteImport } from './routes/investisseur.portefeuille'
+import { Route as AdminValidationIaRouteImport } from './routes/admin.validation-ia'
+import { Route as AdminUtilisateursRouteImport } from './routes/admin.utilisateurs'
+import { Route as AdminAuditEkycRouteImport } from './routes/admin.audit-ekyc'
 import { Route as InvestisseurProjetsIndexRouteImport } from './routes/investisseur.projets.index'
+import { Route as PorteurDeProjetCollecteProjectIdRouteImport } from './routes/porteur-de-projet.collecte.$projectId'
+import { Route as PorteurDeProjetChantierProjectIdRouteImport } from './routes/porteur-de-projet.chantier.$projectId'
 import { Route as InvestisseurProjetsIdRouteImport } from './routes/investisseur.projets.$id'
 
+const PorteurDeProjetRoute = PorteurDeProjetRouteImport.update({
+  id: '/porteur-de-projet',
+  path: '/porteur-de-projet',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InvestisseurRoute = InvestisseurRouteImport.update({
   id: '/investisseur',
   path: '/investisseur',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -27,11 +46,22 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PorteurDeProjetIndexRoute = PorteurDeProjetIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PorteurDeProjetRoute,
+} as any)
 const InvestisseurIndexRoute = InvestisseurIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => InvestisseurRoute,
 } as any)
+const PorteurDeProjetSoumissionRoute =
+  PorteurDeProjetSoumissionRouteImport.update({
+    id: '/soumission',
+    path: '/soumission',
+    getParentRoute: () => PorteurDeProjetRoute,
+  } as any)
 const InvestisseurSimulateurRoiRoute =
   InvestisseurSimulateurRoiRouteImport.update({
     id: '/simulateur-roi',
@@ -44,11 +74,38 @@ const InvestisseurPortefeuilleRoute =
     path: '/portefeuille',
     getParentRoute: () => InvestisseurRoute,
   } as any)
+const AdminValidationIaRoute = AdminValidationIaRouteImport.update({
+  id: '/validation-ia',
+  path: '/validation-ia',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUtilisateursRoute = AdminUtilisateursRouteImport.update({
+  id: '/utilisateurs',
+  path: '/utilisateurs',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAuditEkycRoute = AdminAuditEkycRouteImport.update({
+  id: '/audit-ekyc',
+  path: '/audit-ekyc',
+  getParentRoute: () => AdminRoute,
+} as any)
 const InvestisseurProjetsIndexRoute =
   InvestisseurProjetsIndexRouteImport.update({
     id: '/projets/',
     path: '/projets/',
     getParentRoute: () => InvestisseurRoute,
+  } as any)
+const PorteurDeProjetCollecteProjectIdRoute =
+  PorteurDeProjetCollecteProjectIdRouteImport.update({
+    id: '/collecte/$projectId',
+    path: '/collecte/$projectId',
+    getParentRoute: () => PorteurDeProjetRoute,
+  } as any)
+const PorteurDeProjetChantierProjectIdRoute =
+  PorteurDeProjetChantierProjectIdRouteImport.update({
+    id: '/chantier/$projectId',
+    path: '/chantier/$projectId',
+    getParentRoute: () => PorteurDeProjetRoute,
   } as any)
 const InvestisseurProjetsIdRoute = InvestisseurProjetsIdRouteImport.update({
   id: '/projets/$id',
@@ -58,72 +115,140 @@ const InvestisseurProjetsIdRoute = InvestisseurProjetsIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/investisseur': typeof InvestisseurRouteWithChildren
+  '/porteur-de-projet': typeof PorteurDeProjetRouteWithChildren
+  '/admin/audit-ekyc': typeof AdminAuditEkycRoute
+  '/admin/utilisateurs': typeof AdminUtilisateursRoute
+  '/admin/validation-ia': typeof AdminValidationIaRoute
   '/investisseur/portefeuille': typeof InvestisseurPortefeuilleRoute
   '/investisseur/simulateur-roi': typeof InvestisseurSimulateurRoiRoute
+  '/porteur-de-projet/soumission': typeof PorteurDeProjetSoumissionRoute
   '/investisseur/': typeof InvestisseurIndexRoute
+  '/porteur-de-projet/': typeof PorteurDeProjetIndexRoute
   '/investisseur/projets/$id': typeof InvestisseurProjetsIdRoute
+  '/porteur-de-projet/chantier/$projectId': typeof PorteurDeProjetChantierProjectIdRoute
+  '/porteur-de-projet/collecte/$projectId': typeof PorteurDeProjetCollecteProjectIdRoute
   '/investisseur/projets/': typeof InvestisseurProjetsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/admin/audit-ekyc': typeof AdminAuditEkycRoute
+  '/admin/utilisateurs': typeof AdminUtilisateursRoute
+  '/admin/validation-ia': typeof AdminValidationIaRoute
   '/investisseur/portefeuille': typeof InvestisseurPortefeuilleRoute
   '/investisseur/simulateur-roi': typeof InvestisseurSimulateurRoiRoute
+  '/porteur-de-projet/soumission': typeof PorteurDeProjetSoumissionRoute
   '/investisseur': typeof InvestisseurIndexRoute
+  '/porteur-de-projet': typeof PorteurDeProjetIndexRoute
   '/investisseur/projets/$id': typeof InvestisseurProjetsIdRoute
+  '/porteur-de-projet/chantier/$projectId': typeof PorteurDeProjetChantierProjectIdRoute
+  '/porteur-de-projet/collecte/$projectId': typeof PorteurDeProjetCollecteProjectIdRoute
   '/investisseur/projets': typeof InvestisseurProjetsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
   '/investisseur': typeof InvestisseurRouteWithChildren
+  '/porteur-de-projet': typeof PorteurDeProjetRouteWithChildren
+  '/admin/audit-ekyc': typeof AdminAuditEkycRoute
+  '/admin/utilisateurs': typeof AdminUtilisateursRoute
+  '/admin/validation-ia': typeof AdminValidationIaRoute
   '/investisseur/portefeuille': typeof InvestisseurPortefeuilleRoute
   '/investisseur/simulateur-roi': typeof InvestisseurSimulateurRoiRoute
+  '/porteur-de-projet/soumission': typeof PorteurDeProjetSoumissionRoute
   '/investisseur/': typeof InvestisseurIndexRoute
+  '/porteur-de-projet/': typeof PorteurDeProjetIndexRoute
   '/investisseur/projets/$id': typeof InvestisseurProjetsIdRoute
+  '/porteur-de-projet/chantier/$projectId': typeof PorteurDeProjetChantierProjectIdRoute
+  '/porteur-de-projet/collecte/$projectId': typeof PorteurDeProjetCollecteProjectIdRoute
   '/investisseur/projets/': typeof InvestisseurProjetsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
     | '/investisseur'
+    | '/porteur-de-projet'
+    | '/admin/audit-ekyc'
+    | '/admin/utilisateurs'
+    | '/admin/validation-ia'
     | '/investisseur/portefeuille'
     | '/investisseur/simulateur-roi'
+    | '/porteur-de-projet/soumission'
     | '/investisseur/'
+    | '/porteur-de-projet/'
     | '/investisseur/projets/$id'
+    | '/porteur-de-projet/chantier/$projectId'
+    | '/porteur-de-projet/collecte/$projectId'
     | '/investisseur/projets/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
+    | '/admin/audit-ekyc'
+    | '/admin/utilisateurs'
+    | '/admin/validation-ia'
     | '/investisseur/portefeuille'
     | '/investisseur/simulateur-roi'
+    | '/porteur-de-projet/soumission'
     | '/investisseur'
+    | '/porteur-de-projet'
     | '/investisseur/projets/$id'
+    | '/porteur-de-projet/chantier/$projectId'
+    | '/porteur-de-projet/collecte/$projectId'
     | '/investisseur/projets'
   id:
     | '__root__'
     | '/'
+    | '/admin'
     | '/investisseur'
+    | '/porteur-de-projet'
+    | '/admin/audit-ekyc'
+    | '/admin/utilisateurs'
+    | '/admin/validation-ia'
     | '/investisseur/portefeuille'
     | '/investisseur/simulateur-roi'
+    | '/porteur-de-projet/soumission'
     | '/investisseur/'
+    | '/porteur-de-projet/'
     | '/investisseur/projets/$id'
+    | '/porteur-de-projet/chantier/$projectId'
+    | '/porteur-de-projet/collecte/$projectId'
     | '/investisseur/projets/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
   InvestisseurRoute: typeof InvestisseurRouteWithChildren
+  PorteurDeProjetRoute: typeof PorteurDeProjetRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/porteur-de-projet': {
+      id: '/porteur-de-projet'
+      path: '/porteur-de-projet'
+      fullPath: '/porteur-de-projet'
+      preLoaderRoute: typeof PorteurDeProjetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/investisseur': {
       id: '/investisseur'
       path: '/investisseur'
       fullPath: '/investisseur'
       preLoaderRoute: typeof InvestisseurRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -133,12 +258,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/porteur-de-projet/': {
+      id: '/porteur-de-projet/'
+      path: '/'
+      fullPath: '/porteur-de-projet/'
+      preLoaderRoute: typeof PorteurDeProjetIndexRouteImport
+      parentRoute: typeof PorteurDeProjetRoute
+    }
     '/investisseur/': {
       id: '/investisseur/'
       path: '/'
       fullPath: '/investisseur/'
       preLoaderRoute: typeof InvestisseurIndexRouteImport
       parentRoute: typeof InvestisseurRoute
+    }
+    '/porteur-de-projet/soumission': {
+      id: '/porteur-de-projet/soumission'
+      path: '/soumission'
+      fullPath: '/porteur-de-projet/soumission'
+      preLoaderRoute: typeof PorteurDeProjetSoumissionRouteImport
+      parentRoute: typeof PorteurDeProjetRoute
     }
     '/investisseur/simulateur-roi': {
       id: '/investisseur/simulateur-roi'
@@ -154,12 +293,47 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InvestisseurPortefeuilleRouteImport
       parentRoute: typeof InvestisseurRoute
     }
+    '/admin/validation-ia': {
+      id: '/admin/validation-ia'
+      path: '/validation-ia'
+      fullPath: '/admin/validation-ia'
+      preLoaderRoute: typeof AdminValidationIaRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/utilisateurs': {
+      id: '/admin/utilisateurs'
+      path: '/utilisateurs'
+      fullPath: '/admin/utilisateurs'
+      preLoaderRoute: typeof AdminUtilisateursRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/audit-ekyc': {
+      id: '/admin/audit-ekyc'
+      path: '/audit-ekyc'
+      fullPath: '/admin/audit-ekyc'
+      preLoaderRoute: typeof AdminAuditEkycRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/investisseur/projets/': {
       id: '/investisseur/projets/'
       path: '/projets'
       fullPath: '/investisseur/projets/'
       preLoaderRoute: typeof InvestisseurProjetsIndexRouteImport
       parentRoute: typeof InvestisseurRoute
+    }
+    '/porteur-de-projet/collecte/$projectId': {
+      id: '/porteur-de-projet/collecte/$projectId'
+      path: '/collecte/$projectId'
+      fullPath: '/porteur-de-projet/collecte/$projectId'
+      preLoaderRoute: typeof PorteurDeProjetCollecteProjectIdRouteImport
+      parentRoute: typeof PorteurDeProjetRoute
+    }
+    '/porteur-de-projet/chantier/$projectId': {
+      id: '/porteur-de-projet/chantier/$projectId'
+      path: '/chantier/$projectId'
+      fullPath: '/porteur-de-projet/chantier/$projectId'
+      preLoaderRoute: typeof PorteurDeProjetChantierProjectIdRouteImport
+      parentRoute: typeof PorteurDeProjetRoute
     }
     '/investisseur/projets/$id': {
       id: '/investisseur/projets/$id'
@@ -170,6 +344,20 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AdminRouteChildren {
+  AdminAuditEkycRoute: typeof AdminAuditEkycRoute
+  AdminUtilisateursRoute: typeof AdminUtilisateursRoute
+  AdminValidationIaRoute: typeof AdminValidationIaRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminAuditEkycRoute: AdminAuditEkycRoute,
+  AdminUtilisateursRoute: AdminUtilisateursRoute,
+  AdminValidationIaRoute: AdminValidationIaRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
 interface InvestisseurRouteChildren {
   InvestisseurPortefeuilleRoute: typeof InvestisseurPortefeuilleRoute
@@ -191,9 +379,29 @@ const InvestisseurRouteWithChildren = InvestisseurRoute._addFileChildren(
   InvestisseurRouteChildren,
 )
 
+interface PorteurDeProjetRouteChildren {
+  PorteurDeProjetSoumissionRoute: typeof PorteurDeProjetSoumissionRoute
+  PorteurDeProjetIndexRoute: typeof PorteurDeProjetIndexRoute
+  PorteurDeProjetChantierProjectIdRoute: typeof PorteurDeProjetChantierProjectIdRoute
+  PorteurDeProjetCollecteProjectIdRoute: typeof PorteurDeProjetCollecteProjectIdRoute
+}
+
+const PorteurDeProjetRouteChildren: PorteurDeProjetRouteChildren = {
+  PorteurDeProjetSoumissionRoute: PorteurDeProjetSoumissionRoute,
+  PorteurDeProjetIndexRoute: PorteurDeProjetIndexRoute,
+  PorteurDeProjetChantierProjectIdRoute: PorteurDeProjetChantierProjectIdRoute,
+  PorteurDeProjetCollecteProjectIdRoute: PorteurDeProjetCollecteProjectIdRoute,
+}
+
+const PorteurDeProjetRouteWithChildren = PorteurDeProjetRoute._addFileChildren(
+  PorteurDeProjetRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
   InvestisseurRoute: InvestisseurRouteWithChildren,
+  PorteurDeProjetRoute: PorteurDeProjetRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

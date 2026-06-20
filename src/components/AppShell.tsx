@@ -1,6 +1,8 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState, useRouter } from "@tanstack/react-router";
 import { ArrowLeft, LogOut } from "lucide-react";
 import type { ReactNode } from "react";
+import { useAuth } from "@/hooks/use-auth";
+import logoImage from "@/assets/place2invest_logo.png";
 
 interface NavItem {
   label: string;
@@ -9,7 +11,6 @@ interface NavItem {
 
 interface Props {
   zone: "Investisseur" | "Porteur de Projet" | "Conformité";
-  user: { nom: string; role: string };
   nav: NavItem[];
   children: ReactNode;
 }
@@ -20,27 +21,37 @@ const zoneTone = {
   Conformité: "bg-tertiary text-on-tertiary",
 };
 
-export function AppShell({ zone, user, nav, children }: Props) {
+const zoneLabels: Record<string, string> = {
+  Investisseur: "Investisseur",
+  "Porteur de Projet": "Porteur de Projet",
+  Conformité: "Agent Conformité",
+};
+
+export function AppShell({ zone, nav, children }: Props) {
+  const { user, logout } = useAuth();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const initials = user.nom
+  const router = useRouter();
+
+  const displayName = user?.nom ?? "Utilisateur";
+  const displayRole = user?.role ?? zoneLabels[zone] ?? "";
+  const initials = displayName
     .split(" ")
     .map((n) => n[0])
     .slice(0, 2)
     .join("")
     .toUpperCase();
 
+  const handleLogout = () => {
+    logout();
+    router.navigate({ to: "/" });
+  };
+
   return (
     <div className="min-h-screen bg-surface">
       <header className="sticky top-0 z-30 border-b border-outline-variant bg-surface-lowest/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-[1440px] items-center gap-4 px-4 py-3 sm:px-8">
           <Link to="/" className="flex items-center gap-2">
-            <div className={`grid h-9 w-9 place-items-center rounded-lg ${zoneTone[zone]} text-sm font-bold`}>
-              P2
-            </div>
-            <div className="hidden sm:block">
-              <p className="text-sm font-bold text-on-surface">Place2Invest</p>
-              <p className="text-xs text-on-surface-variant">Espace {zone}</p>
-            </div>
+            <img src={logoImage} alt="Place2Invest" className="h-9 rounded-lg object-contain" />
           </Link>
 
           <nav className="ml-6 hidden flex-1 items-center gap-1 overflow-x-auto lg:flex">
@@ -75,11 +86,15 @@ export function AppShell({ zone, user, nav, children }: Props) {
                 {initials}
               </div>
               <div className="hidden text-xs sm:block">
-                <p className="font-semibold text-on-surface">{user.nom}</p>
-                <p className="text-on-surface-variant">{user.role}</p>
+                <p className="font-semibold text-on-surface">{displayName}</p>
+                <p className="text-on-surface-variant">{displayRole}</p>
               </div>
             </div>
-            <button aria-label="Déconnexion" className="grid h-9 w-9 place-items-center rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface">
+            <button
+              onClick={handleLogout}
+              aria-label="Déconnexion"
+              className="grid h-9 w-9 place-items-center rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
+            >
               <LogOut className="h-4 w-4" />
             </button>
           </div>

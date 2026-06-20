@@ -5,6 +5,7 @@ import { PageHeader } from "@/components/AppShell";
 import { KpiCard } from "@/components/KpiCard";
 import { submissionDrafts, projects } from "@/lib/mock-data";
 import { formatDate, formatMAD } from "@/lib/format";
+import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/porteur-de-projet/")({
   component: PorteurHomePage,
@@ -13,12 +14,13 @@ export const Route = createFileRoute("/porteur-de-projet/")({
 const mesProjets = projects.slice(0, 2);
 
 function PorteurHomePage() {
+  const { user } = useAuth();
   const totalLeve = mesProjets.reduce((s, p) => s + p.montantCollecte, 0);
 
   return (
     <>
       <PageHeader
-        title="Bonjour Atlas Promotion 👋"
+        title={`Bonjour ${user?.nom?.split(" ")[0] ?? "Atlas Promotion"} 👋`}
         description="Vue consolidée de vos opérations en cours sur la plateforme."
         actions={
           <Link

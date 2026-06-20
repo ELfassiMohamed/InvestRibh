@@ -31,6 +31,7 @@ import {
   getProject,
 } from "@/lib/mock-data";
 import { formatDate, formatMAD } from "@/lib/format";
+import { useAuth } from "@/hooks/use-auth";
 
 export const Route = createFileRoute("/investisseur/")({
   component: DashboardPage,
@@ -39,6 +40,7 @@ export const Route = createFileRoute("/investisseur/")({
 const COLORS = ["#693f2c", "#845642", "#c9a44c", "#585e6c", "#46494c"];
 
 function DashboardPage() {
+  const { user } = useAuth();
   const valeurTotale = holdings.reduce((s, h) => s + h.valeurActuelle, 0);
   const totalInvesti = holdings.reduce((s, h) => s + h.unites * h.prixMoyen, 0);
   const dividendesCumules = transactions
@@ -63,7 +65,7 @@ function DashboardPage() {
   return (
     <>
       <PageHeader
-        title="Bonjour Yasmine 👋"
+        title={`Bonjour ${user?.nom?.split(" ")[0] ?? "Yasmine"} 👋`}
         description="Voici l'état consolidé de votre portefeuille immobilier au 18/06/2026."
       />
 
@@ -251,7 +253,7 @@ function DashboardPage() {
             <h2 className="headline-md mt-1 text-on-surface">Projets correspondant à votre profil</h2>
           </div>
           <Link
-            to="/investisseur/projets"
+            to="/projets"
             className="flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
           >
             Catalogue complet
@@ -265,7 +267,7 @@ function DashboardPage() {
             .map((p) => (
               <Link
                 key={p.id}
-                to="/investisseur/projets/$id"
+                to="/projets/$id"
                 params={{ id: p.id }}
                 className="card-elevated overflow-hidden hover:card-elevated-hover"
               >

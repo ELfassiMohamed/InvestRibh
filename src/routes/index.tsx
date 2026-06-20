@@ -29,11 +29,11 @@ export const Route = createFileRoute("/")({
 });
 
 const categories = [
-  { label: "Immobilier", to: "/investisseur/projets" as const, icon: Building2, image: catImmobilier },
-  { label: "Monnaie virtuelle & Crypto", to: "/investisseur/projets" as const, icon: Bitcoin, image: catCrypto },
-  { label: "Startup & Affaires", to: "/investisseur/projets" as const, icon: Rocket, image: catStartup },
-  { label: "Talent", to: "/investisseur/projets" as const, icon: Sparkles, image: catTalent },
-  { label: "Objets de valeur", to: "/investisseur/projets" as const, icon: Gem, image: catValeur },
+  { label: "Immobilier", to: "/projets" as const, icon: Building2, image: catImmobilier },
+  { label: "Monnaie virtuelle & Crypto", to: "/projets" as const, icon: Bitcoin, image: catCrypto },
+  { label: "Startup & Affaires", to: "/projets" as const, icon: Rocket, image: catStartup },
+  { label: "Talent", to: "/projets" as const, icon: Sparkles, image: catTalent },
+  { label: "Objets de valeur", to: "/projets" as const, icon: Gem, image: catValeur },
   { label: "Espace affaires", to: "/porteur-de-projet" as const, icon: Briefcase, image: catAffaires },
 ];
 
@@ -210,7 +210,7 @@ function CategoryCard({
   image,
 }: {
   label: string;
-  to: "/investisseur/projets" | "/porteur-de-projet";
+  to: "/projets" | "/porteur-de-projet";
   icon: typeof Building2;
   image: string;
 }) {
@@ -257,7 +257,7 @@ function ProjectSection({
         </div>
         {ctaLabel && (
           <Link
-            to="/investisseur/projets"
+            to="/projets"
             className="flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
           >
             {ctaLabel}

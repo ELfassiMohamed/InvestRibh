@@ -11,7 +11,7 @@ export function ProjectCard({ project }: { project: Project }) {
 
   return (
     <Link
-      to="/investisseur/projets/$id"
+      to="/projets/$id"
       params={{ id: project.id }}
       className="card-elevated group block overflow-hidden hover:card-elevated-hover"
     >

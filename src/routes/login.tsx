@@ -1,5 +1,4 @@
-import { createFileRoute, useNavigate, Link, redirect } from "@tanstack/react-router";
-import { useAuth } from "@/hooks/use-auth";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { TrendingUp, Building2, ShieldCheck } from "lucide-react";
 import type { UserRole } from "@/lib/mock-data";
 
@@ -65,9 +64,6 @@ const espaces: Espace[] = [
 ];
 
 function LoginPage() {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-
   return (
     <div className="min-h-screen bg-surface">
       {/* Top bar */}
@@ -107,12 +103,10 @@ function LoginPage() {
 
         <div className="grid gap-6 md:grid-cols-3">
           {espaces.map(({ role, label, titre, description, icon: Icon, redirect }) => (
-            <button
+            <Link
               key={role}
-              onClick={() => {
-                login(role);
-                navigate({ to: redirect });
-              }}
+              to="/auth"
+              search={{ role, redirect }}
               className="card-elevated group flex flex-col items-start gap-4 p-6 text-left transition-all hover:-translate-y-1 hover:shadow-lg"
             >
               <div className="grid h-12 w-12 place-items-center rounded-xl bg-primary text-on-primary">
@@ -128,7 +122,7 @@ function LoginPage() {
               <span className="mt-auto text-sm font-semibold text-primary group-hover:underline">
                 Se connecter →
               </span>
-            </button>
+            </Link>
           ))}
         </div>
 

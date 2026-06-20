@@ -1,6 +1,7 @@
-import { Link, useRouterState } from "@tanstack/react-router";
+import { Link, useRouterState, useRouter } from "@tanstack/react-router";
 import { ArrowLeft, LogOut } from "lucide-react";
 import type { ReactNode } from "react";
+import { useAuth } from "@/hooks/use-auth";
 
 interface NavItem {
   label: string;
@@ -9,7 +10,6 @@ interface NavItem {
 
 interface Props {
   zone: "Investisseur" | "Porteur de Projet" | "Conformité";
-  user: { nom: string; role: string };
   nav: NavItem[];
   children: ReactNode;
 }
@@ -20,14 +20,30 @@ const zoneTone = {
   Conformité: "bg-tertiary text-on-tertiary",
 };
 
-export function AppShell({ zone, user, nav, children }: Props) {
+const zoneLabels: Record<string, string> = {
+  Investisseur: "Investisseur",
+  "Porteur de Projet": "Porteur de Projet",
+  Conformité: "Agent Conformité",
+};
+
+export function AppShell({ zone, nav, children }: Props) {
+  const { user, logout } = useAuth();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const initials = user.nom
+  const router = useRouter();
+
+  const displayName = user?.nom ?? "Utilisateur";
+  const displayRole = user?.role ?? zoneLabels[zone] ?? "";
+  const initials = displayName
     .split(" ")
     .map((n) => n[0])
     .slice(0, 2)
     .join("")
     .toUpperCase();
+
+  const handleLogout = () => {
+    logout();
+    router.navigate({ to: "/" });
+  };
 
   return (
     <div className="min-h-screen bg-surface">
@@ -75,11 +91,15 @@ export function AppShell({ zone, user, nav, children }: Props) {
                 {initials}
               </div>
               <div className="hidden text-xs sm:block">
-                <p className="font-semibold text-on-surface">{user.nom}</p>
-                <p className="text-on-surface-variant">{user.role}</p>
+                <p className="font-semibold text-on-surface">{displayName}</p>
+                <p className="text-on-surface-variant">{displayRole}</p>
               </div>
             </div>
-            <button aria-label="Déconnexion" className="grid h-9 w-9 place-items-center rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface">
+            <button
+              onClick={handleLogout}
+              aria-label="Déconnexion"
+              className="grid h-9 w-9 place-items-center rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
+            >
               <LogOut className="h-4 w-4" />
             </button>
           </div>

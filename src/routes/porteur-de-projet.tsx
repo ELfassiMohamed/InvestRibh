@@ -1,7 +1,25 @@
-import { createFileRoute, Outlet } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
+import { useAuth } from "@/hooks/use-auth";
+
+const AUTH_KEY = "place2invest_user";
+
+function getStoredUser() {
+  if (typeof window === "undefined") return null;
+  try {
+    const stored = localStorage.getItem(AUTH_KEY);
+    return stored ? JSON.parse(stored) : null;
+  } catch {
+    return null;
+  }
+}
 
 export const Route = createFileRoute("/porteur-de-projet")({
+  beforeLoad: () => {
+    const user = getStoredUser();
+    if (!user) throw redirect({ to: "/login" });
+    if (user.role !== "Porteur de Projet") throw redirect({ to: "/login" });
+  },
   component: PorteurLayout,
 });
 
@@ -13,12 +31,9 @@ const nav = [
 ];
 
 function PorteurLayout() {
+  const { user } = useAuth();
   return (
-    <AppShell
-      zone="Porteur de Projet"
-      user={{ nom: "Atlas Promotion", role: "Promoteur agréé" }}
-      nav={nav}
-    >
+    <AppShell zone="Porteur de Projet" nav={nav}>
       <Outlet />
     </AppShell>
   );

@@ -10,11 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PorteurDeProjetRouteImport } from './routes/porteur-de-projet'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as InvestisseurRouteImport } from './routes/investisseur'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProjetsIndexRouteImport } from './routes/projets.index'
 import { Route as PorteurDeProjetIndexRouteImport } from './routes/porteur-de-projet.index'
 import { Route as InvestisseurIndexRouteImport } from './routes/investisseur.index'
+import { Route as ProjetsIdRouteImport } from './routes/projets.$id'
 import { Route as PorteurDeProjetSoumissionRouteImport } from './routes/porteur-de-projet.soumission'
 import { Route as InvestisseurSimulateurRoiRouteImport } from './routes/investisseur.simulateur-roi'
 import { Route as InvestisseurPortefeuilleRouteImport } from './routes/investisseur.portefeuille'
@@ -29,6 +32,11 @@ import { Route as InvestisseurProjetsIdRouteImport } from './routes/investisseur
 const PorteurDeProjetRoute = PorteurDeProjetRouteImport.update({
   id: '/porteur-de-projet',
   path: '/porteur-de-projet',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InvestisseurRoute = InvestisseurRouteImport.update({
@@ -46,6 +54,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProjetsIndexRoute = ProjetsIndexRouteImport.update({
+  id: '/projets/',
+  path: '/projets/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PorteurDeProjetIndexRoute = PorteurDeProjetIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -55,6 +68,11 @@ const InvestisseurIndexRoute = InvestisseurIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => InvestisseurRoute,
+} as any)
+const ProjetsIdRoute = ProjetsIdRouteImport.update({
+  id: '/projets/$id',
+  path: '/projets/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const PorteurDeProjetSoumissionRoute =
   PorteurDeProjetSoumissionRouteImport.update({
@@ -117,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/investisseur': typeof InvestisseurRouteWithChildren
+  '/login': typeof LoginRoute
   '/porteur-de-projet': typeof PorteurDeProjetRouteWithChildren
   '/admin/audit-ekyc': typeof AdminAuditEkycRoute
   '/admin/utilisateurs': typeof AdminUtilisateursRoute
@@ -124,8 +143,10 @@ export interface FileRoutesByFullPath {
   '/investisseur/portefeuille': typeof InvestisseurPortefeuilleRoute
   '/investisseur/simulateur-roi': typeof InvestisseurSimulateurRoiRoute
   '/porteur-de-projet/soumission': typeof PorteurDeProjetSoumissionRoute
+  '/projets/$id': typeof ProjetsIdRoute
   '/investisseur/': typeof InvestisseurIndexRoute
   '/porteur-de-projet/': typeof PorteurDeProjetIndexRoute
+  '/projets/': typeof ProjetsIndexRoute
   '/investisseur/projets/$id': typeof InvestisseurProjetsIdRoute
   '/porteur-de-projet/chantier/$projectId': typeof PorteurDeProjetChantierProjectIdRoute
   '/porteur-de-projet/collecte/$projectId': typeof PorteurDeProjetCollecteProjectIdRoute
@@ -134,14 +155,17 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/login': typeof LoginRoute
   '/admin/audit-ekyc': typeof AdminAuditEkycRoute
   '/admin/utilisateurs': typeof AdminUtilisateursRoute
   '/admin/validation-ia': typeof AdminValidationIaRoute
   '/investisseur/portefeuille': typeof InvestisseurPortefeuilleRoute
   '/investisseur/simulateur-roi': typeof InvestisseurSimulateurRoiRoute
   '/porteur-de-projet/soumission': typeof PorteurDeProjetSoumissionRoute
+  '/projets/$id': typeof ProjetsIdRoute
   '/investisseur': typeof InvestisseurIndexRoute
   '/porteur-de-projet': typeof PorteurDeProjetIndexRoute
+  '/projets': typeof ProjetsIndexRoute
   '/investisseur/projets/$id': typeof InvestisseurProjetsIdRoute
   '/porteur-de-projet/chantier/$projectId': typeof PorteurDeProjetChantierProjectIdRoute
   '/porteur-de-projet/collecte/$projectId': typeof PorteurDeProjetCollecteProjectIdRoute
@@ -152,6 +176,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
   '/investisseur': typeof InvestisseurRouteWithChildren
+  '/login': typeof LoginRoute
   '/porteur-de-projet': typeof PorteurDeProjetRouteWithChildren
   '/admin/audit-ekyc': typeof AdminAuditEkycRoute
   '/admin/utilisateurs': typeof AdminUtilisateursRoute
@@ -159,8 +184,10 @@ export interface FileRoutesById {
   '/investisseur/portefeuille': typeof InvestisseurPortefeuilleRoute
   '/investisseur/simulateur-roi': typeof InvestisseurSimulateurRoiRoute
   '/porteur-de-projet/soumission': typeof PorteurDeProjetSoumissionRoute
+  '/projets/$id': typeof ProjetsIdRoute
   '/investisseur/': typeof InvestisseurIndexRoute
   '/porteur-de-projet/': typeof PorteurDeProjetIndexRoute
+  '/projets/': typeof ProjetsIndexRoute
   '/investisseur/projets/$id': typeof InvestisseurProjetsIdRoute
   '/porteur-de-projet/chantier/$projectId': typeof PorteurDeProjetChantierProjectIdRoute
   '/porteur-de-projet/collecte/$projectId': typeof PorteurDeProjetCollecteProjectIdRoute
@@ -172,6 +199,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/investisseur'
+    | '/login'
     | '/porteur-de-projet'
     | '/admin/audit-ekyc'
     | '/admin/utilisateurs'
@@ -179,8 +207,10 @@ export interface FileRouteTypes {
     | '/investisseur/portefeuille'
     | '/investisseur/simulateur-roi'
     | '/porteur-de-projet/soumission'
+    | '/projets/$id'
     | '/investisseur/'
     | '/porteur-de-projet/'
+    | '/projets/'
     | '/investisseur/projets/$id'
     | '/porteur-de-projet/chantier/$projectId'
     | '/porteur-de-projet/collecte/$projectId'
@@ -189,14 +219,17 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/login'
     | '/admin/audit-ekyc'
     | '/admin/utilisateurs'
     | '/admin/validation-ia'
     | '/investisseur/portefeuille'
     | '/investisseur/simulateur-roi'
     | '/porteur-de-projet/soumission'
+    | '/projets/$id'
     | '/investisseur'
     | '/porteur-de-projet'
+    | '/projets'
     | '/investisseur/projets/$id'
     | '/porteur-de-projet/chantier/$projectId'
     | '/porteur-de-projet/collecte/$projectId'
@@ -206,6 +239,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/investisseur'
+    | '/login'
     | '/porteur-de-projet'
     | '/admin/audit-ekyc'
     | '/admin/utilisateurs'
@@ -213,8 +247,10 @@ export interface FileRouteTypes {
     | '/investisseur/portefeuille'
     | '/investisseur/simulateur-roi'
     | '/porteur-de-projet/soumission'
+    | '/projets/$id'
     | '/investisseur/'
     | '/porteur-de-projet/'
+    | '/projets/'
     | '/investisseur/projets/$id'
     | '/porteur-de-projet/chantier/$projectId'
     | '/porteur-de-projet/collecte/$projectId'
@@ -225,7 +261,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   InvestisseurRoute: typeof InvestisseurRouteWithChildren
+  LoginRoute: typeof LoginRoute
   PorteurDeProjetRoute: typeof PorteurDeProjetRouteWithChildren
+  ProjetsIdRoute: typeof ProjetsIdRoute
+  ProjetsIndexRoute: typeof ProjetsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -235,6 +274,13 @@ declare module '@tanstack/react-router' {
       path: '/porteur-de-projet'
       fullPath: '/porteur-de-projet'
       preLoaderRoute: typeof PorteurDeProjetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/investisseur': {
@@ -258,6 +304,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/projets/': {
+      id: '/projets/'
+      path: '/projets'
+      fullPath: '/projets/'
+      preLoaderRoute: typeof ProjetsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/porteur-de-projet/': {
       id: '/porteur-de-projet/'
       path: '/'
@@ -271,6 +324,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/investisseur/'
       preLoaderRoute: typeof InvestisseurIndexRouteImport
       parentRoute: typeof InvestisseurRoute
+    }
+    '/projets/$id': {
+      id: '/projets/$id'
+      path: '/projets/$id'
+      fullPath: '/projets/$id'
+      preLoaderRoute: typeof ProjetsIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/porteur-de-projet/soumission': {
       id: '/porteur-de-projet/soumission'
@@ -401,8 +461,21 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   InvestisseurRoute: InvestisseurRouteWithChildren,
+  LoginRoute: LoginRoute,
   PorteurDeProjetRoute: PorteurDeProjetRouteWithChildren,
+  ProjetsIdRoute: ProjetsIdRoute,
+  ProjetsIndexRoute: ProjetsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

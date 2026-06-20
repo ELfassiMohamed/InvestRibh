@@ -4,6 +4,7 @@ import { Filter, ArrowLeft, User } from "lucide-react";
 
 import { ProjectCard } from "@/components/ProjectCard";
 import { projects } from "@/lib/mock-data";
+import logoImage from "@/assets/place2invest_logo.png";
 
 export const Route = createFileRoute("/projets/")({
   component: PublicProjetsPage,
@@ -42,12 +43,7 @@ function PublicProjetsPage() {
             to="/"
             className="flex items-center gap-2"
           >
-            <div className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-sm font-bold text-on-primary">
-              EE
-            </div>
-            <span className="text-lg font-bold text-on-surface">
-              Place<span className="text-primary">2</span>invest
-            </span>
+            <img src={logoImage} alt="Place2Invest" className="h-9 rounded-lg object-contain" />
           </Link>
           <div className="flex items-center gap-3">
             <Link

@@ -2,6 +2,7 @@ import { Link, useRouterState, useRouter } from "@tanstack/react-router";
 import { ArrowLeft, LogOut } from "lucide-react";
 import type { ReactNode } from "react";
 import { useAuth } from "@/hooks/use-auth";
+import logoImage from "@/assets/place2invest_logo.png";
 
 interface NavItem {
   label: string;
@@ -50,13 +51,7 @@ export function AppShell({ zone, nav, children }: Props) {
       <header className="sticky top-0 z-30 border-b border-outline-variant bg-surface-lowest/95 backdrop-blur-md">
         <div className="mx-auto flex max-w-[1440px] items-center gap-4 px-4 py-3 sm:px-8">
           <Link to="/" className="flex items-center gap-2">
-            <div className={`grid h-9 w-9 place-items-center rounded-lg ${zoneTone[zone]} text-sm font-bold`}>
-              EE
-            </div>
-            <div className="hidden sm:block">
-              <p className="text-sm font-bold text-on-surface">Place2Invest</p>
-              <p className="text-xs text-on-surface-variant">Espace {zone}</p>
-            </div>
+            <img src={logoImage} alt="Place2Invest" className="h-9 rounded-lg object-contain" />
           </Link>
 
           <nav className="ml-6 hidden flex-1 items-center gap-1 overflow-x-auto lg:flex">

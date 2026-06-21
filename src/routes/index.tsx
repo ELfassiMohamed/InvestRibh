@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Building2, Bitcoin, Rocket, Sparkles, Gem, Briefcase, TrendingUp, ShieldCheck } from "lucide-react";
+import { ArrowRight, Building2, Bitcoin, Rocket, Briefcase, TrendingUp, ShieldCheck } from "lucide-react";
 
 import { TopUtilityBar } from "@/components/TopUtilityBar";
 import { HeroSearch } from "@/components/HeroSearch";
@@ -10,8 +10,6 @@ import heroImage from "@/assets/hero-place2invest.jpg";
 import catImmobilier from "@/assets/cat-immobilier.jpg";
 import catCrypto from "@/assets/cat-crypto.jpg";
 import catStartup from "@/assets/cat-startup.jpg";
-import catTalent from "@/assets/cat-talent.jpg";
-import catValeur from "@/assets/cat-valeur.jpg";
 import catAffaires from "@/assets/cat-affaires.jpg";
 
 export const Route = createFileRoute("/")({
@@ -32,8 +30,6 @@ const categories = [
   { label: "Immobilier", to: "/projets" as const, icon: Building2, image: catImmobilier },
   { label: "Monnaie virtuelle & Crypto", to: "/projets" as const, icon: Bitcoin, image: catCrypto },
   { label: "Startup & Affaires", to: "/projets" as const, icon: Rocket, image: catStartup },
-  { label: "Talent", to: "/projets" as const, icon: Sparkles, image: catTalent },
-  { label: "Objets de valeur", to: "/projets" as const, icon: Gem, image: catValeur },
   { label: "Espace affaires", to: "/porteur-de-projet" as const, icon: Briefcase, image: catAffaires },
 ];
 
@@ -82,7 +78,8 @@ function HomePage() {
             height={1080}
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/55" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60" />
+          <div className="absolute inset-0 bg-black/10" />
 
           <div className="relative mx-auto max-w-[1280px] px-4 pt-12 pb-48 sm:px-10 sm:pt-16 sm:pb-56 lg:pb-64">
             {/* Logo badge */}
@@ -105,13 +102,13 @@ function HomePage() {
             </div>
 
             {/* Headline */}
-            <div className="mt-16 max-w-2xl text-white sm:mt-24">
-              <h1 className="display-lg drop-shadow-md">
+            <div className="mt-16 max-w-2xl sm:mt-24">
+              <h1 className="display-lg text-white [text-shadow:0_2px_20px_rgba(0,0,0,0.5),0_1px_3px_rgba(0,0,0,0.4)]">
                 Investissez dans le futur,
                 <br />
                 aujourd'hui.
               </h1>
-              <p className="body-md mt-5 max-w-xl text-white/90 drop-shadow">
+              <p className="body-md mt-5 max-w-xl text-white/95 [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">
                 Place2Invest est votre plateforme digitale pour diversifier vos
                 investissements dans l'immobilier, les startups, l'art, la crypto
                 et le talent, tout en soutenant l'économie sociale et solidaire.
@@ -123,15 +120,10 @@ function HomePage() {
         {/* Category grid — overlapping hero bottom */}
         <div className="relative z-10 -mt-40 sm:-mt-44 lg:-mt-48">
           <div className="mx-auto max-w-[1280px] px-4 sm:px-10">
-            <div className="grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-5">
-              {categories.slice(0, 5).map((c) => (
+            <div className="grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
+              {categories.map((c) => (
                 <CategoryCard key={c.label} {...c} />
               ))}
-            </div>
-            <div className="mt-4 grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-5">
-              <div className="lg:col-start-2">
-                <CategoryCard {...categories[5]} />
-              </div>
             </div>
           </div>
         </div>

@@ -95,7 +95,7 @@ function AuthPage() {
       return;
     }
     if (smsCode !== MOCK_CODE) {
-      setError("Code incorrect. Le code de démonstration est 936277.");
+      setError("Code incorrect.");
       return;
     }
     setVerified(true);
@@ -147,9 +147,6 @@ function AuthPage() {
                 <Shield className="h-7 w-7" />
               </div>
               <h1 className="headline-lg text-on-surface">Vérification d'identité</h1>
-              <p className="mt-2 text-on-surface-variant">
-                {user.nom} · {user.email}
-              </p>
               <p className="mt-1 text-xs text-on-surface-variant">
                 Rôle : {roleLabels[role]?.nom ?? role}
               </p>
@@ -165,7 +162,7 @@ function AuthPage() {
                   maxLength={6}
                   value={codeInput}
                   onChange={(e) => { setCodeInput(e.target.value); setError(""); }}
-                  placeholder="ex: 345621"
+                  placeholder="ex: 123456"
                   className="flex-1 rounded-md border border-outline-variant bg-surface-lowest px-4 py-3 text-center font-mono text-lg tracking-[0.25em] focus:border-primary focus:outline-none"
                   autoFocus
                 />
@@ -194,10 +191,7 @@ function AuthPage() {
               </button>
             </div>
 
-            <p className="mt-6 text-center text-xs text-on-surface-variant">
-              Données de démonstration — la vérification compare avec les 6 derniers caractères
-              de votre RIB ou CIN fictif.
-            </p>
+            
           </>
         )}
 

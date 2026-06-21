@@ -39,8 +39,6 @@ const espaces: Espace[] = [
     role: "Investisseur",
     label: "Espace Investisseur",
     titre: "Diversifiez votre patrimoine",
-    description:
-      "Tableau de bord, portefeuille, simulateur de ROI fiscal marocain.",
     icon: TrendingUp,
     redirect: "/investisseur",
   },
@@ -48,8 +46,6 @@ const espaces: Espace[] = [
     role: "Porteur de Projet",
     label: "Espace Porteur de Projet",
     titre: "Levez les fonds de votre opération",
-    description:
-      "Soumission de dossier guidée, suivi de collecte et de chantier.",
     icon: Building2,
     redirect: "/porteur-de-projet",
   },
@@ -57,8 +53,6 @@ const espaces: Espace[] = [
     role: "Agent Conformité",
     label: "Espace Conformité",
     titre: "Supervision et conformité AMMC",
-    description:
-      "Validation IA, eKYC Bank Al-Maghrib, journal d'audit.",
     icon: ShieldCheck,
     redirect: "/admin/validation-ia",
   },
@@ -121,11 +115,6 @@ function LoginPage() {
             </Link>
           ))}
         </div>
-
-        <p className="mt-10 text-center text-xs text-on-surface-variant">
-          Comptes de démonstration — aucune authentification réelle requise.
-          Les données sont fictives et non contractuelles.
-        </p>
       </div>
     </div>
   );

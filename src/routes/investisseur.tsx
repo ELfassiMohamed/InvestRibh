@@ -27,6 +27,7 @@ const nav = [
   { label: "Tableau de bord", to: "/investisseur" },
   { label: "Simulateur ROI", to: "/investisseur/simulateur-roi" },
   { label: "Mon portefeuille", to: "/investisseur/portefeuille" },
+  { label: "Vérification Réglementaire", to: "/investisseur/verification-reglementaire" },
 ];
 
 function InvestisseurLayout() {

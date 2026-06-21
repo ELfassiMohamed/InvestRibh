@@ -28,6 +28,7 @@ const nav = [
   { label: "Soumettre un projet", to: "/porteur-de-projet/soumission" },
   { label: "Suivi de collecte", to: "/porteur-de-projet/collecte/casa-anfa-residences" },
   { label: "Suivi de chantier", to: "/porteur-de-projet/chantier/casa-anfa-residences" },
+  { label: "Vérification Réglementaire", to: "/porteur-de-projet/verification-reglementaire" },
 ];
 
 function PorteurLayout() {

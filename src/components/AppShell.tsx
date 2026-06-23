@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import logoImage from "@/assets/place2invest_logo.png";
 
+
 interface NavItem {
   label: string;
   to: string;

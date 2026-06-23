@@ -19,7 +19,9 @@ import { Route as ProjetsIndexRouteImport } from './routes/projets.index'
 import { Route as PorteurDeProjetIndexRouteImport } from './routes/porteur-de-projet.index'
 import { Route as InvestisseurIndexRouteImport } from './routes/investisseur.index'
 import { Route as ProjetsIdRouteImport } from './routes/projets.$id'
+import { Route as PorteurDeProjetVerificationReglementaireRouteImport } from './routes/porteur-de-projet.verification-reglementaire'
 import { Route as PorteurDeProjetSoumissionRouteImport } from './routes/porteur-de-projet.soumission'
+import { Route as InvestisseurVerificationReglementaireRouteImport } from './routes/investisseur.verification-reglementaire'
 import { Route as InvestisseurSimulateurRoiRouteImport } from './routes/investisseur.simulateur-roi'
 import { Route as InvestisseurPortefeuilleRouteImport } from './routes/investisseur.portefeuille'
 import { Route as AdminValidationIaRouteImport } from './routes/admin.validation-ia'
@@ -80,11 +82,23 @@ const ProjetsIdRoute = ProjetsIdRouteImport.update({
   path: '/projets/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PorteurDeProjetVerificationReglementaireRoute =
+  PorteurDeProjetVerificationReglementaireRouteImport.update({
+    id: '/verification-reglementaire',
+    path: '/verification-reglementaire',
+    getParentRoute: () => PorteurDeProjetRoute,
+  } as any)
 const PorteurDeProjetSoumissionRoute =
   PorteurDeProjetSoumissionRouteImport.update({
     id: '/soumission',
     path: '/soumission',
     getParentRoute: () => PorteurDeProjetRoute,
+  } as any)
+const InvestisseurVerificationReglementaireRoute =
+  InvestisseurVerificationReglementaireRouteImport.update({
+    id: '/verification-reglementaire',
+    path: '/verification-reglementaire',
+    getParentRoute: () => InvestisseurRoute,
   } as any)
 const InvestisseurSimulateurRoiRoute =
   InvestisseurSimulateurRoiRouteImport.update({
@@ -149,7 +163,9 @@ export interface FileRoutesByFullPath {
   '/admin/validation-ia': typeof AdminValidationIaRoute
   '/investisseur/portefeuille': typeof InvestisseurPortefeuilleRoute
   '/investisseur/simulateur-roi': typeof InvestisseurSimulateurRoiRoute
+  '/investisseur/verification-reglementaire': typeof InvestisseurVerificationReglementaireRoute
   '/porteur-de-projet/soumission': typeof PorteurDeProjetSoumissionRoute
+  '/porteur-de-projet/verification-reglementaire': typeof PorteurDeProjetVerificationReglementaireRoute
   '/projets/$id': typeof ProjetsIdRoute
   '/investisseur/': typeof InvestisseurIndexRoute
   '/porteur-de-projet/': typeof PorteurDeProjetIndexRoute
@@ -169,7 +185,9 @@ export interface FileRoutesByTo {
   '/admin/validation-ia': typeof AdminValidationIaRoute
   '/investisseur/portefeuille': typeof InvestisseurPortefeuilleRoute
   '/investisseur/simulateur-roi': typeof InvestisseurSimulateurRoiRoute
+  '/investisseur/verification-reglementaire': typeof InvestisseurVerificationReglementaireRoute
   '/porteur-de-projet/soumission': typeof PorteurDeProjetSoumissionRoute
+  '/porteur-de-projet/verification-reglementaire': typeof PorteurDeProjetVerificationReglementaireRoute
   '/projets/$id': typeof ProjetsIdRoute
   '/investisseur': typeof InvestisseurIndexRoute
   '/porteur-de-projet': typeof PorteurDeProjetIndexRoute
@@ -192,7 +210,9 @@ export interface FileRoutesById {
   '/admin/validation-ia': typeof AdminValidationIaRoute
   '/investisseur/portefeuille': typeof InvestisseurPortefeuilleRoute
   '/investisseur/simulateur-roi': typeof InvestisseurSimulateurRoiRoute
+  '/investisseur/verification-reglementaire': typeof InvestisseurVerificationReglementaireRoute
   '/porteur-de-projet/soumission': typeof PorteurDeProjetSoumissionRoute
+  '/porteur-de-projet/verification-reglementaire': typeof PorteurDeProjetVerificationReglementaireRoute
   '/projets/$id': typeof ProjetsIdRoute
   '/investisseur/': typeof InvestisseurIndexRoute
   '/porteur-de-projet/': typeof PorteurDeProjetIndexRoute
@@ -216,7 +236,9 @@ export interface FileRouteTypes {
     | '/admin/validation-ia'
     | '/investisseur/portefeuille'
     | '/investisseur/simulateur-roi'
+    | '/investisseur/verification-reglementaire'
     | '/porteur-de-projet/soumission'
+    | '/porteur-de-projet/verification-reglementaire'
     | '/projets/$id'
     | '/investisseur/'
     | '/porteur-de-projet/'
@@ -236,7 +258,9 @@ export interface FileRouteTypes {
     | '/admin/validation-ia'
     | '/investisseur/portefeuille'
     | '/investisseur/simulateur-roi'
+    | '/investisseur/verification-reglementaire'
     | '/porteur-de-projet/soumission'
+    | '/porteur-de-projet/verification-reglementaire'
     | '/projets/$id'
     | '/investisseur'
     | '/porteur-de-projet'
@@ -258,7 +282,9 @@ export interface FileRouteTypes {
     | '/admin/validation-ia'
     | '/investisseur/portefeuille'
     | '/investisseur/simulateur-roi'
+    | '/investisseur/verification-reglementaire'
     | '/porteur-de-projet/soumission'
+    | '/porteur-de-projet/verification-reglementaire'
     | '/projets/$id'
     | '/investisseur/'
     | '/porteur-de-projet/'
@@ -352,12 +378,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjetsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/porteur-de-projet/verification-reglementaire': {
+      id: '/porteur-de-projet/verification-reglementaire'
+      path: '/verification-reglementaire'
+      fullPath: '/porteur-de-projet/verification-reglementaire'
+      preLoaderRoute: typeof PorteurDeProjetVerificationReglementaireRouteImport
+      parentRoute: typeof PorteurDeProjetRoute
+    }
     '/porteur-de-projet/soumission': {
       id: '/porteur-de-projet/soumission'
       path: '/soumission'
       fullPath: '/porteur-de-projet/soumission'
       preLoaderRoute: typeof PorteurDeProjetSoumissionRouteImport
       parentRoute: typeof PorteurDeProjetRoute
+    }
+    '/investisseur/verification-reglementaire': {
+      id: '/investisseur/verification-reglementaire'
+      path: '/verification-reglementaire'
+      fullPath: '/investisseur/verification-reglementaire'
+      preLoaderRoute: typeof InvestisseurVerificationReglementaireRouteImport
+      parentRoute: typeof InvestisseurRoute
     }
     '/investisseur/simulateur-roi': {
       id: '/investisseur/simulateur-roi'
@@ -442,6 +482,7 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 interface InvestisseurRouteChildren {
   InvestisseurPortefeuilleRoute: typeof InvestisseurPortefeuilleRoute
   InvestisseurSimulateurRoiRoute: typeof InvestisseurSimulateurRoiRoute
+  InvestisseurVerificationReglementaireRoute: typeof InvestisseurVerificationReglementaireRoute
   InvestisseurIndexRoute: typeof InvestisseurIndexRoute
   InvestisseurProjetsIdRoute: typeof InvestisseurProjetsIdRoute
   InvestisseurProjetsIndexRoute: typeof InvestisseurProjetsIndexRoute
@@ -450,6 +491,8 @@ interface InvestisseurRouteChildren {
 const InvestisseurRouteChildren: InvestisseurRouteChildren = {
   InvestisseurPortefeuilleRoute: InvestisseurPortefeuilleRoute,
   InvestisseurSimulateurRoiRoute: InvestisseurSimulateurRoiRoute,
+  InvestisseurVerificationReglementaireRoute:
+    InvestisseurVerificationReglementaireRoute,
   InvestisseurIndexRoute: InvestisseurIndexRoute,
   InvestisseurProjetsIdRoute: InvestisseurProjetsIdRoute,
   InvestisseurProjetsIndexRoute: InvestisseurProjetsIndexRoute,
@@ -461,6 +504,7 @@ const InvestisseurRouteWithChildren = InvestisseurRoute._addFileChildren(
 
 interface PorteurDeProjetRouteChildren {
   PorteurDeProjetSoumissionRoute: typeof PorteurDeProjetSoumissionRoute
+  PorteurDeProjetVerificationReglementaireRoute: typeof PorteurDeProjetVerificationReglementaireRoute
   PorteurDeProjetIndexRoute: typeof PorteurDeProjetIndexRoute
   PorteurDeProjetChantierProjectIdRoute: typeof PorteurDeProjetChantierProjectIdRoute
   PorteurDeProjetCollecteProjectIdRoute: typeof PorteurDeProjetCollecteProjectIdRoute
@@ -468,6 +512,8 @@ interface PorteurDeProjetRouteChildren {
 
 const PorteurDeProjetRouteChildren: PorteurDeProjetRouteChildren = {
   PorteurDeProjetSoumissionRoute: PorteurDeProjetSoumissionRoute,
+  PorteurDeProjetVerificationReglementaireRoute:
+    PorteurDeProjetVerificationReglementaireRoute,
   PorteurDeProjetIndexRoute: PorteurDeProjetIndexRoute,
   PorteurDeProjetChantierProjectIdRoute: PorteurDeProjetChantierProjectIdRoute,
   PorteurDeProjetCollecteProjectIdRoute: PorteurDeProjetCollecteProjectIdRoute,

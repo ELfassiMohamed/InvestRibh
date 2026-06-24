@@ -18,6 +18,7 @@ const steps: { num: Step; titre: string; description: string }[] = [
 
 function SoumissionPage() {
   const [step, setStep] = useState<Step>(1);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [data, setData] = useState({
     titre: "",
     typologie: "Résidentiel",
@@ -34,17 +35,33 @@ function SoumissionPage() {
         description="Constituez votre dossier étape par étape. Vous pouvez enregistrer en brouillon à tout moment."
         actions={
           <>
-            <button className="flex items-center gap-1.5 rounded-md border border-outline-variant px-3 py-2 text-sm font-medium text-on-surface hover:bg-surface-container">
+            <button
+              onClick={() => setSuccessMsg("Brouillon enregistré avec succès.")}
+              className="flex items-center gap-1.5 rounded-md border border-outline-variant px-3 py-2 text-sm font-medium text-on-surface hover:bg-surface-container"
+            >
               <Save className="h-4 w-4" /> Enregistrer en brouillon
             </button>
             {step === 4 && (
-              <button className="flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary-container">
+              <button
+                onClick={() => setSuccessMsg("Projet soumis à l'analyse IA avec succès.")}
+                className="flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary-container"
+              >
                 <Send className="h-4 w-4" /> Soumettre à l'analyse IA
               </button>
             )}
           </>
         }
       />
+
+      {successMsg && (
+        <div className="mb-6 flex items-center gap-2 rounded-lg bg-success/10 px-4 py-3 text-sm text-success">
+          <Check className="h-4 w-4 shrink-0" />
+          <span className="flex-1">{successMsg}</span>
+          <button onClick={() => setSuccessMsg(null)} className="text-success/70 hover:text-success">
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
 
       {/* Stepper */}
       <ol className="card-elevated mb-6 grid gap-2 p-4 sm:grid-cols-4">

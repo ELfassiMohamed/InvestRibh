@@ -13,8 +13,22 @@ export const Route = createFileRoute("/admin/validation-ia")({
 function ValidationIAPage() {
   const [selectedId, setSelectedId] = useState(aiValidationQueue[0].submissionId);
   const [comment, setComment] = useState("");
+  const [decisions, setDecisions] = useState<Record<string, { action: "approved" | "changes-requested" | "rejected"; comment: string }>>({});
 
   const selected = aiValidationQueue.find((q) => q.submissionId === selectedId)!;
+  const selectedDecision = decisions[selectedId];
+
+  const handleDecision = (action: "approved" | "changes-requested" | "rejected") => {
+    if (!comment.trim()) return;
+    setDecisions((prev) => ({ ...prev, [selectedId]: { action, comment: comment.trim() } }));
+    setComment("");
+  };
+
+  const decisionDetails = {
+    approved: { icon: Check, label: "Approuvé", tone: "text-success bg-success/10" },
+    "changes-requested": { icon: MessageSquare, label: "Modifications demandées", tone: "text-warning bg-warning/10" },
+    rejected: { icon: X, label: "Rejeté", tone: "text-error bg-error/10" },
+  } as const;
 
   return (
     <>
@@ -28,6 +42,8 @@ function ValidationIAPage() {
         <aside className="space-y-3">
           {aiValidationQueue.map((q) => {
             const active = q.submissionId === selectedId;
+            const decision = decisions[q.submissionId];
+            const d = decision ? decisionDetails[decision.action] : null;
             return (
               <button
                 key={q.submissionId}
@@ -42,7 +58,15 @@ function ValidationIAPage() {
                     <p className="mt-1 truncate text-sm font-bold text-on-surface">{q.nomProjet}</p>
                     <p className="text-xs text-on-surface-variant">{q.porteur}</p>
                   </div>
-                  <RiskBadge score={q.scoreRisque} />
+                  <div className="flex shrink-0 flex-col items-end gap-1.5">
+                    <RiskBadge score={q.scoreRisque} />
+                    {d && (
+                      <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-semibold ${d.tone}`}>
+                        <d.icon className="h-2.5 w-2.5" />
+                        {d.label}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <div className="mt-3 flex items-center justify-between text-xs">
                   <span className="text-on-surface-variant">{formatDate(q.dateSoumission)}</span>
@@ -109,38 +133,73 @@ function ValidationIAPage() {
 
           {/* Décision */}
           <div className="card-elevated p-6">
-            <h3 className="headline-md text-on-surface">Décision</h3>
-            <label className="mt-3 flex items-center gap-2 text-sm text-on-surface">
-              <MessageSquare className="h-4 w-4" />
-              Commentaire (obligatoire et journalisé)
-            </label>
-            <textarea
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              rows={3}
-              placeholder="Justifiez votre décision…"
-              className="mt-2 w-full rounded-md border border-outline-variant px-3 py-2 text-sm focus:border-primary focus:outline-none"
-            />
-            <div className="mt-4 flex flex-wrap gap-2">
-              <button
-                disabled={!comment.trim()}
-                className="flex items-center gap-1.5 rounded-md bg-success px-4 py-2 text-sm font-semibold text-on-success hover:opacity-90 disabled:opacity-40"
-              >
-                <Check className="h-4 w-4" /> Approuver
-              </button>
-              <button
-                disabled={!comment.trim()}
-                className="flex items-center gap-1.5 rounded-md bg-warning px-4 py-2 text-sm font-semibold text-on-warning hover:opacity-90 disabled:opacity-40"
-              >
-                <MessageSquare className="h-4 w-4" /> Demander modifications
-              </button>
-              <button
-                disabled={!comment.trim()}
-                className="flex items-center gap-1.5 rounded-md bg-error px-4 py-2 text-sm font-semibold text-on-error hover:opacity-90 disabled:opacity-40"
-              >
-                <X className="h-4 w-4" /> Rejeter
-              </button>
-            </div>
+            {selectedDecision ? (
+              <div>
+                <div className="flex items-center gap-2">
+                  <div className={`grid h-8 w-8 place-items-center rounded-full ${decisionDetails[selectedDecision.action].tone}`}>
+                    {(() => {
+                      const Icon = decisionDetails[selectedDecision.action].icon;
+                      return <Icon className="h-4 w-4" />;
+                    })()}
+                  </div>
+                  <div>
+                    <h3 className="headline-md text-on-surface">{decisionDetails[selectedDecision.action].label}</h3>
+                    <p className="text-xs text-on-surface-variant">Décision enregistrée</p>
+                  </div>
+                </div>
+                <div className="mt-4 rounded-lg border border-outline-variant bg-surface-low px-4 py-3">
+                  <p className="text-xs font-medium text-on-surface-variant">Commentaire</p>
+                  <p className="mt-1 text-sm text-on-surface">{selectedDecision.comment}</p>
+                </div>
+                <button
+                  onClick={() => {
+                    setDecisions((prev) => { const { [selectedId]: _, ...rest } = prev; return rest; });
+                    setComment("");
+                  }}
+                  className="mt-3 text-xs text-primary hover:underline"
+                >
+                  Annuler la décision
+                </button>
+              </div>
+            ) : (
+              <>
+                <h3 className="headline-md text-on-surface">Décision</h3>
+                <label className="mt-3 flex items-center gap-2 text-sm text-on-surface">
+                  <MessageSquare className="h-4 w-4" />
+                  Commentaire (obligatoire et journalisé)
+                </label>
+                <textarea
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                  rows={3}
+                  placeholder="Justifiez votre décision…"
+                  className="mt-2 w-full rounded-md border border-outline-variant px-3 py-2 text-sm focus:border-primary focus:outline-none"
+                />
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <button
+                    disabled={!comment.trim()}
+                    onClick={() => handleDecision("approved")}
+                    className="flex items-center gap-1.5 rounded-md bg-success px-4 py-2 text-sm font-semibold text-on-success hover:opacity-90 disabled:opacity-40"
+                  >
+                    <Check className="h-4 w-4" /> Approuver
+                  </button>
+                  <button
+                    disabled={!comment.trim()}
+                    onClick={() => handleDecision("changes-requested")}
+                    className="flex items-center gap-1.5 rounded-md bg-warning px-4 py-2 text-sm font-semibold text-on-warning hover:opacity-90 disabled:opacity-40"
+                  >
+                    <MessageSquare className="h-4 w-4" /> Demander modifications
+                  </button>
+                  <button
+                    disabled={!comment.trim()}
+                    onClick={() => handleDecision("rejected")}
+                    className="flex items-center gap-1.5 rounded-md bg-error px-4 py-2 text-sm font-semibold text-on-error hover:opacity-90 disabled:opacity-40"
+                  >
+                    <X className="h-4 w-4" /> Rejeter
+                  </button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

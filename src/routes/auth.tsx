@@ -146,7 +146,7 @@ function AuthPage() {
               <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-primary-container/20 text-primary">
                 <Shield className="h-7 w-7" />
               </div>
-              <h1 className="headline-lg text-on-surface">Vérification d'identité</h1>
+              <h1 className="headline-lg text-on-surface">Vérification Identité</h1>
               <p className="mt-1 text-xs text-on-surface-variant">
                 Rôle : {roleLabels[role]?.nom ?? role}
               </p>
@@ -168,17 +168,7 @@ function AuthPage() {
                 />
               </div>
 
-              {ribLast6 && (
-                <p className="mt-3 text-xs text-on-surface-variant">
-                  <span className="font-mono">RIB : •••• •••• {ribLast6}</span>
-                  {cinLast6 && <span className="ml-3 font-mono">CIN : •••• {cinLast6}</span>}
-                </p>
-              )}
-              {!ribLast6 && cinLast6 && (
-                <p className="mt-3 text-xs text-on-surface-variant">
-                  <span className="font-mono">CIN : •••• {cinLast6}</span>
-                </p>
-              )}
+            
 
               {error && <p className="mt-3 text-sm text-error">{error}</p>}
 
@@ -221,14 +211,12 @@ function AuthPage() {
                 maxLength={6}
                 value={smsCode}
                 onChange={(e) => { setSmsCode(e.target.value.replace(/\D/g, "")); setError(""); }}
-                placeholder="936277"
+                placeholder="123456"
                 className="mt-2 w-full rounded-md border border-outline-variant bg-surface-lowest px-4 py-3 text-center font-mono text-lg tracking-[0.25em] focus:border-primary focus:outline-none"
                 autoFocus
               />
 
-              <p className="mt-3 text-xs text-on-surface-variant">
-                Code de démonstration : <span className="font-mono font-bold">936277</span>
-              </p>
+              
 
               {error && <p className="mt-3 text-sm text-error">{error}</p>}
 

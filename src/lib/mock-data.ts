@@ -320,8 +320,10 @@ export interface SitePhase {
 export const sitePhases: SitePhase[] = [
   { nom: "Études & autorisations", avancement: 100, dateDebut: "2025-03-01", dateFinPrevue: "2025-07-30", statut: "Terminée" },
   { nom: "Terrassement & fondations", avancement: 100, dateDebut: "2025-08-15", dateFinPrevue: "2025-12-20", statut: "Terminée" },
-  { nom: "Gros œuvre", avancement: 68, dateDebut: "2026-01-10", dateFinPrevue: "2026-09-30", statut: "En cours" },
-  { nom: "Second œuvre & finitions", avancement: 0, dateDebut: "2026-10-01", dateFinPrevue: "2027-04-30", statut: "À venir" },
+  { nom: "Gros œuvre — RDC", avancement: 100, dateDebut: "2026-01-10", dateFinPrevue: "2026-04-15", statut: "Terminée" },
+  { nom: "Gros œuvre — R+1 à R+3", avancement: 72, dateDebut: "2026-04-20", dateFinPrevue: "2026-09-30", statut: "En cours" },
+  { nom: "Couverture & étanchéité", avancement: 15, dateDebut: "2026-08-01", dateFinPrevue: "2026-10-30", statut: "En cours" },
+  { nom: "Second œuvre & finitions", avancement: 0, dateDebut: "2026-11-01", dateFinPrevue: "2027-04-30", statut: "À venir" },
   { nom: "Livraison & VEFA", avancement: 0, dateDebut: "2027-05-01", dateFinPrevue: "2027-06-30", statut: "À venir" },
 ];
 
@@ -335,24 +337,45 @@ export interface SiteUpdate {
 
 export const siteUpdates: SiteUpdate[] = [
   {
+    id: "UPD-021",
+    date: "2026-06-18",
+    titre: "Visite de chantier — Commission de sécurité",
+    description: "Passage de la commission de sécurité provinciale. Avis favorable sous réserve du remplacement de deux extincteurs. PV transmis au bureau de contrôle.",
+    image: img("photo-1590674899484-d5640f8545ea"),
+  },
+  {
+    id: "UPD-020",
+    date: "2026-06-10",
+    titre: "Avancement R+3 — Coffrage en cours",
+    description: "Le ferraillage du dernier refend du R+3 est terminé. Lancement du coffrage des poteaux prévu ce jeudi. Bétonnage estimé au 14 juin.",
+    image: img("photo-1541888946425-d81bb19240f5"),
+  },
+  {
+    id: "UPD-019",
+    date: "2026-06-02",
+    titre: "Réunion mensuelle — point budgétaire",
+    description: "Budget consommé à 58 %. Écart de +2.3 % vs prévisionnel dû à la hausse du prix de l'acier. Avenant en cours de validation par le maître d'ouvrage.",
+    image: img("photo-1454165804606-c3d57bc86b40"),
+  },
+  {
     id: "UPD-018",
-    date: "2026-06-14",
-    titre: "Coulage du 4ᵉ niveau terminé",
-    description: "Le 4ᵉ niveau du bâtiment B a été coulé conformément au planning. Démarrage de l'étanchéité prévu lundi prochain.",
+    date: "2026-05-21",
+    titre: "Coulage de la dalle du 4ᵉ niveau",
+    description: "La dalle du 4ᵉ niveau (R+2) a été coulée le 21 mai avec 170 m³ de béton B25. Résistance à 28 jours conforme aux specs. Décoffrage dans 72h.",
     image: img("photo-1503387762-592deb58ef4e"),
   },
   {
     id: "UPD-017",
-    date: "2026-05-30",
+    date: "2026-05-08",
     titre: "Livraison des menuiseries aluminium",
-    description: "Les menuiseries du fournisseur certifié ont été livrées et stockées en zone sécurisée. Pose programmée en juillet.",
+    description: "Réception des menuiseries Aluminium-Tremie 4500 séries. Conformes au CCTP. Stockage en zone sécurisée. Pose programmée après l'étanchéité (semaine 32).",
     image: img("photo-1541888946425-d81bb19240f5"),
   },
   {
     id: "UPD-016",
-    date: "2026-05-12",
-    titre: "Contrôle bureau Veritas — sans réserve",
-    description: "Visite de contrôle structurelle du Bureau Veritas conclue sans réserve sur les niveaux R+1 à R+3.",
+    date: "2026-04-25",
+    titre: "Contrôle Bureau Veritas — RDC et R+1",
+    description: "Visite inopinée de Bureau Veritas. Contrôle structurel des niveaux RDC et R+1 conclu sans réserve majeure. Deux observations mineures sur les joints de dilatation.",
     image: img("photo-1581094288338-2314dddb7ece"),
   },
 ];

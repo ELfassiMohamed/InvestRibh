@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Search, Eye, EyeOff, ShieldOff, ShieldCheck } from "lucide-react";
+import { Search, Eye, EyeOff, ShieldOff, ShieldCheck, RotateCcw } from "lucide-react";
 
 import { PageHeader } from "@/components/AppShell";
 import { platformUsers } from "@/lib/mock-data";
@@ -12,13 +12,6 @@ export const Route = createFileRoute("/admin/utilisateurs")({
 });
 
 const roles: UserRole[] = ["Investisseur", "Porteur de Projet", "Agent Conformité", "Super Admin"];
-
-const permissionsMatrix: Record<UserRole, string[]> = {
-  Investisseur: ["Consulter projets", "Investir", "Consulter portefeuille"],
-  "Porteur de Projet": ["Soumettre projet", "Suivi collecte", "Suivi chantier"],
-  "Agent Conformité": ["Valider dossiers", "Consulter eKYC", "Suspendre comptes"],
-  "Super Admin": ["Toutes permissions", "Gérer rôles", "Configurer plateforme"],
-};
 
 const allPermissions = [
   "Consulter projets",
@@ -35,10 +28,37 @@ const allPermissions = [
   "Configurer plateforme",
 ];
 
+const defaultMatrix: Record<UserRole, string[]> = {
+  Investisseur: ["Consulter projets", "Investir", "Consulter portefeuille"],
+  "Porteur de Projet": ["Soumettre projet", "Suivi collecte", "Suivi chantier"],
+  "Agent Conformité": ["Valider dossiers", "Consulter eKYC", "Voir données sensibles (CIN/RIB)", "Suspendre comptes"],
+  "Super Admin": [...allPermissions],
+};
+
 function UtilisateursPage() {
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState<UserRole | "Tous">("Tous");
   const [revealed, setRevealed] = useState<Set<string>>(new Set());
+  const [matrix, setMatrix] = useState<Record<UserRole, string[]>>(defaultMatrix);
+
+  const togglePermission = (role: UserRole, permission: string) => {
+    setMatrix((prev) => {
+      const current = prev[role];
+      const has = current.includes(permission);
+      return {
+        ...prev,
+        [role]: has
+          ? current.filter((p) => p !== permission)
+          : [...current, permission],
+      };
+    });
+  };
+
+  const hasPermission = (role: UserRole, permission: string) =>
+    matrix[role].includes(permission);
+
+  const countEnabled = (perm: string) =>
+    roles.filter((r) => matrix[r].includes(perm)).length;
 
   const filtered = platformUsers.filter(
     (u) =>
@@ -62,7 +82,15 @@ function UtilisateursPage() {
 
       {/* Matrice de permissions */}
       <section className="mb-8">
-        <h2 className="headline-md mb-4 text-on-surface">Matrice des rôles</h2>
+        <div className="mb-4 flex items-center justify-between">
+          <h2 className="headline-md text-on-surface">Matrice des rôles</h2>
+          <button
+            onClick={() => setMatrix(defaultMatrix)}
+            className="flex items-center gap-1.5 rounded-md border border-outline-variant px-3 py-1.5 text-xs font-medium text-on-surface-variant hover:bg-surface-container"
+          >
+            <RotateCcw className="h-3.5 w-3.5" /> Réinitialiser
+          </button>
+        </div>
         <div className="card-elevated overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-surface-low">
@@ -77,20 +105,28 @@ function UtilisateursPage() {
             </thead>
             <tbody className="divide-y divide-outline-variant/50">
               {allPermissions.map((perm) => (
-                <tr key={perm}>
-                  <td className="px-4 py-2.5 text-on-surface">{perm}</td>
+                <tr key={perm} className="hover:bg-surface-low/50">
+                  <td className="px-4 py-2.5 text-on-surface">
+                    <div className="flex items-center gap-2">
+                      <span>{perm}</span>
+                      <span className="text-[10px] text-on-surface-variant/60">({countEnabled(perm)}/{roles.length})</span>
+                    </div>
+                  </td>
                   {roles.map((r) => {
-                    const has =
-                      permissionsMatrix[r].includes(perm) ||
-                      permissionsMatrix[r].includes("Toutes permissions") ||
-                      (r === "Agent Conformité" && perm === "Voir données sensibles (CIN/RIB)");
+                    const has = hasPermission(r, perm);
                     return (
                       <td key={r} className="px-4 py-2.5 text-center">
-                        {has ? (
-                          <span className="inline-block h-2 w-2 rounded-full bg-success" />
-                        ) : (
-                          <span className="inline-block h-2 w-2 rounded-full bg-surface-container" />
-                        )}
+                        <button
+                          onClick={() => togglePermission(r, perm)}
+                          className={`mx-auto block h-6 w-6 rounded-md transition-colors ${
+                            has
+                              ? "bg-success/20 hover:bg-success/30"
+                              : "bg-surface-container hover:bg-surface-container-hover"
+                          }`}
+                          title={has ? `Retirer ${perm} pour ${r}` : `Ajouter ${perm} pour ${r}`}
+                        >
+                          {has && <span className="mx-auto block h-2 w-2 rounded-full bg-success" />}
+                        </button>
                       </td>
                     );
                   })}

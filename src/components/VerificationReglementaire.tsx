@@ -97,15 +97,6 @@ export function VerificationReglementairePage() {
 
       {result && (
         <div className="mt-8 space-y-6">
-          <div className="rounded-xl border border-outline-variant bg-surface-lowest p-5">
-            <p className="text-xs font-medium text-on-surface-variant uppercase tracking-wider">Terrain analysé</p>
-            <p className="mt-1 text-sm text-on-surface">
-              {result.terrain.surface_m2 as number} m² · {result.terrain.localisation as string}
-              {result.terrain.zone_urbaine ? " · Zone urbaine" : ""}
-              {result.terrain.budget_estime_dh ? ` · ${(result.terrain.budget_estime_dh as number).toLocaleString("fr-FR")} DH` : ""}
-            </p>
-          </div>
-
           <div>
             <h2 className="mb-4 text-sm font-semibold text-on-surface-variant uppercase tracking-wider">
               Plans recommandés ({result.plans.length})

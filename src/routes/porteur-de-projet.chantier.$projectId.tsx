@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Plus, Calendar, Image as ImageIcon } from "lucide-react";
 
 import { PageHeader } from "@/components/AppShell";
-import { getProject, sitePhases, siteUpdates } from "@/lib/mock-data";
-import type { Project } from "@/lib/mock-data";
+import { getProject, sitePhases, siteUpdates as initialUpdates } from "@/lib/mock-data";
+import type { Project, SiteUpdate } from "@/lib/mock-data";
 import { formatDateLong } from "@/lib/format";
 
 export const Route = createFileRoute("/porteur-de-projet/chantier/$projectId")({
@@ -19,10 +19,30 @@ export const Route = createFileRoute("/porteur-de-projet/chantier/$projectId")({
 function ChantierPage() {
   const { project } = Route.useLoaderData() as { project: Project };
   const [showForm, setShowForm] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
+  const [newDesc, setNewDesc] = useState("");
+  const [newImage, setNewImage] = useState<File | null>(null);
+  const [updates, setUpdates] = useState(initialUpdates);
 
   const avancementGlobal = Math.round(
     sitePhases.reduce((s, p) => s + p.avancement, 0) / sitePhases.length,
   );
+
+  const handlePublish = () => {
+    if (!newTitle.trim() || !newDesc.trim()) return;
+    const entry: SiteUpdate = {
+      id: `u-${Date.now()}`,
+      date: new Date().toISOString().split("T")[0],
+      titre: newTitle.trim(),
+      description: newDesc.trim(),
+      image: newImage ? URL.createObjectURL(newImage) : "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&q=80",
+    };
+    setUpdates([entry, ...updates]);
+    setNewTitle("");
+    setNewDesc("");
+    setNewImage(null);
+    setShowForm(false);
+  };
 
   return (
     <>
@@ -31,7 +51,7 @@ function ChantierPage() {
         description="Mettez à jour l'avancement et publiez des actualités visibles par vos investisseurs."
         actions={
           <button
-            onClick={() => setShowForm(!showForm)}
+            onClick={() => { setShowForm(!showForm); setNewTitle(""); setNewDesc(""); setNewImage(null); }}
             className="flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary-container"
           >
             <Plus className="h-4 w-4" /> Nouvelle publication
@@ -104,18 +124,22 @@ function ChantierPage() {
               <h3 className="headline-md mb-3 text-on-surface">Nouvelle publication</h3>
               <input
                 type="text"
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
                 placeholder="Titre de la mise à jour"
                 className="mb-3 w-full rounded-md border border-outline-variant px-3 py-2 text-sm focus:border-primary focus:outline-none"
               />
               <textarea
                 rows={3}
+                value={newDesc}
+                onChange={(e) => setNewDesc(e.target.value)}
                 placeholder="Décrivez l'avancement, les points marquants…"
                 className="mb-3 w-full rounded-md border border-outline-variant px-3 py-2 text-sm focus:border-primary focus:outline-none"
               />
               <label className="mb-3 flex cursor-pointer items-center justify-center gap-2 rounded-md border-2 border-dashed border-outline-variant py-6 text-sm text-on-surface-variant hover:bg-surface-low">
                 <ImageIcon className="h-5 w-5" />
-                Ajouter une photo ou vidéo
-                <input type="file" className="hidden" />
+                {newImage ? newImage.name : "Ajouter une photo ou vidéo"}
+                <input type="file" className="hidden" accept="image/*,video/*" onChange={(e) => setNewImage(e.target.files?.[0] ?? null)} />
               </label>
               <div className="flex justify-end gap-2">
                 <button
@@ -124,7 +148,11 @@ function ChantierPage() {
                 >
                   Annuler
                 </button>
-                <button className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary-container">
+                <button
+                  onClick={handlePublish}
+                  disabled={!newTitle.trim() || !newDesc.trim()}
+                  className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary-container disabled:opacity-50"
+                >
                   Publier
                 </button>
               </div>
@@ -133,7 +161,7 @@ function ChantierPage() {
 
           <h3 className="headline-md mb-4 text-on-surface">Historique des publications</h3>
           <div className="space-y-4">
-            {siteUpdates.map((u) => (
+            {updates.map((u) => (
               <article key={u.id} className="card-elevated overflow-hidden">
                 <img src={u.image} alt={u.titre} className="aspect-[16/8] w-full object-cover" />
                 <div className="p-5">

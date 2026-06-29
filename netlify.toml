@@ -2,8 +2,8 @@
   command = "npm run build"
   publish = "dist/client"
 
-# SPA fallback — all routes served by index.html for client-side routing
+# SSR fallback — all unmatched routes go to the Netlify Function
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/.netlify/functions/server"
   status = 200

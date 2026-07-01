@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Building2, Bitcoin, Rocket, Briefcase, TrendingUp, ShieldCheck } from "lucide-react";
-
 import { TopUtilityBar } from "@/components/TopUtilityBar";
 import { HeroSearch } from "@/components/HeroSearch";
 import { ProjectCard } from "@/components/ProjectCard";

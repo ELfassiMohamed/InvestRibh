@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Info } from "lucide-react";
 
-export function DemoNotice() {
+export function DemoNotice({ onDone }: { onDone?: () => void }) {
   const [open, setOpen] = useState(true);
   const [closing, setClosing] = useState(false);
 
@@ -15,7 +15,7 @@ export function DemoNotice() {
 
   const handleClose = () => {
     setClosing(true);
-    setTimeout(() => setOpen(false), 250);
+    setTimeout(() => { setOpen(false); onDone?.(); }, 250);
   };
 
   if (!open) return null;

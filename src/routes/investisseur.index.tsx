@@ -22,16 +22,9 @@ import {
 
 import { PageHeader } from "@/components/AppShell";
 import { KpiCard } from "@/components/KpiCard";
-import {
-  holdings,
-  portfolioEvolution,
-  projects,
-  transactions,
-  upcomingDistributions,
-  getProject,
-} from "@/lib/mock-data";
 import { formatDate, formatMAD } from "@/lib/format";
 import { useAuth } from "@/hooks/use-auth";
+import { useInvestorDashboard, useProjects } from "@/hooks/use-queries";
 
 export const Route = createFileRoute("/investisseur/")({
   component: DashboardPage,
@@ -41,20 +34,34 @@ const COLORS = ["#693f2c", "#845642", "#c9a44c", "#585e6c", "#46494c"];
 
 function DashboardPage() {
   const { user } = useAuth();
-  const valeurTotale = holdings.reduce((s, h) => s + h.valeurActuelle, 0);
-  const totalInvesti = holdings.reduce((s, h) => s + h.unites * h.prixMoyen, 0);
+  const { data: dashboard, isLoading } = useInvestorDashboard();
+  const { data: allProjects = [] } = useProjects();
+
+  if (isLoading || !dashboard) {
+    return (
+      <>
+        <PageHeader title="Chargement…" description="Veuillez patienter." />
+        <p className="text-sm text-on-surface-variant">Récupération des données…</p>
+      </>
+    );
+  }
+
+  const { holdings, transactions, portfolioEvolution, upcomingDistributions } = dashboard as any;
+  const getProject = (id: string) => allProjects.find((p: any) => p.id === id);
+
+  const valeurTotale = holdings.reduce((s: any, h: any) => s + h.valeurActuelle, 0);
+  const totalInvesti = holdings.reduce((s: any, h: any) => s + h.unites * h.prixMoyen, 0);
   const dividendesCumules = transactions
-    .filter((t) => t.type === "Dividende")
-    .reduce((s, t) => s + t.montant, 0);
+    .filter((t: any) => t.type === "Dividende")
+    .reduce((s: any, t: any) => s + t.montant, 0);
   const cashflowMensuel = Math.round(dividendesCumules / 6);
   const rendementMoyen =
-    holdings.reduce((s, h) => {
+    holdings.reduce((s: any, h: any) => {
       const p = getProject(h.projectId);
       return s + (p?.rendementCible ?? 0) * h.valeurActuelle;
     }, 0) / valeurTotale;
 
-  // Répartition par typologie
-  const repartition = holdings.reduce<Record<string, number>>((acc, h) => {
+  const repartition = (holdings as any[]).reduce((acc: Record<string, number>, h: any) => {
     const p = getProject(h.projectId);
     if (!p) return acc;
     acc[p.typologie] = (acc[p.typologie] ?? 0) + h.valeurActuelle;
@@ -178,7 +185,7 @@ function DashboardPage() {
             </span>
           </div>
           <ul className="divide-y divide-outline-variant/50">
-            {upcomingDistributions.map((d) => {
+            {upcomingDistributions.map((d: any) => {
               const p = getProject(d.projectId);
               return (
                 <li key={d.date + d.projectId} className="flex items-center justify-between gap-3 py-3">
@@ -221,7 +228,7 @@ function DashboardPage() {
             </Link>
           </div>
           <ul className="divide-y divide-outline-variant/50">
-            {transactions.slice(0, 5).map((t) => (
+            {transactions.slice(0, 5).map((t: any) => (
               <li key={t.id} className="flex items-center justify-between gap-3 py-3">
                 <div className="min-w-0">
                   <p className="truncate text-sm font-semibold text-on-surface">
@@ -261,10 +268,10 @@ function DashboardPage() {
           </Link>
         </div>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {projects
-            .filter((p) => p.statut === "En collecte")
+          {allProjects
+            .filter((p: any) => p.statut === "En collecte")
             .slice(0, 3)
-            .map((p) => (
+            .map((p: any) => (
               <Link
                 key={p.id}
                 to="/projets/$id"

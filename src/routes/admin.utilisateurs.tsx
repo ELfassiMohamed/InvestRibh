@@ -1,11 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Search, Eye, EyeOff, ShieldOff, ShieldCheck, RotateCcw } from "lucide-react";
+import { Search, Eye, EyeOff, ShieldOff, ShieldCheck, RotateCcw, Plus, Trash2 } from "lucide-react";
 
 import { PageHeader } from "@/components/AppShell";
-import { platformUsers } from "@/lib/mock-data";
-import type { UserRole } from "@/lib/mock-data";
 import { formatDate, maskSensitive } from "@/lib/format";
+import { useUsers, useToggleUserStatus, useCreateUser, useDeleteUser } from "@/hooks/use-queries";
+import type { UserRole } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/admin/utilisateurs")({
   component: UtilisateursPage,
@@ -40,6 +40,13 @@ function UtilisateursPage() {
   const [roleFilter, setRoleFilter] = useState<UserRole | "Tous">("Tous");
   const [revealed, setRevealed] = useState<Set<string>>(new Set());
   const [matrix, setMatrix] = useState<Record<UserRole, string[]>>(defaultMatrix);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newUser, setNewUser] = useState({ nom: "", email: "", role: "Investisseur" as UserRole, cin: "", rib: "" });
+
+  const { data: platformUsers = [], isLoading } = useUsers();
+  const toggleStatus = useToggleUserStatus();
+  const createUser = useCreateUser();
+  const deleteUser = useDeleteUser();
 
   const togglePermission = (role: UserRole, permission: string) => {
     setMatrix((prev) => {
@@ -61,7 +68,7 @@ function UtilisateursPage() {
     roles.filter((r) => matrix[r].includes(perm)).length;
 
   const filtered = platformUsers.filter(
-    (u) =>
+    (u: any) =>
       (roleFilter === "Tous" || u.role === roleFilter) &&
       (u.nom.toLowerCase().includes(search.toLowerCase()) ||
         u.email.toLowerCase().includes(search.toLowerCase())),
@@ -73,6 +80,16 @@ function UtilisateursPage() {
     setRevealed(next);
   };
 
+  const handleAddUser = () => {
+    if (!newUser.nom.trim() || !newUser.email.trim()) return;
+    createUser.mutate(newUser, {
+      onSuccess: () => {
+        setShowAddForm(false);
+        setNewUser({ nom: "", email: "", role: "Investisseur", cin: "", rib: "" });
+      },
+    });
+  };
+
   return (
     <>
       <PageHeader
@@ -80,7 +97,6 @@ function UtilisateursPage() {
         description="Matrice de rôles RBAC et liste des comptes."
       />
 
-      {/* Matrice de permissions */}
       <section className="mb-8">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="headline-md text-on-surface">Matrice des rôles</h2>
@@ -137,7 +153,6 @@ function UtilisateursPage() {
         </div>
       </section>
 
-      {/* Liste utilisateurs */}
       <section>
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <h2 className="headline-md text-on-surface">Comptes utilisateurs ({filtered.length})</h2>
@@ -162,8 +177,58 @@ function UtilisateursPage() {
                 <option key={r} value={r}>{r}</option>
               ))}
             </select>
+            <button
+              onClick={() => setShowAddForm(!showAddForm)}
+              className="flex items-center gap-1.5 rounded-md bg-primary px-3 py-2 text-sm font-semibold text-on-primary hover:opacity-90"
+            >
+              <Plus className="h-4 w-4" /> Ajouter
+            </button>
           </div>
         </div>
+
+        {showAddForm && (
+          <div className="card-elevated mb-4 p-4">
+            <div className="grid gap-4 sm:grid-cols-5">
+              <input
+                placeholder="Nom complet"
+                value={newUser.nom}
+                onChange={(e) => setNewUser({ ...newUser, nom: e.target.value })}
+                className="rounded-md border border-outline-variant px-3 py-2 text-sm"
+              />
+              <input
+                placeholder="Email"
+                value={newUser.email}
+                onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+                className="rounded-md border border-outline-variant px-3 py-2 text-sm"
+              />
+              <select
+                value={newUser.role}
+                onChange={(e) => setNewUser({ ...newUser, role: e.target.value as UserRole })}
+                className="rounded-md border border-outline-variant px-3 py-2 text-sm"
+              >
+                {roles.map((r) => (<option key={r} value={r}>{r}</option>))}
+              </select>
+              <input
+                placeholder="CIN"
+                value={newUser.cin}
+                onChange={(e) => setNewUser({ ...newUser, cin: e.target.value })}
+                className="rounded-md border border-outline-variant px-3 py-2 text-sm"
+              />
+              <input
+                placeholder="RIB"
+                value={newUser.rib}
+                onChange={(e) => setNewUser({ ...newUser, rib: e.target.value })}
+                className="rounded-md border border-outline-variant px-3 py-2 text-sm"
+              />
+            </div>
+            <div className="mt-3 flex justify-end gap-2">
+              <button onClick={() => setShowAddForm(false)} className="rounded-md border border-outline-variant px-3 py-1.5 text-sm text-on-surface hover:bg-surface-container">Annuler</button>
+              <button onClick={handleAddUser} disabled={createUser.isPending} className="rounded-md bg-primary px-4 py-1.5 text-sm font-semibold text-on-primary hover:opacity-90 disabled:opacity-50">
+                {createUser.isPending ? "Création…" : "Créer"}
+              </button>
+            </div>
+          </div>
+        )}
 
         <div className="card-elevated overflow-hidden">
           <div className="overflow-x-auto">
@@ -180,51 +245,63 @@ function UtilisateursPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant/50">
-                {filtered.map((u) => {
-                  const isRevealed = revealed.has(u.id);
-                  return (
-                    <tr key={u.id} className="hover:bg-surface-low">
-                      <Td>
-                        <p className="font-semibold text-on-surface">{u.nom}</p>
-                        <p className="text-xs text-on-surface-variant">{u.email}</p>
-                      </Td>
-                      <Td>
-                        <RoleBadge role={u.role} />
-                      </Td>
-                      <Td>
-                        <span className="font-mono text-xs">{isRevealed ? u.cin : maskSensitive(u.cin)}</span>
-                      </Td>
-                      <Td>
-                        <span className="font-mono text-xs">{isRevealed ? u.rib : maskSensitive(u.rib)}</span>
-                      </Td>
-                      <Td>
-                        <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
-                          u.statut === "Actif" ? "bg-success/10 text-success"
-                          : u.statut === "Suspendu" ? "bg-error/10 text-error"
-                          : "bg-warning/10 text-warning"
-                        }`}>{u.statut}</span>
-                      </Td>
-                      <Td>{formatDate(u.dateInscription)}</Td>
-                      <Td>
-                        <div className="flex gap-1">
-                          <button
-                            onClick={() => toggleReveal(u.id)}
-                            className="grid h-8 w-8 place-items-center rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
-                            aria-label="Révéler données sensibles"
-                          >
-                            {isRevealed ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                          </button>
-                          <button
-                            className="grid h-8 w-8 place-items-center rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
-                            aria-label={u.statut === "Suspendu" ? "Réactiver" : "Suspendre"}
-                          >
-                            {u.statut === "Suspendu" ? <ShieldCheck className="h-4 w-4 text-success" /> : <ShieldOff className="h-4 w-4" />}
-                          </button>
-                        </div>
-                      </Td>
-                    </tr>
-                  );
-                })}
+                {isLoading ? (
+                  <tr><td colSpan={7} className="px-4 py-8 text-center text-sm text-on-surface-variant">Chargement…</td></tr>
+                ) : (
+                  filtered.map((u: any) => {
+                    const isRevealed = revealed.has(u.id);
+                    return (
+                      <tr key={u.id} className="hover:bg-surface-low">
+                        <Td>
+                          <p className="font-semibold text-on-surface">{u.nom}</p>
+                          <p className="text-xs text-on-surface-variant">{u.email}</p>
+                        </Td>
+                        <Td><RoleBadge role={u.role} /></Td>
+                        <Td>
+                          <span className="font-mono text-xs">{isRevealed ? u.cin : maskSensitive(u.cin)}</span>
+                        </Td>
+                        <Td>
+                          <span className="font-mono text-xs">{isRevealed ? u.rib : maskSensitive(u.rib)}</span>
+                        </Td>
+                        <Td>
+                          <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+                            u.statut === "Actif" ? "bg-success/10 text-success"
+                            : u.statut === "Suspendu" ? "bg-error/10 text-error"
+                            : "bg-warning/10 text-warning"
+                          }`}>{u.statut}</span>
+                        </Td>
+                        <Td>{formatDate(u.dateInscription)}</Td>
+                        <Td>
+                          <div className="flex gap-1">
+                            <button
+                              onClick={() => toggleReveal(u.id)}
+                              className="grid h-8 w-8 place-items-center rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
+                              aria-label="Révéler données sensibles"
+                            >
+                              {isRevealed ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                            </button>
+                            <button
+                              onClick={() => toggleStatus.mutate(u.id)}
+                              disabled={toggleStatus.isPending}
+                              className="grid h-8 w-8 place-items-center rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface disabled:opacity-50"
+                              aria-label={u.statut === "Suspendu" ? "Réactiver" : "Suspendre"}
+                            >
+                              {u.statut === "Suspendu" ? <ShieldCheck className="h-4 w-4 text-success" /> : <ShieldOff className="h-4 w-4" />}
+                            </button>
+                            <button
+                              onClick={() => { if (confirm(`Supprimer ${u.nom} ?`)) deleteUser.mutate(u.id); }}
+                              disabled={deleteUser.isPending}
+                              className="grid h-8 w-8 place-items-center rounded-md text-on-surface-variant hover:bg-surface-container hover:text-error disabled:opacity-50"
+                              aria-label="Supprimer"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </div>
+                        </Td>
+                      </tr>
+                    );
+                  })
+                )}
               </tbody>
             </table>
           </div>

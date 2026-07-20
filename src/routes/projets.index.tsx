@@ -3,35 +3,37 @@ import { useMemo, useState } from "react";
 import { Filter, ArrowLeft, User } from "lucide-react";
 
 import { ProjectCard } from "@/components/ProjectCard";
-import { projects } from "@/lib/mock-data";
 import logoImage from "@/assets/place2invest_logo.png";
+import { useProjects } from "@/hooks/use-queries";
 
 export const Route = createFileRoute("/projets/")({
   component: PublicProjetsPage,
 });
 
-const villes = ["Toutes", ...Array.from(new Set(projects.map((p) => p.ville)))];
-const typologies = ["Toutes", ...Array.from(new Set(projects.map((p) => p.typologie)))];
 const statuts = ["Tous", "En collecte", "Financé", "En construction", "Livré"];
 
 function PublicProjetsPage() {
+  const { data: projects = [], isLoading } = useProjects();
   const [ville, setVille] = useState("Toutes");
   const [typologie, setTypologie] = useState("Toutes");
   const [statut, setStatut] = useState("Tous");
   const [ticketMax, setTicketMax] = useState(50_000);
   const [rendementMin, setRendementMin] = useState(0);
 
+  const villes = ["Toutes", ...Array.from(new Set(projects.map((p: any) => p.ville)))];
+  const typologies = ["Toutes", ...Array.from(new Set(projects.map((p: any) => p.typologie)))];
+
   const filtered = useMemo(
     () =>
       projects.filter(
-        (p) =>
+        (p: any) =>
           (ville === "Toutes" || p.ville === ville) &&
           (typologie === "Toutes" || p.typologie === typologie) &&
           (statut === "Tous" || p.statut === statut) &&
           p.ticketMinimum <= ticketMax &&
           p.rendementCible >= rendementMin,
       ),
-    [ville, typologie, statut, ticketMax, rendementMin],
+    [ville, typologie, statut, ticketMax, rendementMin, projects],
   );
 
   return (
@@ -70,7 +72,7 @@ function PublicProjetsPage() {
             Projets disponibles
           </h1>
           <p className="mt-1.5 text-on-surface-variant">
-            {filtered.length} projets disponibles à l'investissement.
+            {isLoading ? "Chargement…" : `${filtered.length} projets disponibles à l'investissement.`}
           </p>
         </div>
 

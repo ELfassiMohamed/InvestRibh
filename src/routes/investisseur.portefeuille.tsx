@@ -3,8 +3,8 @@ import { useState } from "react";
 import { Download, Eye, EyeOff, FileText } from "lucide-react";
 
 import { PageHeader } from "@/components/AppShell";
-import { holdings, transactions, getProject } from "@/lib/mock-data";
 import { formatDate, formatMAD, maskSensitive } from "@/lib/format";
+import { useInvestorDashboard, useProjects } from "@/hooks/use-queries";
 
 export const Route = createFileRoute("/investisseur/portefeuille")({
   component: PortefeuillePage,
@@ -20,6 +20,20 @@ const documents = [
 function PortefeuillePage() {
   const [showRib, setShowRib] = useState(false);
   const rib = "230 780 1234567890123456 21";
+  const { data: dashboard, isLoading } = useInvestorDashboard();
+  const { data: allProjects = [] } = useProjects();
+
+  if (isLoading || !dashboard) {
+    return (
+      <>
+        <PageHeader title="Mon portefeuille" description="Vue détaillée de vos participations." />
+        <p className="text-sm text-on-surface-variant">Chargement…</p>
+      </>
+    );
+  }
+
+  const { holdings, transactions } = dashboard;
+  const getProject = (id: string) => allProjects.find((p: any) => p.id === id);
 
   return (
     <>

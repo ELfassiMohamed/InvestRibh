@@ -14,23 +14,25 @@ import {
 
 import { FundingProgressBar } from "@/components/FundingProgressBar";
 import { RiskScoreBadge } from "@/components/RiskScoreBadge";
-import { getProject } from "@/lib/mock-data";
 import { formatMAD, formatPercent } from "@/lib/format";
 import logoImage from "@/assets/place2invest_logo.png";
-
-import type { Project } from "@/lib/mock-data";
+import { useProject } from "@/hooks/use-queries";
 
 export const Route = createFileRoute("/projets/$id")({
-  loader: ({ params }): { project: Project } => {
-    const project = getProject(params.id);
-    if (!project) throw notFound();
-    return { project };
-  },
   component: PublicProjetDetailPage,
 });
 
 function PublicProjetDetailPage() {
-  const { project } = Route.useLoaderData() as { project: Project };
+  const { id } = Route.useParams();
+  const { data: project, isLoading, isError } = useProject(id);
+
+  if (isLoading) {
+    return <div className="flex min-h-screen items-center justify-center bg-surface"><p className="text-on-surface-variant">Chargement…</p></div>;
+  }
+
+  if (isError || !project) {
+    throw notFound();
+  }
 
   return (
     <div className="min-h-screen bg-surface">
@@ -118,7 +120,7 @@ function PublicProjetDetailPage() {
                 <div>
                   <p className="label-sm text-success">Points forts</p>
                   <ul className="mt-3 space-y-2">
-                    {project.pointsForts.map((pt) => (
+                    {project.pointsForts.map((pt: string) => (
                       <li key={pt} className="flex gap-2 text-sm text-on-surface">
                         <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-success" />
                         {pt}
@@ -129,7 +131,7 @@ function PublicProjetDetailPage() {
                 <div>
                   <p className="label-sm text-warning">Points de vigilance</p>
                   <ul className="mt-3 space-y-2">
-                    {project.pointsVigilance.map((pt) => (
+                    {project.pointsVigilance.map((pt: string) => (
                       <li key={pt} className="flex gap-2 text-sm text-on-surface">
                         <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
                         {pt}

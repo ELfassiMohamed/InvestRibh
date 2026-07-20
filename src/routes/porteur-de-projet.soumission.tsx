@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Check, Upload, Save, Send, FileText, X } from "lucide-react";
 import { PageHeader } from "@/components/AppShell";
+import { useCreateDraft, useSubmitForReview, useSubmissionDrafts } from "@/hooks/use-queries";
 
 export const Route = createFileRoute("/porteur-de-projet/soumission")({
   component: SoumissionPage,
@@ -19,6 +20,8 @@ const steps: { num: Step; titre: string; description: string }[] = [
 function SoumissionPage() {
   const [step, setStep] = useState<Step>(1);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [lastDraftId, setLastDraftId] = useState<string | null>(null);
   const [data, setData] = useState({
     titre: "",
     typologie: "Résidentiel",
@@ -28,6 +31,55 @@ function SoumissionPage() {
     montantRecherche: "",
   });
 
+  const createDraft = useCreateDraft();
+  const submitForReview = useSubmitForReview();
+  const { data: drafts } = useSubmissionDrafts();
+
+  const handleSaveDraft = () => {
+    if (!data.titre.trim() || !data.ville.trim() || !data.budget || !data.montantRecherche) {
+      setErrorMsg("Veuillez remplir les champs obligatoires (titre, ville, budget, montant).");
+      return;
+    }
+    createDraft.mutate(
+      {
+        nom: data.titre,
+        ville: data.ville,
+        typologie: data.typologie,
+        budget: Number(data.budget),
+        montantRecherche: Number(data.montantRecherche),
+      },
+      {
+        onSuccess: (result) => {
+          setLastDraftId(result.id);
+          setSuccessMsg("Brouillon enregistré avec succès dans la base de données.");
+          setErrorMsg(null);
+        },
+        onError: () => {
+          setErrorMsg("Erreur lors de l'enregistrement du brouillon.");
+        },
+      }
+    );
+  };
+
+  const handleSubmit = () => {
+    if (!lastDraftId) {
+      setErrorMsg("Veuillez d'abord enregistrer le brouillon.");
+      return;
+    }
+    submitForReview.mutate(lastDraftId, {
+      onSuccess: () => {
+        setSuccessMsg("Projet soumis à l'analyse IA avec succès. Il apparaîtra dans la file d'attente admin.");
+        setErrorMsg(null);
+        setData({ titre: "", typologie: "Résidentiel", ville: "", adresse: "", budget: "", montantRecherche: "" });
+        setLastDraftId(null);
+        setStep(1);
+      },
+      onError: () => {
+        setErrorMsg("Erreur lors de la soumission du projet.");
+      },
+    });
+  };
+
   return (
     <>
       <PageHeader
@@ -36,17 +88,19 @@ function SoumissionPage() {
         actions={
           <>
             <button
-              onClick={() => setSuccessMsg("Brouillon enregistré avec succès.")}
-              className="flex items-center gap-1.5 rounded-md border border-outline-variant px-3 py-2 text-sm font-medium text-on-surface hover:bg-surface-container"
+              onClick={handleSaveDraft}
+              disabled={createDraft.isPending}
+              className="flex items-center gap-1.5 rounded-md border border-outline-variant px-3 py-2 text-sm font-medium text-on-surface hover:bg-surface-container disabled:opacity-50"
             >
-              <Save className="h-4 w-4" /> Enregistrer en brouillon
+              <Save className="h-4 w-4" /> {createDraft.isPending ? "Enregistrement…" : "Enregistrer en brouillon"}
             </button>
             {step === 4 && (
               <button
-                onClick={() => setSuccessMsg("Projet soumis à l'analyse IA avec succès.")}
-                className="flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary-container"
+                onClick={handleSubmit}
+                disabled={submitForReview.isPending || !lastDraftId}
+                className="flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary-container disabled:opacity-50"
               >
-                <Send className="h-4 w-4" /> Soumettre à l'analyse IA
+                <Send className="h-4 w-4" /> {submitForReview.isPending ? "Soumission…" : "Soumettre à l'analyse IA"}
               </button>
             )}
           </>
@@ -63,7 +117,37 @@ function SoumissionPage() {
         </div>
       )}
 
-      {/* Stepper */}
+      {errorMsg && (
+        <div className="mb-6 flex items-center gap-2 rounded-lg bg-error/10 px-4 py-3 text-sm text-error">
+          <X className="h-4 w-4 shrink-0" />
+          <span className="flex-1">{errorMsg}</span>
+          <button onClick={() => setErrorMsg(null)} className="text-error/70 hover:text-error">
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
+      {drafts && drafts.length > 0 && (
+        <div className="card-elevated mb-6 p-4">
+          <p className="label-sm text-on-surface-variant mb-2">Brouillons existants</p>
+          <div className="flex flex-wrap gap-2">
+            {drafts.map((d: any) => (
+              <button
+                key={d.id}
+                onClick={() => {
+                  setData({ titre: d.nom, ville: d.ville, typologie: d.typologie, adresse: "", budget: String(d.budget), montantRecherche: String(d.montantRecherche) });
+                  setLastDraftId(d.id);
+                  setSuccessMsg(`Brouillon "${d.nom}" chargé.`);
+                }}
+                className="rounded-md border border-outline-variant px-3 py-1.5 text-xs hover:bg-surface-container"
+              >
+                {d.nom} ({d.statut})
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
       <ol className="card-elevated mb-6 grid gap-2 p-4 sm:grid-cols-4">
         {steps.map((s) => {
           const done = s.num < step;

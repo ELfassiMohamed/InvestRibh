@@ -168,7 +168,11 @@ function AuthPage() {
                 />
               </div>
 
-            
+              <div className="mt-3 rounded-md border border-dashed border-outline-variant bg-surface-lowest/50 p-2.5 text-xs leading-relaxed text-on-surface-variant">
+                <p className="font-semibold text-on-surface">Démo</p>
+                {ribLast6 && <p>RIB : <span className="font-mono text-primary">{ribLast6}</span></p>}
+                <p>CIN : <span className="font-mono text-primary">{cinLast6}</span></p>
+              </div>
 
               {error && <p className="mt-3 text-sm text-error">{error}</p>}
 
@@ -216,7 +220,10 @@ function AuthPage() {
                 autoFocus
               />
 
-              
+              <div className="mt-3 rounded-md border border-dashed border-outline-variant bg-surface-lowest/50 p-2.5 text-xs leading-relaxed text-on-surface-variant">
+                <p className="font-semibold text-on-surface">Démo</p>
+                <p>Code SMS : <span className="font-mono text-primary">{MOCK_CODE}</span></p>
+              </div>
 
               {error && <p className="mt-3 text-sm text-error">{error}</p>}
 

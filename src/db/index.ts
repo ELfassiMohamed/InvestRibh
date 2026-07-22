@@ -1,5 +1,4 @@
-import Database from 'better-sqlite3';
-import path from 'node:path';
+import initSqlJs, { type Database as SqlJsDatabase } from 'sql.js';
 import {
   projects as seedProjects,
   holdings as seedHoldings,
@@ -14,30 +13,30 @@ import {
   auditLogs as seedAuditLogs,
 } from '@/lib/mock-data';
 
-let db: Database.Database | null = null;
+let db: SqlJsDatabase | null = null;
+let initPromise: Promise<void> | null = null;
 
-function getDbPath(): string {
-  if (process.env.NODE_ENV === 'production') {
-    const tmp = process.env.TMPDIR || process.env.TEMP || '/tmp';
-    return path.join(tmp, 'place2invest.db');
+async function getDb(): Promise<SqlJsDatabase> {
+  if (db) return db;
+
+  if (!initPromise) {
+    initPromise = (async () => {
+      const SQL = await initSqlJs();
+      const instance = new SQL.Database();
+      instance.run('PRAGMA foreign_keys = ON');
+      instance.run('PRAGMA journal_mode = MEMORY');
+      initSchema(instance);
+      seedIfEmpty(instance);
+      db = instance;
+    })();
   }
-  return path.join(process.cwd(), 'place2invest.db');
+
+  await initPromise;
+  return db!;
 }
 
-function getDb(): Database.Database {
-  if (!db) {
-    db = new Database(getDbPath());
-    db.pragma('journal_mode = WAL');
-    db.pragma('foreign_keys = ON');
-    initSchema();
-    seedIfEmpty();
-  }
-  return db;
-}
-
-function initSchema() {
-  const d = getDb();
-  d.exec(`
+function initSchema(d: SqlJsDatabase) {
+  d.run(`
     CREATE TABLE IF NOT EXISTS projects (
       id TEXT PRIMARY KEY,
       nom TEXT NOT NULL,
@@ -178,74 +177,126 @@ function initSchema() {
   `);
 }
 
-function seedIfEmpty() {
-  const d = getDb();
-  const count = d.prepare('SELECT COUNT(*) as c FROM projects').get() as { c: number };
-  if (count.c > 0) return;
-
-  const insertProject = d.prepare(`INSERT INTO projects (id, nom, ville, typologie, image, description, budgetTotal, montantCollecte, objectifCollecte, ticketMinimum, rendementCible, dureeMois, scoreRisque, scoreLabel, statut, investisseurs, joursRestants, featured, pointsForts, pointsVigilance) VALUES (@id, @nom, @ville, @typologie, @image, @description, @budgetTotal, @montantCollecte, @objectifCollecte, @ticketMinimum, @rendementCible, @dureeMois, @scoreRisque, @scoreLabel, @statut, @investisseurs, @joursRestants, @featured, @pointsForts, @pointsVigilance)`);
+function seedIfEmpty(d: SqlJsDatabase) {
+  const result = d.exec('SELECT COUNT(*) as c FROM projects');
+  const count = result.length > 0 ? (result[0].values[0][0] as number) : 0;
+  if (count > 0) return;
 
   for (const p of seedProjects) {
-    insertProject.run({
-      ...p,
-      featured: p.featured ? 1 : 0,
-      pointsForts: JSON.stringify(p.pointsForts),
-      pointsVigilance: JSON.stringify(p.pointsVigilance),
-    });
+    d.run(
+      `INSERT INTO projects (id, nom, ville, typologie, image, description, budgetTotal, montantCollecte, objectifCollecte, ticketMinimum, rendementCible, dureeMois, scoreRisque, scoreLabel, statut, investisseurs, joursRestants, featured, pointsForts, pointsVigilance) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        p.id, p.nom, p.ville, p.typologie, p.image, p.description,
+        p.budgetTotal, p.montantCollecte, p.objectifCollecte, p.ticketMinimum,
+        p.rendementCible, p.dureeMois, p.scoreRisque, p.scoreLabel, p.statut,
+        p.investisseurs, p.joursRestants, p.featured ? 1 : 0,
+        JSON.stringify(p.pointsForts), JSON.stringify(p.pointsVigilance),
+      ],
+    );
   }
 
-  const insertUser = d.prepare(`INSERT OR IGNORE INTO users (id, nom, email, role, statut, dateInscription, cin, rib) VALUES (@id, @nom, @email, @role, @statut, @dateInscription, @cin, @rib)`);
   for (const u of seedUsers) {
-    insertUser.run(u);
+    d.run(
+      `INSERT OR IGNORE INTO users (id, nom, email, role, statut, dateInscription, cin, rib) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [u.id, u.nom, u.email, u.role, u.statut, u.dateInscription, u.cin, u.rib],
+    );
   }
 
-  const insertHolding = d.prepare(`INSERT INTO holdings (projectId, userId, unites, prixMoyen, valeurActuelle, dateAcquisition) VALUES (@projectId, @userId, @unites, @prixMoyen, @valeurActuelle, @dateAcquisition)`);
   for (const h of seedHoldings) {
-    insertHolding.run({ ...h, userId: 'U-1042' });
+    d.run(
+      `INSERT INTO holdings (projectId, userId, unites, prixMoyen, valeurActuelle, dateAcquisition) VALUES (?, ?, ?, ?, ?, ?)`,
+      [h.projectId, 'U-1042', h.unites, h.prixMoyen, h.valeurActuelle, h.dateAcquisition],
+    );
   }
 
-  const insertTx = d.prepare(`INSERT INTO transactions (id, date, type, reference, montant, projet, statut, userId) VALUES (@id, @date, @type, @reference, @montant, @projet, @statut, @userId)`);
   for (const t of seedTransactions) {
-    insertTx.run({ ...t, userId: 'U-1042', projet: t.projet ?? null });
+    d.run(
+      `INSERT INTO transactions (id, date, type, reference, montant, projet, statut, userId) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [t.id, t.date, t.type, t.reference, t.montant, t.projet ?? null, t.statut, 'U-1042'],
+    );
   }
 
-  const insertDist = d.prepare(`INSERT INTO distribution_events (date, projectId, montantEstime, statut) VALUES (@date, @projectId, @montantEstime, @statut)`);
-  for (const d of seedDistributions) {
-    insertDist.run(d);
+  for (const ev of seedDistributions) {
+    d.run(
+      `INSERT INTO distribution_events (date, projectId, montantEstime, statut) VALUES (?, ?, ?, ?)`,
+      [ev.date, ev.projectId, ev.montantEstime, ev.statut],
+    );
   }
 
-  const insertPort = d.prepare(`INSERT INTO portfolio_points (mois, valeur, userId) VALUES (@mois, @valeur, @userId)`);
   for (const p of seedPortfolio) {
-    insertPort.run({ ...p, userId: 'U-1042' });
+    d.run(
+      `INSERT INTO portfolio_points (mois, valeur, userId) VALUES (?, ?, ?)`,
+      [p.mois, p.valeur, 'U-1042'],
+    );
   }
 
-  const insertDraft = d.prepare(`INSERT INTO submission_drafts (id, nom, ville, typologie, budget, montantRecherche, statut, dateMaj, avancement, porteurId) VALUES (@id, @nom, @ville, @typologie, @budget, @montantRecherche, @statut, @dateMaj, @avancement, @porteurId)`);
   for (const s of seedDrafts) {
-    insertDraft.run({ ...s, porteurId: 'U-2018' });
+    d.run(
+      `INSERT INTO submission_drafts (id, nom, ville, typologie, budget, montantRecherche, statut, dateMaj, avancement, porteurId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [s.id, s.nom, s.ville, s.typologie, s.budget, s.montantRecherche, s.statut, s.dateMaj, s.avancement, 'U-2018'],
+    );
   }
 
-  const insertPhase = d.prepare(`INSERT INTO site_phases (projectId, nom, avancement, dateDebut, dateFinPrevue, statut) VALUES (@projectId, @nom, @avancement, @dateDebut, @dateFinPrevue, @statut)`);
   for (const p of seedPhases) {
-    insertPhase.run({ ...p, projectId: 'casa-anfa-residences' });
+    d.run(
+      `INSERT INTO site_phases (projectId, nom, avancement, dateDebut, dateFinPrevue, statut) VALUES (?, ?, ?, ?, ?, ?)`,
+      ['casa-anfa-residences', p.nom, p.avancement, p.dateDebut, p.dateFinPrevue, p.statut],
+    );
   }
 
-  const insertUpdate = d.prepare(`INSERT INTO site_updates (id, projectId, date, titre, description, image) VALUES (@id, @projectId, @date, @titre, @description, @image)`);
   for (const u of seedUpdates) {
-    insertUpdate.run({ ...u, projectId: 'casa-anfa-residences' });
+    d.run(
+      `INSERT INTO site_updates (id, projectId, date, titre, description, image) VALUES (?, ?, ?, ?, ?, ?)`,
+      [u.id, 'casa-anfa-residences', u.date, u.titre, u.description, u.image],
+    );
   }
 
-  const insertAi = d.prepare(`INSERT INTO ai_validation_items (submissionId, nomProjet, porteur, dateSoumission, scoreRisque, scoreFraude, authenticiteDocuments, synthese, alertes) VALUES (@submissionId, @nomProjet, @porteur, @dateSoumission, @scoreRisque, @scoreFraude, @authenticiteDocuments, @synthese, @alertes)`);
   for (const a of seedAiQueue) {
-    insertAi.run({ ...a, alertes: JSON.stringify(a.alertes) });
+    d.run(
+      `INSERT INTO ai_validation_items (submissionId, nomProjet, porteur, dateSoumission, scoreRisque, scoreFraude, authenticiteDocuments, synthese, alertes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [a.submissionId, a.nomProjet, a.porteur, a.dateSoumission, a.scoreRisque, a.scoreFraude, a.authenticiteDocuments, a.synthese, JSON.stringify(a.alertes)],
+    );
   }
 
-  const insertAudit = d.prepare(`INSERT INTO audit_logs (id, horodatage, utilisateur, role, action, entite, ip) VALUES (@id, @horodatage, @utilisateur, @role, @action, @entite, @ip)`);
   for (const a of seedAuditLogs) {
-    insertAudit.run(a);
+    d.run(
+      `INSERT INTO audit_logs (id, horodatage, utilisateur, role, action, entite, ip) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [a.id, a.horodatage, a.utilisateur, a.role, a.action, a.entite, a.ip],
+    );
   }
 }
 
-// ─── Projects ───
+function queryAll(d: SqlJsDatabase, sql: string, params: any[] = []): any[] {
+  const stmt = d.prepare(sql);
+  if (params.length > 0) stmt.bind(params);
+  const rows: any[] = [];
+  while (stmt.step()) {
+    rows.push(stmt.getAsObject());
+  }
+  stmt.free();
+  return rows;
+}
+
+function queryOne(d: SqlJsDatabase, sql: string, params: any[] = []): any | null {
+  const stmt = d.prepare(sql);
+  if (params.length > 0) stmt.bind(params);
+  const row = stmt.step() ? stmt.getAsObject() : null;
+  stmt.free();
+  return row;
+}
+
+function runSql(d: SqlJsDatabase, sql: string, params: any[] = []) {
+  if (params.length > 0) {
+    const stmt = d.prepare(sql);
+    stmt.bind(params);
+    stmt.step();
+    stmt.free();
+  } else {
+    d.run(sql);
+  }
+}
+
+// ─── Types ───
 
 export interface ProjectInput {
   nom: string;
@@ -261,52 +312,71 @@ export interface ProjectInput {
   pointsVigilance?: string[];
 }
 
-export function getAllProjects() {
-  const d = getDb();
-  const rows = d.prepare('SELECT * FROM projects ORDER BY featured DESC, joursRestants ASC').all() as any[];
+export interface UserInput {
+  nom: string;
+  email: string;
+  role: string;
+  cin: string;
+  rib: string;
+}
+
+export interface DraftInput {
+  nom: string;
+  ville: string;
+  typologie: string;
+  budget: number;
+  montantRecherche: number;
+}
+
+// ─── Projects ───
+
+export async function getAllProjects() {
+  const d = await getDb();
+  const rows = queryAll(d, 'SELECT * FROM projects ORDER BY featured DESC, joursRestants ASC');
   return rows.map(deserializeProject);
 }
 
-export function getProjectById(id: string) {
-  const d = getDb();
-  const row = d.prepare('SELECT * FROM projects WHERE id = ?').get(id) as any;
+export async function getProjectById(id: string) {
+  const d = await getDb();
+  const row = queryOne(d, 'SELECT * FROM projects WHERE id = ?', [id]);
   return row ? deserializeProject(row) : null;
 }
 
-export function createProject(input: ProjectInput) {
-  const d = getDb();
+export async function createProject(input: ProjectInput) {
+  const d = await getDb();
   const id = generateId(input.nom);
-  d.prepare(`INSERT INTO projects (id, nom, ville, typologie, image, description, budgetTotal, montantCollecte, objectifCollecte, ticketMinimum, rendementCible, dureeMois, scoreRisque, scoreLabel, statut, investisseurs, joursRestants, featured, pointsForts, pointsVigilance) VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, 70, 'Faible', 'En collecte', 0, 60, 0, ?, ?)`).run(
-    id, input.nom, input.ville, input.typologie, null, input.description ?? null, input.budgetTotal, input.objectifCollecte, input.ticketMinimum, input.rendementCible, input.dureeMois,
-    JSON.stringify(input.pointsForts ?? []), JSON.stringify(input.pointsVigilance ?? [])
+  runSql(d,
+    `INSERT INTO projects (id, nom, ville, typologie, image, description, budgetTotal, montantCollecte, objectifCollecte, ticketMinimum, rendementCible, dureeMois, scoreRisque, scoreLabel, statut, investisseurs, joursRestants, featured, pointsForts, pointsVigilance) VALUES (?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, 70, 'Faible', 'En collecte', 0, 60, 0, ?, ?)`,
+    [
+      id, input.nom, input.ville, input.typologie, null, input.description ?? null,
+      input.budgetTotal, input.objectifCollecte, input.ticketMinimum,
+      input.rendementCible, input.dureeMois,
+      JSON.stringify(input.pointsForts ?? []),
+      JSON.stringify(input.pointsVigilance ?? []),
+    ],
   );
   return getProjectById(id);
 }
 
-export function updateProject(id: string, data: Partial<ProjectInput & { statut: string; montantCollecte: number; investisseurs: number; joursRestants: number; scoreRisque: number; scoreLabel: string }>) {
-  const d = getDb();
+export async function updateProject(id: string, data: Record<string, any>) {
+  const d = await getDb();
   const fields: string[] = [];
   const values: any[] = [];
   for (const [key, value] of Object.entries(data)) {
     if (value !== undefined) {
-      if (key === 'pointsForts' || key === 'pointsVigilance') {
-        fields.push(`${key} = ?`);
-        values.push(JSON.stringify(value));
-      } else {
-        fields.push(`${key} = ?`);
-        values.push(value);
-      }
+      fields.push(`${key} = ?`);
+      values.push(value);
     }
   }
   if (fields.length === 0) return getProjectById(id);
   values.push(id);
-  d.prepare(`UPDATE projects SET ${fields.join(', ')} WHERE id = ?`).run(...values);
+  runSql(d, `UPDATE projects SET ${fields.join(', ')} WHERE id = ?`, values);
   return getProjectById(id);
 }
 
-export function deleteProject(id: string) {
-  const d = getDb();
-  d.prepare('DELETE FROM projects WHERE id = ?').run(id);
+export async function deleteProject(id: string) {
+  const d = await getDb();
+  runSql(d, 'DELETE FROM projects WHERE id = ?', [id]);
 }
 
 function deserializeProject(row: any) {
@@ -320,36 +390,27 @@ function deserializeProject(row: any) {
 
 // ─── Users ───
 
-export interface UserInput {
-  nom: string;
-  email: string;
-  role: string;
-  cin: string;
-  rib: string;
+export async function getAllUsers() {
+  const d = await getDb();
+  return queryAll(d, 'SELECT * FROM users ORDER BY dateInscription DESC');
 }
 
-export function getAllUsers() {
-  const d = getDb();
-  return d.prepare('SELECT * FROM users ORDER BY dateInscription DESC').all() as any[];
+export async function getUserById(id: string) {
+  const d = await getDb();
+  return queryOne(d, 'SELECT * FROM users WHERE id = ?', [id]);
 }
 
-export function getUserById(id: string) {
-  const d = getDb();
-  return d.prepare('SELECT * FROM users WHERE id = ?').get(id) as any;
-}
-
-export function createUser(input: UserInput) {
-  const d = getDb();
+export async function createUser(input: UserInput) {
+  const d = await getDb();
   const id = `U-${Date.now().toString(36).toUpperCase()}`;
   const today = new Date().toISOString().split('T')[0];
-  d.prepare('INSERT INTO users (id, nom, email, role, statut, dateInscription, cin, rib) VALUES (?, ?, ?, ?, ?, ?, ?, ?)').run(
-    id, input.nom, input.email, input.role, 'Actif', today, input.cin, input.rib
-  );
+  runSql(d, 'INSERT INTO users (id, nom, email, role, statut, dateInscription, cin, rib) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    [id, input.nom, input.email, input.role, 'Actif', today, input.cin, input.rib]);
   return getUserById(id);
 }
 
-export function updateUser(id: string, data: Partial<UserInput & { statut: string }>) {
-  const d = getDb();
+export async function updateUser(id: string, data: Record<string, any>) {
+  const d = await getDb();
   const fields: string[] = [];
   const values: any[] = [];
   for (const [key, value] of Object.entries(data)) {
@@ -360,75 +421,72 @@ export function updateUser(id: string, data: Partial<UserInput & { statut: strin
   }
   if (fields.length === 0) return getUserById(id);
   values.push(id);
-  d.prepare(`UPDATE users SET ${fields.join(', ')} WHERE id = ?`).run(...values);
+  runSql(d, `UPDATE users SET ${fields.join(', ')} WHERE id = ?`, values);
   return getUserById(id);
 }
 
-export function deleteUser(id: string) {
-  const d = getDb();
-  d.prepare('DELETE FROM users WHERE id = ?').run(id);
+export async function deleteUser(id: string) {
+  const d = await getDb();
+  runSql(d, 'DELETE FROM users WHERE id = ?', [id]);
+}
+
+export async function getUserByEmail(email: string) {
+  const d = await getDb();
+  return queryOne(d, 'SELECT * FROM users WHERE email = ?', [email]);
 }
 
 // ─── Holdings ───
 
-export function getHoldingsByUser(userId = 'U-1042') {
-  const d = getDb();
-  return d.prepare('SELECT * FROM holdings WHERE userId = ?').all(userId) as any[];
+export async function getHoldingsByUser(userId = 'U-1042') {
+  const d = await getDb();
+  return queryAll(d, 'SELECT * FROM holdings WHERE userId = ?', [userId]);
 }
 
 // ─── Transactions ───
 
-export function getTransactionsByUser(userId = 'U-1042') {
-  const d = getDb();
-  return d.prepare('SELECT * FROM transactions WHERE userId = ? ORDER BY date DESC').all(userId) as any[];
+export async function getTransactionsByUser(userId = 'U-1042') {
+  const d = await getDb();
+  return queryAll(d, 'SELECT * FROM transactions WHERE userId = ? ORDER BY date DESC', [userId]);
 }
 
 // ─── Distribution Events ───
 
-export function getDistributionEvents() {
-  const d = getDb();
-  return d.prepare('SELECT * FROM distribution_events ORDER BY date ASC').all() as any[];
+export async function getDistributionEvents() {
+  const d = await getDb();
+  return queryAll(d, 'SELECT * FROM distribution_events ORDER BY date ASC');
 }
 
 // ─── Portfolio Points ───
 
-export function getPortfolioPoints(userId = 'U-1042') {
-  const d = getDb();
-  return d.prepare('SELECT * FROM portfolio_points WHERE userId = ? ORDER BY id ASC').all(userId) as any[];
+export async function getPortfolioPoints(userId = 'U-1042') {
+  const d = await getDb();
+  return queryAll(d, 'SELECT * FROM portfolio_points WHERE userId = ? ORDER BY id ASC', [userId]);
 }
 
 // ─── Submission Drafts ───
 
-export interface DraftInput {
-  nom: string;
-  ville: string;
-  typologie: string;
-  budget: number;
-  montantRecherche: number;
+export async function getSubmissionDrafts(porteurId = 'U-2018') {
+  const d = await getDb();
+  return queryAll(d, 'SELECT * FROM submission_drafts WHERE porteurId = ? ORDER BY dateMaj DESC', [porteurId]);
 }
 
-export function getSubmissionDrafts(porteurId = 'U-2018') {
-  const d = getDb();
-  return d.prepare('SELECT * FROM submission_drafts WHERE porteurId = ? ORDER BY dateMaj DESC').all(porteurId) as any[];
+export async function getAllSubmissionDrafts() {
+  const d = await getDb();
+  return queryAll(d, 'SELECT * FROM submission_drafts ORDER BY dateMaj DESC');
 }
 
-export function getAllSubmissionDrafts() {
-  const d = getDb();
-  return d.prepare('SELECT * FROM submission_drafts ORDER BY dateMaj DESC').all() as any[];
-}
-
-export function createSubmissionDraft(input: DraftInput) {
-  const d = getDb();
+export async function createSubmissionDraft(input: DraftInput) {
+  const d = await getDb();
   const id = `SUB-${new Date().getFullYear()}-${String(Date.now()).slice(-3).padStart(3, '0')}`;
   const today = new Date().toISOString().split('T')[0];
-  d.prepare('INSERT INTO submission_drafts (id, nom, ville, typologie, budget, montantRecherche, statut, dateMaj, avancement, porteurId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)').run(
-    id, input.nom, input.ville, input.typologie, input.budget, input.montantRecherche, 'Brouillon', today, 100, 'U-2018'
-  );
+  runSql(d,
+    'INSERT INTO submission_drafts (id, nom, ville, typologie, budget, montantRecherche, statut, dateMaj, avancement, porteurId) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    [id, input.nom, input.ville, input.typologie, input.budget, input.montantRecherche, 'Brouillon', today, 100, 'U-2018']);
   return { id };
 }
 
-export function updateSubmissionDraft(id: string, data: Partial<DraftInput & { statut: string; avancement: number }>) {
-  const d = getDb();
+export async function updateSubmissionDraft(id: string, data: Record<string, any>) {
+  const d = await getDb();
   const fields: string[] = [];
   const values: any[] = [];
   for (const [key, value] of Object.entries(data)) {
@@ -441,85 +499,78 @@ export function updateSubmissionDraft(id: string, data: Partial<DraftInput & { s
   fields.push('dateMaj = ?');
   values.push(new Date().toISOString().split('T')[0]);
   values.push(id);
-  d.prepare(`UPDATE submission_drafts SET ${fields.join(', ')} WHERE id = ?`).run(...values);
+  runSql(d, `UPDATE submission_drafts SET ${fields.join(', ')} WHERE id = ?`, values);
 }
 
-export function submitDraftToAi(id: string) {
-  const d = getDb();
-  const draft = d.prepare('SELECT * FROM submission_drafts WHERE id = ?').get(id) as any;
+export async function submitDraftToAi(id: string) {
+  const d = await getDb();
+  const draft = queryOne(d, 'SELECT * FROM submission_drafts WHERE id = ?', [id]);
   if (!draft) return null;
-  d.prepare("UPDATE submission_drafts SET statut = 'Soumis', dateMaj = ? WHERE id = ?").run(new Date().toISOString().split('T')[0], id);
-  d.prepare(`INSERT OR IGNORE INTO ai_validation_items (submissionId, nomProjet, porteur, dateSoumission, scoreRisque, scoreFraude, authenticiteDocuments, synthese, alertes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`).run(
-    draft.id, draft.nom, 'Atlas Promotion SARL', new Date().toISOString().split('T')[0], 70, 5, 90, 'Dossier soumis via le portail. En attente d\'analyse IA.', '[]'
-  );
+  const today = new Date().toISOString().split('T')[0];
+  runSql(d, "UPDATE submission_drafts SET statut = 'Soumis', dateMaj = ? WHERE id = ?", [today, id]);
+  runSql(d,
+    `INSERT OR IGNORE INTO ai_validation_items (submissionId, nomProjet, porteur, dateSoumission, scoreRisque, scoreFraude, authenticiteDocuments, synthese, alertes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [draft.id, draft.nom, 'Atlas Promotion SARL', today, 70, 5, 90, 'Dossier soumis via le portail. En attente d\'analyse IA.', '[]']);
   return { id: draft.id, statut: 'Soumis' };
 }
 
 // ─── AI Validation ───
 
-export function getAiValidationQueue() {
-  const d = getDb();
-  const items = d.prepare('SELECT * FROM ai_validation_items').all() as any[];
+export async function getAiValidationQueue() {
+  const d = await getDb();
+  const items = queryAll(d, 'SELECT * FROM ai_validation_items');
   return items.map((item: any) => ({
     ...item,
     alertes: JSON.parse(item.alertes || '[]'),
   }));
 }
 
-export function getValidationDecisions(submissionId: string) {
-  const d = getDb();
-  return d.prepare('SELECT * FROM validation_decisions WHERE submissionId = ? ORDER BY date DESC').all(submissionId) as any[];
+export async function getValidationDecisions(submissionId: string) {
+  const d = await getDb();
+  return queryAll(d, 'SELECT * FROM validation_decisions WHERE submissionId = ? ORDER BY date DESC', [submissionId]);
 }
 
-export function submitDecision(submissionId: string, action: string, commentaire: string, decidedBy = 'Mehdi Tahiri') {
-  const d = getDb();
+export async function submitDecision(submissionId: string, action: string, commentaire: string, decidedBy = 'Mehdi Tahiri') {
+  const d = await getDb();
   const today = new Date().toISOString().split('T')[0];
-  d.prepare('INSERT INTO validation_decisions (submissionId, action, commentaire, date, decidedBy) VALUES (?, ?, ?, ?, ?)').run(submissionId, action, commentaire, today, decidedBy);
+  runSql(d, 'INSERT INTO validation_decisions (submissionId, action, commentaire, date, decidedBy) VALUES (?, ?, ?, ?, ?)',
+    [submissionId, action, commentaire, today, decidedBy]);
   const statutMap: Record<string, string> = { approved: 'Approuvé', 'changes-requested': 'En analyse IA', rejected: 'Rejeté' };
   const newStatut = statutMap[action] || 'Soumis';
-  d.prepare('UPDATE submission_drafts SET statut = ?, dateMaj = ? WHERE id = ?').run(newStatut, today, submissionId);
-  d.prepare(`INSERT INTO audit_logs (id, horodatage, utilisateur, role, action, entite, ip) VALUES (?, ?, ?, ?, ?, ?, ?)`).run(
-    `LOG-${Date.now().toString(36).toUpperCase()}`,
-    `${today} ${new Date().toTimeString().slice(0, 8)}`,
-    decidedBy,
-    'Agent Conformité',
-    action === 'approved' ? 'Approbation projet' : action === 'rejected' ? 'Rejet document' : 'Modifications demandées',
-    submissionId,
-    '—'
-  );
+  runSql(d, 'UPDATE submission_drafts SET statut = ?, dateMaj = ? WHERE id = ?', [newStatut, today, submissionId]);
+  runSql(d,
+    'INSERT INTO audit_logs (id, horodatage, utilisateur, role, action, entite, ip) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    [`LOG-${Date.now().toString(36).toUpperCase()}`, `${today} ${new Date().toTimeString().slice(0, 8)}`, decidedBy, 'Agent Conformité',
+      action === 'approved' ? 'Approbation projet' : action === 'rejected' ? 'Rejet document' : 'Modifications demandées',
+      submissionId, '—']);
 }
 
 // ─── Site Data ───
 
-export function getSitePhases(projectId = 'casa-anfa-residences') {
-  const d = getDb();
-  return d.prepare('SELECT * FROM site_phases WHERE projectId = ? ORDER BY id ASC').all(projectId) as any[];
+export async function getSitePhases(projectId = 'casa-anfa-residences') {
+  const d = await getDb();
+  return queryAll(d, 'SELECT * FROM site_phases WHERE projectId = ? ORDER BY id ASC', [projectId]);
 }
 
-export function getSiteUpdates(projectId = 'casa-anfa-residences') {
-  const d = getDb();
-  return d.prepare('SELECT * FROM site_updates WHERE projectId = ? ORDER BY date DESC').all(projectId) as any[];
+export async function getSiteUpdates(projectId = 'casa-anfa-residences') {
+  const d = await getDb();
+  return queryAll(d, 'SELECT * FROM site_updates WHERE projectId = ? ORDER BY date DESC', [projectId]);
 }
 
 // ─── Audit Logs ───
 
-export function getAuditLogs() {
-  const d = getDb();
-  return d.prepare('SELECT * FROM audit_logs ORDER BY horodatage DESC').all() as any[];
+export async function getAuditLogs() {
+  const d = await getDb();
+  return queryAll(d, 'SELECT * FROM audit_logs ORDER BY horodatage DESC');
 }
 
-// ─── Lookup ───
+// ─── Dashboard ───
 
-export function getUserByEmail(email: string) {
-  const d = getDb();
-  return d.prepare('SELECT * FROM users WHERE email = ?').get(email) as any;
-}
-
-export function getInvestorDashboardData(userId = 'U-1042') {
-  const holdings = getHoldingsByUser(userId);
-  const transactions = getTransactionsByUser(userId);
-  const distributions = getDistributionEvents();
-  const portfolio = getPortfolioPoints(userId);
+export async function getInvestorDashboardData(userId = 'U-1042') {
+  const holdings = await getHoldingsByUser(userId);
+  const transactions = await getTransactionsByUser(userId);
+  const distributions = await getDistributionEvents();
+  const portfolio = await getPortfolioPoints(userId);
   return { holdings, transactions, distributions, portfolio };
 }
 

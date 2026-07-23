@@ -5,5 +5,5 @@
 # SSR fallback — all unmatched routes go to the Netlify Function
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions-internal/server"
+  to = "/.netlify/functions/server"
   status = 200

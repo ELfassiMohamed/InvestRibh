@@ -17,23 +17,31 @@ let db: SqlJsDatabase | null = null;
 let initPromise: Promise<void> | null = null;
 
 async function getDb(): Promise<SqlJsDatabase> {
-  if (db) return db;
+   if (db) return db;
 
-  if (!initPromise) {
-    initPromise = (async () => {
-      const SQL = await initSqlJs();
-      const instance = new SQL.Database();
-      instance.run('PRAGMA foreign_keys = ON');
-      instance.run('PRAGMA journal_mode = MEMORY');
-      initSchema(instance);
-      seedIfEmpty(instance);
-      db = instance;
-    })();
-  }
+   if (!initPromise) {
+     initPromise = (async () => {
+       try {
+         const SQL = await initSqlJs({
+           locateFile: (file: string) => `https://sql.js.org/dist/${file}`,
+         });
+         const instance = new SQL.Database();
+         instance.run('PRAGMA foreign_keys = ON');
+         instance.run('PRAGMA journal_mode = MEMORY');
+         initSchema(instance);
+         seedIfEmpty(instance);
+         db = instance;
+       } catch (err) {
+         console.error('❌ sql.js init failed:', err);
+         initPromise = null;
+         throw err;
+       }
+     })();
+   }
 
-  await initPromise;
-  return db!;
-}
+   await initPromise;
+   return db!;
+ }
 
 function initSchema(d: SqlJsDatabase) {
   d.run(`

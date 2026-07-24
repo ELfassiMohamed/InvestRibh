@@ -6,6 +6,9 @@ export default defineConfig({
   },
   nitro: {
     preset: "netlify",
+    experimental: {
+      wasm: true,
+    },
     output: {
       dir: ".netlify/functions-internal",
       serverDir: ".netlify/functions-internal/server",

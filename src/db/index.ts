@@ -1,4 +1,6 @@
 import initSqlJs, { type Database as SqlJsDatabase } from 'sql.js';
+import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import {
   projects as seedProjects,
   holdings as seedHoldings,
@@ -13,6 +15,15 @@ import {
   auditLogs as seedAuditLogs,
 } from '@/lib/mock-data';
 
+const require = createRequire(import.meta.url);
+let wasmBinary: Buffer | null = null;
+try {
+  const wasmPath = require.resolve('sql.js/dist/sql-wasm.wasm');
+  wasmBinary = readFileSync(wasmPath);
+} catch {
+  wasmBinary = null;
+}
+
 let db: SqlJsDatabase | null = null;
 let initPromise: Promise<void> | null = null;
 
@@ -22,9 +33,9 @@ async function getDb(): Promise<SqlJsDatabase> {
    if (!initPromise) {
      initPromise = (async () => {
        try {
-         const SQL = await initSqlJs({
-           locateFile: (file: string) => `https://sql.js.org/dist/${file}`,
-         });
+         const SQL = await initSqlJs(
+           wasmBinary ? { wasmBinary } : { locateFile: (file: string) => `https://sql.js.org/dist/${file}` },
+         );
          const instance = new SQL.Database();
          instance.run('PRAGMA foreign_keys = ON');
          instance.run('PRAGMA journal_mode = MEMORY');

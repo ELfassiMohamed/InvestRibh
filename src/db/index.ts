@@ -16,7 +16,7 @@ import {
 } from '@/lib/mock-data';
 
 const require = createRequire(import.meta.url);
-let wasmBinary: Buffer | null = null;
+let wasmBinary: Buffer | Uint8Array | null = null;
 try {
   const wasmPath = require.resolve('sql.js/dist/sql-wasm.wasm');
   wasmBinary = readFileSync(wasmPath);
@@ -24,35 +24,50 @@ try {
   wasmBinary = null;
 }
 
+async function getWasmBinary(): Promise<Buffer | Uint8Array | undefined> {
+  if (wasmBinary) return wasmBinary;
+  try {
+    const res = await fetch('https://sql.js.org/dist/sql-wasm.wasm');
+    if (res.ok) {
+      const ab = await res.arrayBuffer();
+      return new Uint8Array(ab);
+    }
+  } catch (e) {
+    console.error('⚠️ Failed to fetch sql-wasm.wasm from CDN:', e);
+  }
+  return undefined;
+}
+
 let db: SqlJsDatabase | null = null;
 let initPromise: Promise<void> | null = null;
 
 async function getDb(): Promise<SqlJsDatabase> {
-   if (db) return db;
+  if (db) return db;
 
-   if (!initPromise) {
-     initPromise = (async () => {
-       try {
-         const SQL = await initSqlJs(
-           wasmBinary ? { wasmBinary } : { locateFile: (file: string) => `https://sql.js.org/dist/${file}` },
-         );
-         const instance = new SQL.Database();
-         instance.run('PRAGMA foreign_keys = ON');
-         instance.run('PRAGMA journal_mode = MEMORY');
-         initSchema(instance);
-         seedIfEmpty(instance);
-         db = instance;
-       } catch (err) {
-         console.error('❌ sql.js init failed:', err);
-         initPromise = null;
-         throw err;
-       }
-     })();
-   }
+  if (!initPromise) {
+    initPromise = (async () => {
+      try {
+        const binary = await getWasmBinary();
+        const SQL = await initSqlJs(
+          binary ? { wasmBinary: binary } : { locateFile: (file: string) => `https://sql.js.org/dist/${file}` },
+        );
+        const instance = new SQL.Database();
+        instance.run('PRAGMA foreign_keys = ON');
+        instance.run('PRAGMA journal_mode = MEMORY');
+        initSchema(instance);
+        seedIfEmpty(instance);
+        db = instance;
+      } catch (err) {
+        console.error('❌ sql.js init failed:', err);
+        initPromise = null;
+        throw err;
+      }
+    })();
+  }
 
-   await initPromise;
-   return db!;
- }
+  await initPromise;
+  return db!;
+}
 
 function initSchema(d: SqlJsDatabase) {
   d.run(`

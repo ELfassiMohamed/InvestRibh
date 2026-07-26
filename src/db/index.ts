@@ -25,11 +25,16 @@ try {
 }
 
 async function getWasmBinary(): Promise<Buffer | Uint8Array | undefined> {
-  if (wasmBinary) return wasmBinary;
+  if (wasmBinary) {
+    console.log('📦 Loaded sql-wasm.wasm from local filesystem');
+    return wasmBinary;
+  }
   try {
+    console.log('🌐 Fetching sql-wasm.wasm from CDN (https://sql.js.org/dist/sql-wasm.wasm)...');
     const res = await fetch('https://sql.js.org/dist/sql-wasm.wasm');
     if (res.ok) {
       const ab = await res.arrayBuffer();
+      console.log('✅ Successfully fetched sql-wasm.wasm from CDN');
       return new Uint8Array(ab);
     }
   } catch (e) {
@@ -57,6 +62,7 @@ async function getDb(): Promise<SqlJsDatabase> {
         initSchema(instance);
         seedIfEmpty(instance);
         db = instance;
+        console.log('⚡ SQLite Database initialized and seeded successfully!');
       } catch (err) {
         console.error('❌ sql.js init failed:', err);
         initPromise = null;

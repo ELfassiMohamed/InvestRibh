@@ -15,24 +15,31 @@ import {
 import { PageHeader } from "@/components/AppShell";
 import { FundingProgressBar } from "@/components/FundingProgressBar";
 import { RiskScoreBadge } from "@/components/RiskScoreBadge";
-import { getProject } from "@/lib/mock-data";
+import { useProject } from "@/hooks/use-queries";
 import { formatMAD, formatPercent } from "@/lib/format";
 
-import type { Project } from "@/lib/mock-data";
-
 export const Route = createFileRoute("/investisseur/projets/$id")({
-  loader: ({ params }): { project: Project } => {
-    const project = getProject(params.id);
-    if (!project) throw notFound();
-    return { project };
-  },
   component: ProjetDetailPage,
 });
 
 function ProjetDetailPage() {
-  const { project } = Route.useLoaderData() as { project: Project };
+  const { id } = Route.useParams();
+  const { data: project, isLoading, isError } = useProject(id);
   const [unites, setUnites] = useState(1);
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
+
+  if (isLoading) {
+    return (
+      <>
+        <PageHeader title="Chargement..." description="Veuillez patienter." />
+        <p className="text-sm text-on-surface-variant">Recuperation du projet...</p>
+      </>
+    );
+  }
+
+  if (isError || !project) {
+    throw notFound();
+  }
 
   const montant = unites * project.ticketMinimum;
   const rendementAnnuel = (montant * project.rendementCible) / 100;

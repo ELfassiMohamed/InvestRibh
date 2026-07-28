@@ -3,7 +3,8 @@ import { ArrowRight, Building2, Bitcoin, Rocket, Briefcase, TrendingUp, ShieldCh
 import { TopUtilityBar } from "@/components/TopUtilityBar";
 import { HeroSearch } from "@/components/HeroSearch";
 import { ProjectCard } from "@/components/ProjectCard";
-import { projects } from "@/lib/mock-data";
+import { useProjects } from "@/hooks/use-queries";
+import type { Project } from "@/lib/mock-data";
 
 import heroImage from "@/assets/hero-place2invest.jpg";
 import catImmobilier from "@/assets/cat-immobilier.jpg";
@@ -60,6 +61,7 @@ const espaces = [
 ];
 
 function HomePage() {
+  const { data: projects = [] } = useProjects();
   const enCollecte = projects.filter((p) => p.statut === "En collecte");
   const featured = projects.filter((p) => p.featured);
 
@@ -236,7 +238,7 @@ function ProjectSection({
 }: {
   eyebrow: string;
   title: string;
-  items: typeof projects;
+  items: Project[];
   ctaLabel?: string;
 }) {
   return (

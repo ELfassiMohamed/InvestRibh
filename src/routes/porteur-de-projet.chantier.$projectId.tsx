@@ -3,41 +3,54 @@ import { useState } from "react";
 import { Plus, Calendar, Image as ImageIcon } from "lucide-react";
 
 import { PageHeader } from "@/components/AppShell";
-import { getProject, sitePhases, siteUpdates as initialUpdates } from "@/lib/mock-data";
-import type { Project, SiteUpdate } from "@/lib/mock-data";
+import { useCreateSiteUpdate, useProject, useSiteData } from "@/hooks/use-queries";
 import { formatDateLong } from "@/lib/format";
 
 export const Route = createFileRoute("/porteur-de-projet/chantier/$projectId")({
-  loader: ({ params }): { project: Project } => {
-    const project = getProject(params.projectId);
-    if (!project) throw notFound();
-    return { project };
-  },
   component: ChantierPage,
 });
 
 function ChantierPage() {
-  const { project } = Route.useLoaderData() as { project: Project };
+  const { projectId } = Route.useParams();
+  const { data: project, isLoading: projectLoading, isError } = useProject(projectId);
+  const { data: siteData, isLoading: siteLoading } = useSiteData(projectId);
+  const createUpdate = useCreateSiteUpdate();
   const [showForm, setShowForm] = useState(false);
   const [newTitle, setNewTitle] = useState("");
   const [newDesc, setNewDesc] = useState("");
   const [newImage, setNewImage] = useState<File | null>(null);
-  const [updates, setUpdates] = useState(initialUpdates);
+
+  const sitePhases = siteData?.phases ?? [];
+  const updates = siteData?.updates ?? [];
+
+  if (projectLoading || siteLoading) {
+    return (
+      <>
+        <PageHeader title="Chargement..." description="Veuillez patienter." />
+        <p className="text-sm text-on-surface-variant">Recuperation du chantier...</p>
+      </>
+    );
+  }
+
+  if (isError || !project) {
+    throw notFound();
+  }
 
   const avancementGlobal = Math.round(
-    sitePhases.reduce((s, p) => s + p.avancement, 0) / sitePhases.length,
+    sitePhases.length
+      ? sitePhases.reduce((s, p) => s + p.avancement, 0) / sitePhases.length
+      : 0,
   );
 
-  const handlePublish = () => {
+  const handlePublish = async () => {
     if (!newTitle.trim() || !newDesc.trim()) return;
-    const entry: SiteUpdate = {
-      id: `u-${Date.now()}`,
-      date: new Date().toISOString().split("T")[0],
+    const image = newImage ? await readFileAsDataUrl(newImage) : undefined;
+    createUpdate.mutate({
+      projectId,
       titre: newTitle.trim(),
       description: newDesc.trim(),
-      image: newImage ? URL.createObjectURL(newImage) : "https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=800&q=80",
-    };
-    setUpdates([entry, ...updates]);
+      image,
+    });
     setNewTitle("");
     setNewDesc("");
     setNewImage(null);
@@ -150,10 +163,10 @@ function ChantierPage() {
                 </button>
                 <button
                   onClick={handlePublish}
-                  disabled={!newTitle.trim() || !newDesc.trim()}
+                  disabled={!newTitle.trim() || !newDesc.trim() || createUpdate.isPending}
                   className="rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary-container disabled:opacity-50"
                 >
-                  Publier
+                  {createUpdate.isPending ? "Publication..." : "Publier"}
                 </button>
               </div>
             </div>
@@ -179,4 +192,13 @@ function ChantierPage() {
       </div>
     </>
   );
+}
+
+function readFileAsDataUrl(file: File) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
 }

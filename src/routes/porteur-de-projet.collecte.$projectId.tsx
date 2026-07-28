@@ -13,16 +13,10 @@ import { Check, Lock, TrendingUp, Users, Clock } from "lucide-react";
 import { PageHeader } from "@/components/AppShell";
 import { FundingProgressBar } from "@/components/FundingProgressBar";
 import { KpiCard } from "@/components/KpiCard";
-import { getProject } from "@/lib/mock-data";
-import type { Project } from "@/lib/mock-data";
+import { useProject } from "@/hooks/use-queries";
 import { formatMAD } from "@/lib/format";
 
 export const Route = createFileRoute("/porteur-de-projet/collecte/$projectId")({
-  loader: ({ params }): { project: Project } => {
-    const project = getProject(params.projectId);
-    if (!project) throw notFound();
-    return { project };
-  },
   component: CollectePage,
 });
 
@@ -44,7 +38,22 @@ const paliers = [
 ];
 
 function CollectePage() {
-  const { project } = Route.useLoaderData() as { project: Project };
+  const { projectId } = Route.useParams();
+  const { data: project, isLoading, isError } = useProject(projectId);
+
+  if (isLoading) {
+    return (
+      <>
+        <PageHeader title="Chargement..." description="Veuillez patienter." />
+        <p className="text-sm text-on-surface-variant">Recuperation du projet...</p>
+      </>
+    );
+  }
+
+  if (isError || !project) {
+    throw notFound();
+  }
+
   const ticketMoyen = Math.round(project.montantCollecte / project.investisseurs);
 
   return (

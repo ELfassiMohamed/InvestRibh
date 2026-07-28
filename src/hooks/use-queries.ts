@@ -1,22 +1,19 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import * as projects from '@/server-fns/projects';
-import * as users from '@/server-fns/users';
-import * as submissions from '@/server-fns/submissions';
-import * as data from '@/server-fns/data';
+import * as demo from '@/lib/local-demo-store';
 
 // ─── Projects ───
 
 export function useProjects() {
   return useQuery({
     queryKey: ['projects'],
-    queryFn: () => projects.getProjects(),
+    queryFn: demo.getAllProjects,
   });
 }
 
 export function useProject(id: string | undefined) {
   return useQuery({
     queryKey: ['projects', id],
-    queryFn: () => projects.getProject({ data: id! }),
+    queryFn: () => demo.getProjectById(id!),
     enabled: !!id,
   });
 }
@@ -24,18 +21,23 @@ export function useProject(id: string | undefined) {
 export function useCreateProject() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: any) => projects.createProject({ data: input }),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['projects'] }),
+    mutationFn: demo.createProject,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['projects'] });
+      qc.invalidateQueries({ queryKey: ['investorDashboard'] });
+    },
   });
 }
 
 export function useUpdateProject() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: { id: string; data: any }) => projects.updateProject({ data: input }),
+    mutationFn: (input: { id: string; data: any }) => demo.updateProject(input.id, input.data),
     onSuccess: (_, vars) => {
       qc.invalidateQueries({ queryKey: ['projects'] });
       qc.invalidateQueries({ queryKey: ['projects', vars.id] });
+      qc.invalidateQueries({ queryKey: ['investorDashboard'] });
+      qc.invalidateQueries({ queryKey: ['siteData', vars.id] });
     },
   });
 }
@@ -43,8 +45,12 @@ export function useUpdateProject() {
 export function useDeleteProject() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => projects.deleteProject({ data: id }),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['projects'] }),
+    mutationFn: demo.deleteProject,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['projects'] });
+      qc.invalidateQueries({ queryKey: ['investorDashboard'] });
+      qc.invalidateQueries({ queryKey: ['siteData'] });
+    },
   });
 }
 
@@ -53,14 +59,14 @@ export function useDeleteProject() {
 export function useUsers() {
   return useQuery({
     queryKey: ['users'],
-    queryFn: () => users.getUsers(),
+    queryFn: demo.getAllUsers,
   });
 }
 
 export function useCreateUser() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: any) => users.createUser({ data: input }),
+    mutationFn: demo.createUser,
     onSuccess: () => qc.invalidateQueries({ queryKey: ['users'] }),
   });
 }
@@ -68,7 +74,7 @@ export function useCreateUser() {
 export function useUpdateUser() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: { id: string; data: any }) => users.updateUser({ data: input }),
+    mutationFn: (input: { id: string; data: any }) => demo.updateUser(input.id, input.data),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['users'] }),
   });
 }
@@ -76,7 +82,7 @@ export function useUpdateUser() {
 export function useDeleteUser() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => users.deleteUser({ data: id }),
+    mutationFn: demo.deleteUser,
     onSuccess: () => qc.invalidateQueries({ queryKey: ['users'] }),
   });
 }
@@ -84,7 +90,7 @@ export function useDeleteUser() {
 export function useToggleUserStatus() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => users.toggleUserStatus({ data: id }),
+    mutationFn: demo.toggleUserStatus,
     onSuccess: () => qc.invalidateQueries({ queryKey: ['users'] }),
   });
 }
@@ -94,14 +100,14 @@ export function useToggleUserStatus() {
 export function useSubmissionDrafts() {
   return useQuery({
     queryKey: ['submissionDrafts'],
-    queryFn: () => submissions.getSubmissionDrafts(),
+    queryFn: () => demo.getSubmissionDrafts(),
   });
 }
 
 export function useCreateDraft() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: any) => submissions.createDraft({ data: input }),
+    mutationFn: demo.createSubmissionDraft,
     onSuccess: () => qc.invalidateQueries({ queryKey: ['submissionDrafts'] }),
   });
 }
@@ -109,7 +115,7 @@ export function useCreateDraft() {
 export function useSubmitForReview() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => submissions.submitForReview({ data: id }),
+    mutationFn: demo.submitDraftToAi,
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['submissionDrafts'] });
       qc.invalidateQueries({ queryKey: ['aiValidationQueue'] });
@@ -120,7 +126,7 @@ export function useSubmitForReview() {
 export function useUpdateDraft() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: { id: string; data: any }) => submissions.updateDraft({ data: input }),
+    mutationFn: (input: { id: string; data: any }) => demo.updateSubmissionDraft(input.id, input.data),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['submissionDrafts'] }),
   });
 }
@@ -130,7 +136,7 @@ export function useUpdateDraft() {
 export function useAiValidationQueue() {
   return useQuery({
     queryKey: ['aiValidationQueue'],
-    queryFn: () => submissions.getAiValidationQueue(),
+    queryFn: demo.getAiValidationQueue,
   });
 }
 
@@ -138,10 +144,11 @@ export function useSubmitDecision() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (input: { submissionId: string; action: string; commentaire: string }) =>
-      submissions.submitDecision({ data: input }),
+      demo.submitDecision(input.submissionId, input.action, input.commentaire),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['aiValidationQueue'] });
       qc.invalidateQueries({ queryKey: ['submissionDrafts'] });
+      qc.invalidateQueries({ queryKey: ['auditLogs'] });
     },
   });
 }
@@ -151,7 +158,12 @@ export function useSubmitDecision() {
 export function useInvestorDashboard(userId = 'U-1042') {
   return useQuery({
     queryKey: ['investorDashboard', userId],
-    queryFn: () => data.getInvestorDashboard({ data: userId }),
+    queryFn: () => demo.getInvestorDashboardData(userId).then((data) => ({
+      holdings: data.holdings,
+      transactions: data.transactions,
+      portfolioEvolution: data.portfolio,
+      upcomingDistributions: data.distributions,
+    })),
   });
 }
 
@@ -160,7 +172,15 @@ export function useInvestorDashboard(userId = 'U-1042') {
 export function useSiteData(projectId = 'casa-anfa-residences') {
   return useQuery({
     queryKey: ['siteData', projectId],
-    queryFn: () => data.getSiteData({ data: projectId }),
+    queryFn: () => demo.getSiteData(projectId),
+  });
+}
+
+export function useCreateSiteUpdate() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: demo.createSiteUpdate,
+    onSuccess: (_, vars) => qc.invalidateQueries({ queryKey: ['siteData', vars.projectId] }),
   });
 }
 
@@ -169,6 +189,6 @@ export function useSiteData(projectId = 'casa-anfa-residences') {
 export function useAuditLogs() {
   return useQuery({
     queryKey: ['auditLogs'],
-    queryFn: () => data.getAuditLogs(),
+    queryFn: demo.getAuditLogs,
   });
 }

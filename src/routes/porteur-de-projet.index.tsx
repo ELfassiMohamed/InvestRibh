@@ -3,18 +3,19 @@ import { Plus, ChevronRight, FileText, Building, Coins } from "lucide-react";
 
 import { PageHeader } from "@/components/AppShell";
 import { KpiCard } from "@/components/KpiCard";
-import { submissionDrafts, projects } from "@/lib/mock-data";
 import { formatDate, formatMAD } from "@/lib/format";
 import { useAuth } from "@/hooks/use-auth";
+import { useProjects, useSubmissionDrafts } from "@/hooks/use-queries";
 
 export const Route = createFileRoute("/porteur-de-projet/")({
   component: PorteurHomePage,
 });
 
-const mesProjets = projects.slice(0, 2);
-
 function PorteurHomePage() {
   const { user } = useAuth();
+  const { data: projects = [] } = useProjects();
+  const { data: submissionDrafts = [] } = useSubmissionDrafts();
+  const mesProjets = projects.slice(0, 2);
   const totalLeve = mesProjets.reduce((s, p) => s + p.montantCollecte, 0);
 
   return (

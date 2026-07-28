@@ -2,8 +2,8 @@ import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-ro
 import { useState } from "react";
 import { Shield, Smartphone, CheckCircle2, ArrowLeft, ArrowRight } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
-import { platformUsers } from "@/lib/mock-data";
 import type { UserRole } from "@/lib/mock-data";
+import { getAllUsersSync } from "@/lib/local-demo-store";
 import logoImage from "@/assets/place2invest_logo.png";
 
 export const Route = createFileRoute("/auth")({
@@ -49,7 +49,7 @@ function AuthPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const user = role ? platformUsers.find((u) => u.role === role && u.statut === "Actif") : null;
+  const user = role ? getAllUsersSync().find((u) => u.role === role && u.statut === "Actif") : null;
 
   const [step, setStep] = useState<1 | 2>(1);
   const [codeInput, setCodeInput] = useState("");

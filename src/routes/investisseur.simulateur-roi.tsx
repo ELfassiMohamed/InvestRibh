@@ -15,7 +15,7 @@ import {
 } from "recharts";
 
 import { PageHeader } from "@/components/AppShell";
-import { projects } from "@/lib/mock-data";
+import { useProjects } from "@/hooks/use-queries";
 import { formatMAD, formatPercent } from "@/lib/format";
 
 export const Route = createFileRoute("/investisseur/simulateur-roi")({
@@ -44,12 +44,22 @@ type Mode = "Location nue" | "Location meublée" | "Courte durée" | "Revente à
 const modes: Mode[] = ["Location nue", "Location meublée", "Courte durée", "Revente à terme"];
 
 function SimulateurPage() {
+  const { data: projects = [], isLoading } = useProjects();
   const [montant, setMontant] = useState(50_000);
   const [duree, setDuree] = useState(5);
   const [mode, setMode] = useState<Mode>("Location nue");
-  const [projetId, setProjetId] = useState(projects[0].id);
+  const [projetId, setProjetId] = useState("");
 
-  const projet = projects.find((p) => p.id === projetId)!;
+  const projet = projects.find((p) => p.id === projetId) ?? projects[0];
+
+  if (isLoading || !projet) {
+    return (
+      <>
+        <PageHeader title="Simulateur de ROI" description="Chargement des projets..." />
+        <p className="text-sm text-on-surface-variant">Veuillez patienter.</p>
+      </>
+    );
+  }
 
   const calcul = useMemo(() => calculerROI(montant, duree, mode, projet.rendementCible), [
     montant,
@@ -103,7 +113,7 @@ function SimulateurPage() {
             <div>
               <label className="label-sm text-on-surface-variant">Projet cible</label>
               <select
-                value={projetId}
+                value={projet.id}
                 onChange={(e) => setProjetId(e.target.value)}
                 className="mt-2 w-full rounded-md border border-outline-variant bg-surface-lowest px-3 py-2 text-sm focus:border-primary focus:outline-none"
               >

@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from "react";
 import type { UserRole } from "@/lib/mock-data";
-import { platformUsers } from "@/lib/mock-data";
 import type { PlatformUser } from "@/lib/mock-data";
+import { getAllUsersSync } from "@/lib/local-demo-store";
 
 const AUTH_KEY = "place2invest_user";
 
@@ -28,7 +28,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<PlatformUser | null>(loadUser);
 
   const login = (role: UserRole) => {
-    const found = platformUsers.find(
+    const found = getAllUsersSync().find(
       (u) => u.role === role && u.statut === "Actif",
     );
     if (found) {

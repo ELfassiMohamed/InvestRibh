@@ -4,22 +4,24 @@ import { Filter } from "lucide-react";
 
 import { PageHeader } from "@/components/AppShell";
 import { ProjectCard } from "@/components/ProjectCard";
-import { projects } from "@/lib/mock-data";
+import { useProjects } from "@/hooks/use-queries";
 
 export const Route = createFileRoute("/investisseur/projets/")({
   component: ProjetsPage,
 });
 
-const villes = ["Toutes", ...Array.from(new Set(projects.map((p) => p.ville)))];
-const typologies = ["Toutes", ...Array.from(new Set(projects.map((p) => p.typologie)))];
 const statuts = ["Tous", "En collecte", "Financé", "En construction", "Livré"];
 
 function ProjetsPage() {
+  const { data: projects = [], isLoading } = useProjects();
   const [ville, setVille] = useState("Toutes");
   const [typologie, setTypologie] = useState("Toutes");
   const [statut, setStatut] = useState("Tous");
   const [ticketMax, setTicketMax] = useState(50_000);
   const [rendementMin, setRendementMin] = useState(0);
+
+  const villes = ["Toutes", ...Array.from(new Set(projects.map((p) => p.ville)))];
+  const typologies = ["Toutes", ...Array.from(new Set(projects.map((p) => p.typologie)))];
 
   const filtered = useMemo(
     () =>
@@ -31,14 +33,14 @@ function ProjetsPage() {
           p.ticketMinimum <= ticketMax &&
           p.rendementCible >= rendementMin,
       ),
-    [ville, typologie, statut, ticketMax, rendementMin],
+    [ville, typologie, statut, ticketMax, rendementMin, projects],
   );
 
   return (
     <>
       <PageHeader
         title="Catalogue de projets"
-        description={`${filtered.length} projets disponibles à l'investissement.`}
+        description={isLoading ? "Chargement..." : `${filtered.length} projets disponibles à l'investissement.`}
       />
 
       <div className="grid gap-6 lg:grid-cols-[280px_1fr]">

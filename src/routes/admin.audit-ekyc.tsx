@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Download, Search, ShieldCheck, Upload, UserCheck, Camera, AlertCircle, Filter } from "lucide-react";
 
 import { PageHeader } from "@/components/AppShell";
-import { auditLogs } from "@/lib/mock-data";
+import { useAuditLogs } from "@/hooks/use-queries";
 
 export const Route = createFileRoute("/admin/audit-ekyc")({
   component: AuditEkycPage,
@@ -19,6 +19,7 @@ const ekycDossiers = [
 function AuditEkycPage() {
   const [tab, setTab] = useState<"audit" | "ekyc">("audit");
   const [search, setSearch] = useState("");
+  const { data: auditLogs = [] } = useAuditLogs();
 
   return (
     <>

@@ -245,39 +245,152 @@ function CategoryCard({
   );
 }
 
-function ProjectSection({
-  eyebrow,
-  title,
-  items,
-  ctaLabel,
+const interets = [
+  "Immobilier",
+  "Monnaie virtuelle & Crypto",
+  "Startup & Affaires",
+  "Solidaire",
+  "Crowdfunding",
+  "Produit de forte valeur",
+];
+
+function InterestForm() {
+  const [sent, setSent] = useState(false);
+  const [selected, setSelected] = useState<string[]>([]);
+
+  const toggle = (v: string) =>
+    setSelected((s) => (s.includes(v) ? s.filter((x) => x !== v) : [...s, v]));
+
+  return (
+    <section className="bg-surface-low">
+      <div className="mx-auto max-w-[1280px] px-4 py-20 sm:px-10">
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+          <div>
+            <p className="label-sm text-primary">Rejoignez-nous</p>
+            <h2 className="headline-lg mt-2 text-on-surface">
+              Dites-nous ce qui vous intéresse
+            </h2>
+            <p className="mt-3 max-w-md text-on-surface-variant">
+              Laissez vos coordonnées et vos centres d'intérêt : notre équipe vous
+              envoie en priorité les opportunités correspondant à votre profil.
+            </p>
+          </div>
+
+          <div className="card-elevated bg-surface-lowest p-6 sm:p-8">
+            {sent ? (
+              <div className="flex flex-col items-center gap-3 py-10 text-center">
+                <CheckCircle2 className="h-10 w-10 text-primary" />
+                <h3 className="headline-md text-on-surface">Merci !</h3>
+                <p className="text-sm text-on-surface-variant">
+                  Votre demande a bien été enregistrée. Nous vous recontactons
+                  très prochainement.
+                </p>
+              </div>
+            ) : (
+              <form
+                className="grid gap-4"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setSent(true);
+                }}
+              >
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Field label="Nom complet" name="nom" placeholder="Amine El Mansouri" />
+                  <Field label="E-mail" name="email" type="email" placeholder="vous@exemple.ma" />
+                  <Field label="Téléphone" name="tel" type="tel" placeholder="+212 6 00 00 00 00" />
+                  <div>
+                    <label className="label-sm text-on-surface-variant" htmlFor="profil">
+                      Je suis
+                    </label>
+                    <select
+                      id="profil"
+                      name="profil"
+                      className="mt-2 w-full rounded-md border border-outline-variant bg-surface-lowest px-3 py-2 text-sm text-on-surface focus:border-primary focus:outline-none"
+                    >
+                      <option>Investisseur</option>
+                      <option>Porteur de projet</option>
+                      <option>Partenaire</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="label-sm text-on-surface-variant">Centres d'intérêt</p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {interets.map((i) => {
+                      const on = selected.includes(i);
+                      return (
+                        <button
+                          type="button"
+                          key={i}
+                          onClick={() => toggle(i)}
+                          className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+                            on
+                              ? "border-primary bg-primary text-on-primary"
+                              : "border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary"
+                          }`}
+                        >
+                          {i}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="label-sm text-on-surface-variant" htmlFor="message">
+                    Message (optionnel)
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={3}
+                    placeholder="Montant envisagé, horizon d'investissement…"
+                    className="mt-2 w-full rounded-md border border-outline-variant bg-surface-lowest px-3 py-2 text-sm text-on-surface focus:border-primary focus:outline-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="mt-2 flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-on-primary transition-colors hover:opacity-90"
+                >
+                  Envoyer ma demande
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Field({
+  label,
+  name,
+  type = "text",
+  placeholder,
 }: {
-  eyebrow: string;
-  title: string;
-  items: Project[];
-  ctaLabel?: string;
+  label: string;
+  name: string;
+  type?: string;
+  placeholder?: string;
 }) {
   return (
-    <div className="mx-auto max-w-[1280px] px-4 py-16 sm:px-10">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="label-sm text-primary">{eyebrow}</p>
-          <h2 className="headline-lg mt-2 text-on-surface">{title}</h2>
-        </div>
-        {ctaLabel && (
-          <Link
-            to="/projets"
-            className="flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
-          >
-            {ctaLabel}
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        )}
-      </div>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {items.slice(0, 3).map((p) => (
-          <ProjectCard key={p.id} project={p} />
-        ))}
-      </div>
+    <div>
+      <label className="label-sm text-on-surface-variant" htmlFor={name}>
+        {label}
+      </label>
+      <input
+        id={name}
+        name={name}
+        type={type}
+        required={type !== "tel"}
+        placeholder={placeholder}
+        className="mt-2 w-full rounded-md border border-outline-variant bg-surface-lowest px-3 py-2 text-sm text-on-surface focus:border-primary focus:outline-none"
+      />
     </div>
   );
 }
+

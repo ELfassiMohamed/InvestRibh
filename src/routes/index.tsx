@@ -1,16 +1,26 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Building2, Bitcoin, Rocket, Briefcase, TrendingUp, ShieldCheck } from "lucide-react";
+import { useState } from "react";
+import {
+  ArrowRight,
+  Building2,
+  Bitcoin,
+  Rocket,
+  HeartHandshake,
+  Users,
+  Gem,
+  TrendingUp,
+  CheckCircle2,
+} from "lucide-react";
 import { TopUtilityBar } from "@/components/TopUtilityBar";
 import { HeroSearch } from "@/components/HeroSearch";
-import { ProjectCard } from "@/components/ProjectCard";
-import { useProjects } from "@/hooks/use-queries";
-import type { Project } from "@/lib/mock-data";
 
 import heroImage from "@/assets/hero-place2invest.jpg";
 import catImmobilier from "@/assets/cat-immobilier.jpg";
 import catCrypto from "@/assets/cat-crypto.jpg";
 import catStartup from "@/assets/cat-startup.jpg";
-import catAffaires from "@/assets/cat-affaires.jpg";
+import catSolidaire from "@/assets/cat-solidaire.jpg";
+import catCrowdfunding from "@/assets/cat-crowdfunding.jpg";
+import catValeur from "@/assets/cat-valeur.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -19,8 +29,16 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Place2Invest est votre plateforme digitale pour diversifier vos investissements : immobilier, startups, art, crypto et talent.",
+          "Place2Invest est votre plateforme digitale pour diversifier vos investissements : immobilier, startups, crypto, solidaire, crowdfunding et produits de forte valeur.",
       },
+      { property: "og:title", content: "Place2Invest — Investissez dans le futur" },
+      {
+        property: "og:description",
+        content:
+          "Diversifiez vos investissements au Maroc : immobilier, crypto, startups, solidaire, crowdfunding et produits de forte valeur.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: HomePage,
@@ -30,7 +48,9 @@ const categories = [
   { label: "Immobilier", to: "/projets" as const, icon: Building2, image: catImmobilier },
   { label: "Monnaie virtuelle & Crypto", to: "/projets" as const, icon: Bitcoin, image: catCrypto },
   { label: "Startup & Affaires", to: "/projets" as const, icon: Rocket, image: catStartup },
-  { label: "Espace affaires", to: "/porteur-de-projet" as const, icon: Briefcase, image: catAffaires },
+  { label: "Solidaire", to: "/projets" as const, icon: HeartHandshake, image: catSolidaire },
+  { label: "Crowdfunding", to: "/projets" as const, icon: Users, image: catCrowdfunding },
+  { label: "Produit de forte valeur", to: "/projets" as const, icon: Gem, image: catValeur },
 ];
 
 const espaces = [
@@ -39,7 +59,8 @@ const espaces = [
     label: "Espace Investisseur",
     titre: "Diversifiez votre patrimoine",
     description:
-      "Tableau de bord temps réel, simulateur de ROI fiscal marocain, portefeuille consolidé.",
+      "Tableau de bord temps réel, simulateur de ROI fiscal marocain et portefeuille consolidé.",
+    points: ["Opportunités qualifiées", "Suivi de performance", "Simulateur fiscal MA"],
     icon: TrendingUp,
   },
   {
@@ -47,23 +68,15 @@ const espaces = [
     label: "Espace Porteur de Projet",
     titre: "Levez les fonds de votre opération",
     description:
-      "Soumission de dossier guidée, suivi de collecte et de chantier transparents.",
+      "Soumission de dossier guidée, suivi de collecte et avancement de chantier transparents.",
+    points: ["Dossier guidé", "Collecte en direct", "Reporting investisseurs"],
     icon: Building2,
-  },
-  {
-    to: "/admin" as const,
-    label: "Espace Conformité",
-    titre: "Supervision et conformité AMMC",
-    description:
-      "Validation IA des dossiers, eKYC Bank Al-Maghrib, journal d'audit complet.",
-    icon: ShieldCheck,
   },
 ];
 
+
 function HomePage() {
-  const { data: projects = [] } = useProjects();
-  const enCollecte = projects.filter((p) => p.statut === "En collecte");
-  const featured = projects.filter((p) => p.featured);
+
 
   return (
     <div className="min-h-screen bg-surface">
@@ -130,24 +143,43 @@ function HomePage() {
         </div>
       </div>
 
-      {/* 3 espaces */}
+      {/* Nos espaces */}
       <section className="mx-auto max-w-[1280px] px-4 py-20 sm:px-10">
-        <div className="mb-10">
+        <div className="mb-10 max-w-2xl">
           <p className="label-sm text-primary">Nos espaces</p>
-          <h2 className="headline-lg mt-2 text-on-surface">Une plateforme, trois métiers</h2>
+          <h2 className="headline-lg mt-2 text-on-surface">
+            Deux façons de faire grandir votre projet
+          </h2>
+          <p className="mt-3 text-on-surface-variant">
+            Que vous cherchiez à placer votre épargne ou à financer votre
+            opération, votre espace dédié vous attend.
+          </p>
         </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {espaces.map(({ to, label, titre, description, icon: Icon }) => (
-            <Link key={to} to={to} className="card-elevated group flex flex-col gap-4 p-6 hover:card-elevated-hover">
-              <div className="grid h-12 w-12 place-items-center rounded-xl bg-primary text-on-primary">
-                <Icon className="h-6 w-6" />
+        <div className="grid gap-6 md:grid-cols-2">
+          {espaces.map(({ to, label, titre, description, points, icon: Icon }) => (
+            <Link
+              key={to}
+              to={to}
+              className="card-elevated group relative flex flex-col gap-5 overflow-hidden bg-surface-lowest p-8 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
+            >
+              <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/10 transition-transform duration-500 group-hover:scale-150" />
+              <div className="relative grid h-14 w-14 place-items-center rounded-2xl bg-primary text-on-primary">
+                <Icon className="h-7 w-7" />
               </div>
-              <div>
+              <div className="relative">
                 <p className="label-sm text-on-surface-variant">{label}</p>
                 <h3 className="headline-md mt-1.5 text-on-surface">{titre}</h3>
                 <p className="mt-2 text-sm text-on-surface-variant">{description}</p>
               </div>
-              <span className="mt-auto flex items-center gap-1.5 text-sm font-semibold text-primary">
+              <ul className="relative space-y-2">
+                {points.map((pt) => (
+                  <li key={pt} className="flex items-center gap-2 text-sm text-on-surface">
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+              <span className="relative mt-auto inline-flex w-fit items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary">
                 Accéder à l'espace
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </span>
@@ -156,11 +188,9 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Projects */}
-      <ProjectSection eyebrow="En ce moment" title="Projets en collecte" items={enCollecte} ctaLabel="Voir tous les projets" />
-      <section className="bg-surface-low">
-        <ProjectSection eyebrow="Coups de cœur" title="Sélection de l'équipe" items={featured} />
-      </section>
+      {/* Formulaire d'intérêt */}
+      <InterestForm />
+
 
       {/* Footer */}
       <footer className="bg-inverse-surface text-inverse-on-surface">
@@ -230,39 +260,152 @@ function CategoryCard({
   );
 }
 
-function ProjectSection({
-  eyebrow,
-  title,
-  items,
-  ctaLabel,
+const interets = [
+  "Immobilier",
+  "Monnaie virtuelle & Crypto",
+  "Startup & Affaires",
+  "Solidaire",
+  "Crowdfunding",
+  "Produit de forte valeur",
+];
+
+function InterestForm() {
+  const [sent, setSent] = useState(false);
+  const [selected, setSelected] = useState<string[]>([]);
+
+  const toggle = (v: string) =>
+    setSelected((s) => (s.includes(v) ? s.filter((x) => x !== v) : [...s, v]));
+
+  return (
+    <section className="bg-surface-low">
+      <div className="mx-auto max-w-[1280px] px-4 py-20 sm:px-10">
+        <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+          <div>
+            <p className="label-sm text-primary">Rejoignez-nous</p>
+            <h2 className="headline-lg mt-2 text-on-surface">
+              Dites-nous ce qui vous intéresse
+            </h2>
+            <p className="mt-3 max-w-md text-on-surface-variant">
+              Laissez vos coordonnées et vos centres d'intérêt : notre équipe vous
+              envoie en priorité les opportunités correspondant à votre profil.
+            </p>
+          </div>
+
+          <div className="card-elevated bg-surface-lowest p-6 sm:p-8">
+            {sent ? (
+              <div className="flex flex-col items-center gap-3 py-10 text-center">
+                <CheckCircle2 className="h-10 w-10 text-primary" />
+                <h3 className="headline-md text-on-surface">Merci !</h3>
+                <p className="text-sm text-on-surface-variant">
+                  Votre demande a bien été enregistrée. Nous vous recontactons
+                  très prochainement.
+                </p>
+              </div>
+            ) : (
+              <form
+                className="grid gap-4"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setSent(true);
+                }}
+              >
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <Field label="Nom complet" name="nom" placeholder="Amine El Mansouri" />
+                  <Field label="E-mail" name="email" type="email" placeholder="vous@exemple.ma" />
+                  <Field label="Téléphone" name="tel" type="tel" placeholder="+212 6 00 00 00 00" />
+                  <div>
+                    <label className="label-sm text-on-surface-variant" htmlFor="profil">
+                      Je suis
+                    </label>
+                    <select
+                      id="profil"
+                      name="profil"
+                      className="mt-2 w-full rounded-md border border-outline-variant bg-surface-lowest px-3 py-2 text-sm text-on-surface focus:border-primary focus:outline-none"
+                    >
+                      <option>Investisseur</option>
+                      <option>Porteur de projet</option>
+                      <option>Partenaire</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="label-sm text-on-surface-variant">Centres d'intérêt</p>
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {interets.map((i) => {
+                      const on = selected.includes(i);
+                      return (
+                        <button
+                          type="button"
+                          key={i}
+                          onClick={() => toggle(i)}
+                          className={`rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+                            on
+                              ? "border-primary bg-primary text-on-primary"
+                              : "border-outline-variant text-on-surface-variant hover:border-primary hover:text-primary"
+                          }`}
+                        >
+                          {i}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="label-sm text-on-surface-variant" htmlFor="message">
+                    Message (optionnel)
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={3}
+                    placeholder="Montant envisagé, horizon d'investissement…"
+                    className="mt-2 w-full rounded-md border border-outline-variant bg-surface-lowest px-3 py-2 text-sm text-on-surface focus:border-primary focus:outline-none"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="mt-2 flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-on-primary transition-colors hover:opacity-90"
+                >
+                  Envoyer ma demande
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Field({
+  label,
+  name,
+  type = "text",
+  placeholder,
 }: {
-  eyebrow: string;
-  title: string;
-  items: Project[];
-  ctaLabel?: string;
+  label: string;
+  name: string;
+  type?: string;
+  placeholder?: string;
 }) {
   return (
-    <div className="mx-auto max-w-[1280px] px-4 py-16 sm:px-10">
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="label-sm text-primary">{eyebrow}</p>
-          <h2 className="headline-lg mt-2 text-on-surface">{title}</h2>
-        </div>
-        {ctaLabel && (
-          <Link
-            to="/projets"
-            className="flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline"
-          >
-            {ctaLabel}
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        )}
-      </div>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {items.slice(0, 3).map((p) => (
-          <ProjectCard key={p.id} project={p} />
-        ))}
-      </div>
+    <div>
+      <label className="label-sm text-on-surface-variant" htmlFor={name}>
+        {label}
+      </label>
+      <input
+        id={name}
+        name={name}
+        type={type}
+        required={type !== "tel"}
+        placeholder={placeholder}
+        className="mt-2 w-full rounded-md border border-outline-variant bg-surface-lowest px-3 py-2 text-sm text-on-surface focus:border-primary focus:outline-none"
+      />
     </div>
   );
 }
+

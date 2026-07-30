@@ -143,24 +143,43 @@ function HomePage() {
         </div>
       </div>
 
-      {/* 3 espaces */}
+      {/* Nos espaces */}
       <section className="mx-auto max-w-[1280px] px-4 py-20 sm:px-10">
-        <div className="mb-10">
+        <div className="mb-10 max-w-2xl">
           <p className="label-sm text-primary">Nos espaces</p>
-          <h2 className="headline-lg mt-2 text-on-surface">Une plateforme, trois métiers</h2>
+          <h2 className="headline-lg mt-2 text-on-surface">
+            Deux façons de faire grandir votre projet
+          </h2>
+          <p className="mt-3 text-on-surface-variant">
+            Que vous cherchiez à placer votre épargne ou à financer votre
+            opération, votre espace dédié vous attend.
+          </p>
         </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {espaces.map(({ to, label, titre, description, icon: Icon }) => (
-            <Link key={to} to={to} className="card-elevated group flex flex-col gap-4 p-6 hover:card-elevated-hover">
-              <div className="grid h-12 w-12 place-items-center rounded-xl bg-primary text-on-primary">
-                <Icon className="h-6 w-6" />
+        <div className="grid gap-6 md:grid-cols-2">
+          {espaces.map(({ to, label, titre, description, points, icon: Icon }) => (
+            <Link
+              key={to}
+              to={to}
+              className="card-elevated group relative flex flex-col gap-5 overflow-hidden bg-surface-lowest p-8 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
+            >
+              <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/10 transition-transform duration-500 group-hover:scale-150" />
+              <div className="relative grid h-14 w-14 place-items-center rounded-2xl bg-primary text-on-primary">
+                <Icon className="h-7 w-7" />
               </div>
-              <div>
+              <div className="relative">
                 <p className="label-sm text-on-surface-variant">{label}</p>
                 <h3 className="headline-md mt-1.5 text-on-surface">{titre}</h3>
                 <p className="mt-2 text-sm text-on-surface-variant">{description}</p>
               </div>
-              <span className="mt-auto flex items-center gap-1.5 text-sm font-semibold text-primary">
+              <ul className="relative space-y-2">
+                {points.map((pt) => (
+                  <li key={pt} className="flex items-center gap-2 text-sm text-on-surface">
+                    <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+              <span className="relative mt-auto inline-flex w-fit items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary">
                 Accéder à l'espace
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </span>
@@ -169,11 +188,9 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Projects */}
-      <ProjectSection eyebrow="En ce moment" title="Projets en collecte" items={enCollecte} ctaLabel="Voir tous les projets" />
-      <section className="bg-surface-low">
-        <ProjectSection eyebrow="Coups de cœur" title="Sélection de l'équipe" items={featured} />
-      </section>
+      {/* Formulaire d'intérêt */}
+      <InterestForm />
+
 
       {/* Footer */}
       <footer className="bg-inverse-surface text-inverse-on-surface">

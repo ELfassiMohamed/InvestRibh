@@ -1,16 +1,26 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Building2, Bitcoin, Rocket, Briefcase, TrendingUp, ShieldCheck } from "lucide-react";
+import { useState } from "react";
+import {
+  ArrowRight,
+  Building2,
+  Bitcoin,
+  Rocket,
+  HeartHandshake,
+  Users,
+  Gem,
+  TrendingUp,
+  CheckCircle2,
+} from "lucide-react";
 import { TopUtilityBar } from "@/components/TopUtilityBar";
 import { HeroSearch } from "@/components/HeroSearch";
-import { ProjectCard } from "@/components/ProjectCard";
-import { useProjects } from "@/hooks/use-queries";
-import type { Project } from "@/lib/mock-data";
 
 import heroImage from "@/assets/hero-place2invest.jpg";
 import catImmobilier from "@/assets/cat-immobilier.jpg";
 import catCrypto from "@/assets/cat-crypto.jpg";
 import catStartup from "@/assets/cat-startup.jpg";
-import catAffaires from "@/assets/cat-affaires.jpg";
+import catSolidaire from "@/assets/cat-solidaire.jpg";
+import catCrowdfunding from "@/assets/cat-crowdfunding.jpg";
+import catValeur from "@/assets/cat-valeur.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -19,8 +29,16 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Place2Invest est votre plateforme digitale pour diversifier vos investissements : immobilier, startups, art, crypto et talent.",
+          "Place2Invest est votre plateforme digitale pour diversifier vos investissements : immobilier, startups, crypto, solidaire, crowdfunding et produits de forte valeur.",
       },
+      { property: "og:title", content: "Place2Invest — Investissez dans le futur" },
+      {
+        property: "og:description",
+        content:
+          "Diversifiez vos investissements au Maroc : immobilier, crypto, startups, solidaire, crowdfunding et produits de forte valeur.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: HomePage,
@@ -30,7 +48,9 @@ const categories = [
   { label: "Immobilier", to: "/projets" as const, icon: Building2, image: catImmobilier },
   { label: "Monnaie virtuelle & Crypto", to: "/projets" as const, icon: Bitcoin, image: catCrypto },
   { label: "Startup & Affaires", to: "/projets" as const, icon: Rocket, image: catStartup },
-  { label: "Espace affaires", to: "/porteur-de-projet" as const, icon: Briefcase, image: catAffaires },
+  { label: "Solidaire", to: "/projets" as const, icon: HeartHandshake, image: catSolidaire },
+  { label: "Crowdfunding", to: "/projets" as const, icon: Users, image: catCrowdfunding },
+  { label: "Produit de forte valeur", to: "/projets" as const, icon: Gem, image: catValeur },
 ];
 
 const espaces = [
@@ -39,7 +59,8 @@ const espaces = [
     label: "Espace Investisseur",
     titre: "Diversifiez votre patrimoine",
     description:
-      "Tableau de bord temps réel, simulateur de ROI fiscal marocain, portefeuille consolidé.",
+      "Tableau de bord temps réel, simulateur de ROI fiscal marocain et portefeuille consolidé.",
+    points: ["Opportunités qualifiées", "Suivi de performance", "Simulateur fiscal MA"],
     icon: TrendingUp,
   },
   {
@@ -47,18 +68,12 @@ const espaces = [
     label: "Espace Porteur de Projet",
     titre: "Levez les fonds de votre opération",
     description:
-      "Soumission de dossier guidée, suivi de collecte et de chantier transparents.",
+      "Soumission de dossier guidée, suivi de collecte et avancement de chantier transparents.",
+    points: ["Dossier guidé", "Collecte en direct", "Reporting investisseurs"],
     icon: Building2,
   },
-  {
-    to: "/admin" as const,
-    label: "Espace Conformité",
-    titre: "Supervision et conformité AMMC",
-    description:
-      "Validation IA des dossiers, eKYC Bank Al-Maghrib, journal d'audit complet.",
-    icon: ShieldCheck,
-  },
 ];
+
 
 function HomePage() {
   const { data: projects = [] } = useProjects();

@@ -76,9 +76,7 @@ const espaces = [
 
 
 function HomePage() {
-  const { data: projects = [] } = useProjects();
-  const enCollecte = projects.filter((p) => p.statut === "En collecte");
-  const featured = projects.filter((p) => p.featured);
+
 
   return (
     <div className="min-h-screen bg-surface">

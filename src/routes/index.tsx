@@ -64,6 +64,7 @@ const espaces = [
       "Tableau de bord temps réel, simulateur de ROI fiscal marocain et portefeuille consolidé.",
     points: ["Opportunités qualifiées", "Suivi de performance", "Simulateur fiscal MA"],
     icon: TrendingUp,
+    image: espaceInvestisseurImg,
   },
   {
     to: "/porteur-de-projet" as const,
@@ -73,6 +74,7 @@ const espaces = [
       "Soumission de dossier guidée, suivi de collecte et avancement de chantier transparents.",
     points: ["Dossier guidé", "Collecte en direct", "Reporting investisseurs"],
     icon: Building2,
+    image: espacePorteurImg,
   },
 ];
 

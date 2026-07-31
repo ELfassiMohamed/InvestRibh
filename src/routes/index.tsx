@@ -21,6 +21,8 @@ import catStartup from "@/assets/cat-startup.jpg";
 import catSolidaire from "@/assets/cat-solidaire.jpg";
 import catCrowdfunding from "@/assets/cat-crowdfunding.jpg";
 import catValeur from "@/assets/cat-valeur.jpg";
+import espaceInvestisseurImg from "@/assets/espace-investisseur.jpg";
+import espacePorteurImg from "@/assets/espace-porteur.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({

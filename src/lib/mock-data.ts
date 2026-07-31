@@ -172,31 +172,6 @@ export const projects: Project[] = [
     ],
     pointsVigilance: ["Cycle court, sensible à la conjoncture locale."],
   },
-  {
-    id: "fes-medina-restauration",
-    nom: "Médina de Fès — Riad Patrimoine",
-    ville: "Fès",
-    typologie: "Projets neufs en collecte",
-    image: img("photo-1582719478250-c89cae4dc85b"),
-    description:
-      "Restauration de 4 riads classés transformés en maison d'hôtes de luxe, partenariat avec opérateur hôtelier.",
-    budgetTotal: 21_500_000,
-    montantCollecte: 4_200_000,
-    objectifCollecte: 16_000_000,
-    ticketMinimum: 7_500,
-    rendementCible: 10.1,
-    dureeMois: 60,
-    scoreRisque: 68,
-    scoreLabel: "Modéré",
-    statut: "En collecte",
-    investisseurs: 89,
-    joursRestants: 45,
-    pointsForts: [
-      "Subvention du ministère de la Culture sécurisée (12 %).",
-      "Opérateur hôtelier confirmé sur 9 ans.",
-    ],
-    pointsVigilance: ["Travaux en zone classée : délais administratifs."],
-  },
 ];
 
 export interface Holding {
@@ -260,7 +235,6 @@ export const transactions: Transaction[] = [
   { id: "TX-2026-0376", date: "2026-05-28", type: "Dépôt", reference: "DEP-VIR-08821", montant: 50_000, statut: "Confirmé" },
   { id: "TX-2026-0341", date: "2026-05-12", type: "Dividende", reference: "DVD-Q2-CAR", montant: 3_180, projet: "Anfa Park Résidences", statut: "Confirmé" },
   { id: "TX-2026-0287", date: "2026-04-22", type: "Retrait", reference: "RET-BNK-00214", montant: -15_000, statut: "Confirmé" },
-  { id: "TX-2026-0264", date: "2026-04-10", type: "Investissement", reference: "INV-TML-118", montant: -100_000, projet: "Tanger Med Logistique Phase II", statut: "Confirmé" },
 ];
 
 export interface DistributionEvent {
@@ -323,8 +297,6 @@ export const sitePhases: SitePhase[] = [
   { nom: "Gros œuvre — RDC", avancement: 100, dateDebut: "2026-01-10", dateFinPrevue: "2026-04-15", statut: "Terminée" },
   { nom: "Gros œuvre — R+1 à R+3", avancement: 72, dateDebut: "2026-04-20", dateFinPrevue: "2026-09-30", statut: "En cours" },
   { nom: "Couverture & étanchéité", avancement: 15, dateDebut: "2026-08-01", dateFinPrevue: "2026-10-30", statut: "En cours" },
-  { nom: "Second œuvre & finitions", avancement: 0, dateDebut: "2026-11-01", dateFinPrevue: "2027-04-30", statut: "À venir" },
-  { nom: "Livraison & VEFA", avancement: 0, dateDebut: "2027-05-01", dateFinPrevue: "2027-06-30", statut: "À venir" },
 ];
 
 export interface SiteUpdate {
@@ -370,13 +342,6 @@ export const siteUpdates: SiteUpdate[] = [
     titre: "Livraison des menuiseries aluminium",
     description: "Réception des menuiseries Aluminium-Tremie 4500 séries. Conformes au CCTP. Stockage en zone sécurisée. Pose programmée après l'étanchéité (semaine 32).",
     image: img("photo-1541888946425-d81bb19240f5"),
-  },
-  {
-    id: "UPD-016",
-    date: "2026-04-25",
-    titre: "Contrôle Bureau Veritas — RDC et R+1",
-    description: "Visite inopinée de Bureau Veritas. Contrôle structurel des niveaux RDC et R+1 conclu sans réserve majeure. Deux observations mineures sur les joints de dilatation.",
-    image: img("photo-1581094288338-2314dddb7ece"),
   },
 ];
 
@@ -462,7 +427,6 @@ export const platformUsers: PlatformUser[] = [
   { id: "U-2018", nom: "Atlas Promotion SARL", email: "contact@atlas-promotion.ma", role: "Porteur de Projet", statut: "Actif", dateInscription: "2024-03-22", cin: "RC-128409", rib: "164 320 0011223344556677 88" },
   { id: "U-2034", nom: "MZN Real Estate", email: "ops@mzn-re.ma", role: "Porteur de Projet", statut: "Suspendu", dateInscription: "2025-11-30", cin: "RC-204871", rib: "190 450 0044556677889900 12" },
   { id: "U-3001", nom: "Salma Ouazzani", email: "s.ouazzani@plateforme.ma", role: "Agent Conformité", statut: "Actif", dateInscription: "2024-01-08", cin: "BJ112090", rib: "—" },
-  { id: "U-9001", nom: "Mehdi Tahiri", email: "m.tahiri@plateforme.ma", role: "Super Admin", statut: "Actif", dateInscription: "2023-06-01", cin: "BK998120", rib: "—" },
 ];
 
 export interface AuditLog {
@@ -481,7 +445,6 @@ export const auditLogs: AuditLog[] = [
   { id: "LOG-91220", horodatage: "2026-06-18 09:04:15", utilisateur: "Salma Ouazzani", role: "Agent Conformité", action: "Rejet document", entite: "U-1056", ip: "196.200.144.18" },
   { id: "LOG-91201", horodatage: "2026-06-17 16:51:33", utilisateur: "Système IA", role: "Super Admin", action: "Analyse documentaire", entite: "SUB-2026-031", ip: "—" },
   { id: "LOG-91188", horodatage: "2026-06-17 10:22:09", utilisateur: "Mehdi Tahiri", role: "Super Admin", action: "Suspension compte", entite: "U-2034", ip: "196.200.144.21" },
-  { id: "LOG-91174", horodatage: "2026-06-16 18:09:55", utilisateur: "Yasmine El Idrissi", role: "Investisseur", action: "Investissement confirmé", entite: "agadir-marina-lots", ip: "105.66.12.88" },
 ];
 
 export const getProject = (id: string) => projects.find((p) => p.id === id);

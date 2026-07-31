@@ -21,6 +21,8 @@ import catStartup from "@/assets/cat-startup.jpg";
 import catSolidaire from "@/assets/cat-solidaire.jpg";
 import catCrowdfunding from "@/assets/cat-crowdfunding.jpg";
 import catValeur from "@/assets/cat-valeur.jpg";
+import espaceInvestisseurImg from "@/assets/espace-investisseur.jpg";
+import espacePorteurImg from "@/assets/espace-porteur.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -62,6 +64,7 @@ const espaces = [
       "Tableau de bord temps réel, simulateur de ROI fiscal marocain et portefeuille consolidé.",
     points: ["Opportunités qualifiées", "Suivi de performance", "Simulateur fiscal MA"],
     icon: TrendingUp,
+    image: espaceInvestisseurImg,
   },
   {
     to: "/porteur-de-projet" as const,
@@ -71,6 +74,7 @@ const espaces = [
       "Soumission de dossier guidée, suivi de collecte et avancement de chantier transparents.",
     points: ["Dossier guidé", "Collecte en direct", "Reporting investisseurs"],
     icon: Building2,
+    image: espacePorteurImg,
   },
 ];
 
@@ -134,7 +138,7 @@ function HomePage() {
         {/* Category grid — overlapping hero bottom */}
         <div className="relative z-10 -mt-40 sm:-mt-44 lg:-mt-48">
           <div className="mx-auto max-w-[1280px] px-4 sm:px-10">
-            <div className="grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 md:grid-cols-3">
               {categories.map((c) => (
                 <CategoryCard key={c.label} {...c} />
               ))}
@@ -156,33 +160,45 @@ function HomePage() {
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
-          {espaces.map(({ to, label, titre, description, points, icon: Icon }) => (
+          {espaces.map(({ to, label, titre, description, points, icon: Icon, image }) => (
             <Link
               key={to}
               to={to}
-              className="card-elevated group relative flex flex-col gap-5 overflow-hidden bg-surface-lowest p-8 transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
+              className="card-elevated group relative flex flex-col overflow-hidden bg-surface-lowest transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
             >
-              <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-primary/10 transition-transform duration-500 group-hover:scale-150" />
-              <div className="relative grid h-14 w-14 place-items-center rounded-2xl bg-primary text-on-primary">
-                <Icon className="h-7 w-7" />
+              <div className="relative aspect-[16/8] w-full overflow-hidden">
+                <img
+                  src={image}
+                  alt={label}
+                  loading="lazy"
+                  width={1024}
+                  height={640}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-on-surface/50 to-transparent" />
+                <div className="absolute bottom-4 left-6 grid h-12 w-12 place-items-center rounded-2xl bg-primary text-on-primary shadow-elevated">
+                  <Icon className="h-6 w-6" />
+                </div>
               </div>
-              <div className="relative">
-                <p className="label-sm text-on-surface-variant">{label}</p>
-                <h3 className="headline-md mt-1.5 text-on-surface">{titre}</h3>
-                <p className="mt-2 text-sm text-on-surface-variant">{description}</p>
+              <div className="flex flex-1 flex-col gap-5 p-8">
+                <div>
+                  <p className="label-sm text-on-surface-variant">{label}</p>
+                  <h3 className="headline-md mt-1.5 text-on-surface">{titre}</h3>
+                  <p className="mt-2 text-sm text-on-surface-variant">{description}</p>
+                </div>
+                <ul className="space-y-2">
+                  {points.map((pt) => (
+                    <li key={pt} className="flex items-center gap-2 text-sm text-on-surface">
+                      <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+                <span className="mt-auto inline-flex w-fit items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary">
+                  Accéder à l'espace
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
               </div>
-              <ul className="relative space-y-2">
-                {points.map((pt) => (
-                  <li key={pt} className="flex items-center gap-2 text-sm text-on-surface">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
-                    {pt}
-                  </li>
-                ))}
-              </ul>
-              <span className="relative mt-auto inline-flex w-fit items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary">
-                Accéder à l'espace
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </span>
             </Link>
           ))}
         </div>

@@ -27,7 +27,7 @@ import espacePorteurImg from "@/assets/espace-porteur.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Place2Invest — Investissez dans le futur, aujourd'hui." },
+      { title: "Place2Invest" },
       {
         name: "description",
         content:

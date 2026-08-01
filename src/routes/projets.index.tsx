@@ -5,12 +5,22 @@ import { Filter, ArrowLeft, User } from "lucide-react";
 import { ProjectCard } from "@/components/ProjectCard";
 import logoImage from "@/assets/place2invest_logo.png";
 import { useProjects } from "@/hooks/use-queries";
+import type { Project, ProjectCategorie } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/projets/")({
   component: PublicProjetsPage,
 });
 
 const statuts = ["Tous", "En collecte", "Financé", "En construction", "Livré"];
+
+const sectionOrder: ProjectCategorie[] = [
+  "Immobilier",
+  "Crypto",
+  "Startup & Affaires",
+  "Solidaire",
+  "Crowdfunding",
+  "Produit de forte valeur",
+];
 
 function PublicProjetsPage() {
   const { data: projects = [], isLoading } = useProjects();
@@ -35,6 +45,18 @@ function PublicProjetsPage() {
       ),
     [ville, typologie, statut, ticketMax, rendementMin, projects],
   );
+
+  const grouped = useMemo(() => {
+    const sections = new Map<ProjectCategorie, Project[]>();
+    for (const p of filtered) {
+      const cat = (p.categorie as ProjectCategorie) ?? "Immobilier";
+      if (!sections.has(cat)) sections.set(cat, []);
+      sections.get(cat)!.push(p);
+    }
+    return sectionOrder
+      .filter((cat) => sections.has(cat))
+      .map((cat) => ({ categorie: cat, items: sections.get(cat)!.slice(0, 6) }));
+  }, [filtered]);
 
   return (
     <div className="min-h-screen bg-surface">
@@ -132,17 +154,33 @@ function PublicProjetsPage() {
             </button>
           </aside>
 
-          <div>
+          <div className="space-y-12">
             {filtered.length === 0 ? (
               <div className="card-elevated p-12 text-center text-on-surface-variant">
                 Aucun projet ne correspond à ces critères.
               </div>
             ) : (
-              <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                {filtered.map((p) => (
-                  <ProjectCard key={p.id} project={p} />
-                ))}
-              </div>
+              grouped.map(({ categorie, items }) => (
+                <section key={categorie}>
+                  <div className="mb-5 flex items-end justify-between gap-4">
+                    <div>
+                      <h2 className="headline-md text-on-surface">{categorie}</h2>
+                      <p className="mt-1 text-sm text-on-surface-variant">
+                        {items.length} projet{items.length > 1 ? "s" : ""} disponible
+                        {items.length > 1 ? "s" : ""} à l'investissement.
+                      </p>
+                    </div>
+                    <span className="label-sm rounded-full bg-primary/10 px-3 py-1 text-primary">
+                      {items.length}/6
+                    </span>
+                  </div>
+                  <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                    {items.map((p) => (
+                      <ProjectCard key={p.id} project={p} />
+                    ))}
+                  </div>
+                </section>
+              ))
             )}
           </div>
         </div>

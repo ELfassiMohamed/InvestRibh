@@ -17,6 +17,7 @@ import {
   type PlatformUser,
   type PortfolioPoint,
   type Project,
+  type ProjectCategorie,
   type ProjectType,
   type SitePhase,
   type SiteUpdate,
@@ -25,7 +26,7 @@ import {
   type UserRole,
 } from "@/lib/mock-data";
 
-const STORAGE_KEY = "place2invest_demo_store_v1";
+const STORAGE_KEY = "place2invest_demo_store_v2";
 const DEFAULT_INVESTOR_ID = "U-1042";
 const DEFAULT_PORTEUR_ID = "U-2018";
 const DEFAULT_PROJECT_IMAGE =
@@ -36,6 +37,7 @@ const DEFAULT_UPDATE_IMAGE =
 export interface ProjectInput {
   nom: string;
   ville: string;
+  categorie?: ProjectCategorie;
   typologie: ProjectType | string;
   description?: string;
   budgetTotal: number;
@@ -248,6 +250,7 @@ export async function createProject(input: ProjectInput) {
       id: generateId(input.nom, "project"),
       nom: input.nom,
       ville: input.ville,
+      categorie: input.categorie ?? "Immobilier",
       typologie: input.typologie as ProjectType,
       image: DEFAULT_PROJECT_IMAGE,
       description: input.description ?? "Projet ajoute dans la demonstration locale.",

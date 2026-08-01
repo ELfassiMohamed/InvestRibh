@@ -11,6 +11,64 @@ export type ProjectCategorie =
   | "Crowdfunding"
   | "Produit de forte valeur";
 
+export const sectionSlugs: Record<ProjectCategorie, string> = {
+  "Immobilier": "immobilier",
+  "Crypto": "crypto",
+  "Startup & Affaires": "startup-affaires",
+  "Solidaire": "solidaire",
+  "Crowdfunding": "crowdfunding",
+  "Produit de forte valeur": "produit-de-forte-valeur",
+};
+
+export const sectionBySlug: Record<string, ProjectCategorie> = Object.fromEntries(
+  Object.entries(sectionSlugs).map(([cat, slug]) => [slug, cat as ProjectCategorie]),
+);
+
+export const sectionOrder: ProjectCategorie[] = [
+  "Immobilier",
+  "Crypto",
+  "Startup & Affaires",
+  "Solidaire",
+  "Crowdfunding",
+  "Produit de forte valeur",
+];
+
+export const sectionMeta: Record<ProjectCategorie, { titre: string; description: string }> = {
+  Immobilier: {
+    titre: "Immobilier",
+    description:
+      "Investissez dans des programmes résidentiels, tertiaires et fonciers analysés par notre pipeline IA.",
+  },
+  Crypto: {
+    titre: "Monnaie virtuelle & Crypto",
+    description:
+      "Exposition aux crypto-actifs via des fonds structurés, staking et actifs tokenisés.",
+  },
+  "Startup & Affaires": {
+    titre: "Startup & Affaires",
+    description:
+      "Accompagnez des startups marocaines à fort potentiel dans la tech, la fintech et l'agritech.",
+  },
+  Solidaire: {
+    titre: "Solidaire",
+    description:
+      "Des investissements à impact social et environnemental au service de l'économie sociale et solidaire.",
+  },
+  Crowdfunding: {
+    titre: "Crowdfunding",
+    description:
+      "Participez au financement participatif de films, festivals, albums et produits locaux.",
+  },
+  "Produit de forte valeur": {
+    titre: "Produit de forte valeur",
+    description:
+      "Investissez dans des actifs tangibles : art, horlogerie, diamants, or et voitures de collection.",
+  },
+};
+
+export const getSlugForCategorie = (categorie: ProjectCategorie) => sectionSlugs[categorie];
+export const getCategorieForSlug = (slug: string) => sectionBySlug[slug];
+
 export type ProjectType =
   | "Résidentiel"
   | "Commercial & Bureaux"

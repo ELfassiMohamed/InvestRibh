@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { Filter } from "lucide-react";
 
 import { PageHeader } from "@/components/AppShell";
+import { FilterSelect } from "@/components/FilterSelect";
 import { ProjectCard } from "@/components/ProjectCard";
 import { useProjects } from "@/hooks/use-queries";
 
@@ -53,9 +54,7 @@ function ProjetsPage() {
 
           <FilterSelect label="Ville" value={ville} options={villes} onChange={setVille} />
           <FilterSelect label="Typologie" value={typologie} options={typologies} onChange={setTypologie} />
-          <FilterSelect label="Statut" value={statut} options={statuts} onChange={setStatut} />
-
-          <div className="mt-5">
+          <FilterSelect label="Statut" value={statut} options={statuts} onChange={setStatut} />          <div className="mt-5">
             <label className="label-sm text-on-surface-variant">
               Ticket maximum : {ticketMax.toLocaleString("fr-FR")} MAD
             </label>
@@ -114,34 +113,5 @@ function ProjetsPage() {
         </div>
       </div>
     </>
-  );
-}
-
-function FilterSelect({
-  label,
-  value,
-  options,
-  onChange,
-}: {
-  label: string;
-  value: string;
-  options: string[];
-  onChange: (v: string) => void;
-}) {
-  return (
-    <div className="mt-4">
-      <label className="label-sm text-on-surface-variant">{label}</label>
-      <select
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="mt-2 w-full rounded-md border border-outline-variant bg-surface-lowest px-3 py-2 text-sm text-on-surface focus:border-primary focus:outline-none"
-      >
-        {options.map((o) => (
-          <option key={o} value={o}>
-            {o}
-          </option>
-        ))}
-      </select>
-    </div>
   );
 }

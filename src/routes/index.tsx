@@ -23,6 +23,7 @@ import catCrowdfunding from "@/assets/cat-crowdfunding.jpg";
 import catValeur from "@/assets/cat-valeur.jpg";
 import espaceInvestisseurImg from "@/assets/espace-investisseur.jpg";
 import espacePorteurImg from "@/assets/espace-porteur.jpg";
+import { getSlugForCategorie, type ProjectCategorie } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -47,12 +48,12 @@ export const Route = createFileRoute("/")({
 });
 
 const categories = [
-  { label: "Immobilier", to: "/projets" as const, icon: Building2, image: catImmobilier },
-  { label: "Monnaie virtuelle & Crypto", to: "/projets" as const, icon: Bitcoin, image: catCrypto },
-  { label: "Startup & Affaires", to: "/projets" as const, icon: Rocket, image: catStartup },
-  { label: "Solidaire", to: "/projets" as const, icon: HeartHandshake, image: catSolidaire },
-  { label: "Crowdfunding", to: "/projets" as const, icon: Users, image: catCrowdfunding },
-  { label: "Produit de forte valeur", to: "/projets" as const, icon: Gem, image: catValeur },
+  { label: "Immobilier", categorie: "Immobilier" as ProjectCategorie, icon: Building2, image: catImmobilier },
+  { label: "Monnaie virtuelle & Crypto", categorie: "Crypto" as ProjectCategorie, icon: Bitcoin, image: catCrypto },
+  { label: "Startup & Affaires", categorie: "Startup & Affaires" as ProjectCategorie, icon: Rocket, image: catStartup },
+  { label: "Solidaire", categorie: "Solidaire" as ProjectCategorie, icon: HeartHandshake, image: catSolidaire },
+  { label: "Crowdfunding", categorie: "Crowdfunding" as ProjectCategorie, icon: Users, image: catCrowdfunding },
+  { label: "Produit de forte valeur", categorie: "Produit de forte valeur" as ProjectCategorie, icon: Gem, image: catValeur },
 ];
 
 const espaces = [
@@ -244,18 +245,19 @@ function HomePage() {
 
 function CategoryCard({
   label,
-  to,
+  categorie,
   icon: Icon,
   image,
 }: {
   label: string;
-  to: "/projets" | "/porteur-de-projet";
+  categorie: ProjectCategorie;
   icon: typeof Building2;
   image: string;
 }) {
   return (
     <Link
-      to={to}
+      to="/projects/$categorie"
+      params={{ categorie: getSlugForCategorie(categorie) }}
       className="card-elevated group flex flex-col overflow-hidden bg-surface-lowest transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
     >
       <div className="aspect-[4/3] w-full overflow-hidden">

@@ -9,6 +9,7 @@ import {
 import type { ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import favicon from "@/assets/favicon.png";
 import { AuthProvider } from "@/hooks/use-auth";
 import { PermissionGate } from "@/components/PermissionGate";
 
@@ -74,7 +75,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Place2Invest — Investissez dans le futur, aujourd'hui." },
+      { title: "Place2Invest" },
       {
         name: "description",
         content:
@@ -90,7 +91,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:locale", content: "fr_MA" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [{ rel: "stylesheet", href: appCss }],
+    links: [
+      { rel: "icon", type: "image/png", href: favicon },
+      { rel: "stylesheet", href: appCss },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,

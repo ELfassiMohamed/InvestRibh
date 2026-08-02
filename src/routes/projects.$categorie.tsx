@@ -1,25 +1,28 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Filter, ArrowLeft, ArrowRight, User } from "lucide-react";
+import { Filter, ArrowLeft, User } from "lucide-react";
 
 import { FilterSelect } from "@/components/FilterSelect";
 import { ProjectCard } from "@/components/ProjectCard";
 import logoImage from "@/assets/place2invest_logo.png";
 import { useProjects } from "@/hooks/use-queries";
 import {
-  getSlugForCategorie,
+  getCategorieForSlug,
+  sectionMeta,
   sectionOrder,
   type Project,
-  type ProjectCategorie,
 } from "@/lib/mock-data";
 
-export const Route = createFileRoute("/projets/")({
-  component: PublicProjetsPage,
+export const Route = createFileRoute("/projects/$categorie")({
+  component: SectionProjectsPage,
 });
 
 const statuts = ["Tous", "En collecte", "Financé", "En construction", "Livré"];
 
-function PublicProjetsPage() {
+function SectionProjectsPage() {
+  const { categorie: slug } = Route.useParams();
+  const categorie = getCategorieForSlug(slug);
+
   const { data: projects = [], isLoading } = useProjects();
   const [ville, setVille] = useState("Toutes");
   const [typologie, setTypologie] = useState("Toutes");
@@ -27,52 +30,48 @@ function PublicProjetsPage() {
   const [ticketMax, setTicketMax] = useState(50_000);
   const [rendementMin, setRendementMin] = useState(0);
 
-  const villes = ["Toutes", ...Array.from(new Set(projects.map((p: any) => p.ville)))];
-  const typologies = ["Toutes", ...Array.from(new Set(projects.map((p: any) => p.typologie)))];
+  const sectionProjects = useMemo(
+    () => (categorie ? projects.filter((p) => p.categorie === categorie) : []),
+    [categorie, projects],
+  );
+
+  const villes = ["Toutes", ...Array.from(new Set(sectionProjects.map((p) => p.ville)))];
+  const typologies = ["Toutes", ...Array.from(new Set(sectionProjects.map((p) => p.typologie)))];
 
   const filtered = useMemo(
     () =>
-      projects.filter(
-        (p: any) =>
+      sectionProjects.filter(
+        (p: Project) =>
           (ville === "Toutes" || p.ville === ville) &&
           (typologie === "Toutes" || p.typologie === typologie) &&
           (statut === "Tous" || p.statut === statut) &&
           p.ticketMinimum <= ticketMax &&
           p.rendementCible >= rendementMin,
       ),
-    [ville, typologie, statut, ticketMax, rendementMin, projects],
+    [ville, typologie, statut, ticketMax, rendementMin, sectionProjects],
   );
 
-  const grouped = useMemo(() => {
-    const sections = new Map<ProjectCategorie, Project[]>();
-    for (const p of filtered) {
-      const cat = (p.categorie as ProjectCategorie) ?? "Immobilier";
-      if (!sections.has(cat)) sections.set(cat, []);
-      sections.get(cat)!.push(p);
-    }
-    return sectionOrder
-      .filter((cat) => sections.has(cat))
-      .map((cat) => ({ categorie: cat, items: sections.get(cat)!.slice(0, 6) }));
-  }, [filtered]);
+  if (!categorie) {
+    throw notFound();
+  }
+
+  const meta = sectionMeta[categorie];
 
   return (
     <div className="min-h-screen bg-surface">
       {/* Top bar */}
       <div className="border-b border-outline-variant bg-surface-lowest">
         <div className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-3 sm:px-8">
-          <Link
-            to="/"
-            className="flex items-center gap-2"
-          >
+          <Link to="/" className="flex items-center gap-2">
             <img src={logoImage} alt="Place2Invest" className="h-9 rounded-lg object-contain" />
           </Link>
           <div className="flex items-center gap-3">
             <Link
-              to="/"
+              to="/projets"
               className="hidden items-center gap-1.5 text-sm text-on-surface-variant hover:text-on-surface sm:flex"
             >
               <ArrowLeft className="h-4 w-4" />
-              Accueil
+              Tous les projets
             </Link>
             <Link
               to="/login"
@@ -87,11 +86,15 @@ function PublicProjetsPage() {
 
       <div className="mx-auto max-w-[1280px] px-4 py-8 sm:px-8">
         <div className="mb-8">
-          <h1 className="headline-lg text-on-surface">
-            Projets disponibles
-          </h1>
+          <p className="label-sm text-primary">
+            Section · {sectionOrder.indexOf(categorie) + 1}/{sectionOrder.length}
+          </p>
+          <h1 className="headline-lg text-on-surface">{meta.titre}</h1>
+          <p className="mt-1.5 max-w-2xl text-on-surface-variant">{meta.description}</p>
           <p className="mt-1.5 text-on-surface-variant">
-            {isLoading ? "Chargement…" : `${filtered.length} projets disponibles à l'investissement.`}
+            {isLoading
+              ? "Chargement…"
+              : `${sectionProjects.length} projet${sectionProjects.length > 1 ? "s" : ""} disponible${sectionProjects.length > 1 ? "s" : ""} à l'investissement.`}
           </p>
         </div>
 
@@ -105,7 +108,9 @@ function PublicProjetsPage() {
 
             <FilterSelect label="Ville" value={ville} options={villes} onChange={setVille} />
             <FilterSelect label="Typologie" value={typologie} options={typologies} onChange={setTypologie} />
-            <FilterSelect label="Statut" value={statut} options={statuts} onChange={setStatut} />            <div className="mt-5">
+            <FilterSelect label="Statut" value={statut} options={statuts} onChange={setStatut} />
+
+            <div className="mt-5">
               <label className="label-sm text-on-surface-variant">
                 Ticket maximum : {ticketMax.toLocaleString("fr-FR")} MAD
               </label>
@@ -149,38 +154,17 @@ function PublicProjetsPage() {
             </button>
           </aside>
 
-          <div className="space-y-12">
+          <div>
             {filtered.length === 0 ? (
               <div className="card-elevated p-12 text-center text-on-surface-variant">
                 Aucun projet ne correspond à ces critères.
               </div>
             ) : (
-              grouped.map(({ categorie, items }) => (
-                <section key={categorie}>
-                  <div className="mb-5 flex items-end justify-between gap-4">
-                    <div>
-                      <h2 className="headline-md text-on-surface">{categorie}</h2>
-                      <p className="mt-1 text-sm text-on-surface-variant">
-                        {items.length} projet{items.length > 1 ? "s" : ""} disponible
-                        {items.length > 1 ? "s" : ""} à l'investissement.
-                      </p>
-                    </div>
-                    <Link
-                      to="/projects/$categorie"
-                      params={{ categorie: getSlugForCategorie(categorie as ProjectCategorie) }}
-                      className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/20"
-                    >
-                      Voir tout
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </div>
-                  <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                    {items.map((p) => (
-                      <ProjectCard key={p.id} project={p} />
-                    ))}
-                  </div>
-                </section>
-              ))
+              <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                {filtered.map((p) => (
+                  <ProjectCard key={p.id} project={p} />
+                ))}
+              </div>
             )}
           </div>
         </div>
@@ -195,4 +179,3 @@ function PublicProjetsPage() {
     </div>
   );
 }
-

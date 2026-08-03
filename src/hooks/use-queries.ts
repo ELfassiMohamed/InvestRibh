@@ -1,19 +1,20 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import * as demo from '@/lib/local-demo-store';
+import { translateProject, translateProjects } from '@/lib/i18n';
 
 // ─── Projects ───
 
 export function useProjects() {
   return useQuery({
     queryKey: ['projects'],
-    queryFn: demo.getAllProjects,
+    queryFn: () => demo.getAllProjects().then(translateProjects),
   });
 }
 
 export function useProject(id: string | undefined) {
   return useQuery({
     queryKey: ['projects', id],
-    queryFn: () => demo.getProjectById(id!),
+    queryFn: () => demo.getProjectById(id!).then((p) => (p ? translateProject(p) : p)),
     enabled: !!id,
   });
 }

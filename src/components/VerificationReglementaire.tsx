@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Loader2, AlertCircle, CheckCircle2 } from "lucide-react";
 
 interface PlanResult {
@@ -31,6 +32,7 @@ interface ApiResponse {
 }
 
 export function VerificationReglementairePage() {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -48,13 +50,13 @@ export function VerificationReglementairePage() {
         body: JSON.stringify({ query: query.trim(), method: "wsm" }),
       });
       if (!res.ok) {
-        const err = await res.json().catch(() => ({ error: "Erreur serveur" }));
+        const err = await res.json().catch(() => ({ error: t("verif.serverError") }));
         throw new Error(err.error || `Erreur ${res.status}`);
       }
       const data: ApiResponse = await res.json();
       setResult(data);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Erreur de connexion");
+      setError(e instanceof Error ? e.message : t("verif.connError"));
     } finally {
       setLoading(false);
     }
@@ -63,9 +65,9 @@ export function VerificationReglementairePage() {
   return (
     <div className="mx-auto max-w-3xl">
       <div className="mb-8">
-        <h1 className="headline-lg text-on-surface">Vérification Réglementaire</h1>
+        <h1 className="headline-lg text-on-surface">{t("verif.title")}</h1>
         <p className="mt-1.5 text-on-surface-variant">
-          Décrivez un terrain pour obtenir des plans conformes à la réglementation marocaine.
+          {t("verif.subtitle")}
         </p>
       </div>
 
@@ -73,7 +75,7 @@ export function VerificationReglementairePage() {
         <textarea
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Décrivez votre terrain librement (ex: Terrain de 60 m2 en ville au Maroc, budget 1.2M DH, 2 étages max)"
+          placeholder={t("verif.placeholder")}
           rows={4}
           className="w-full resize-none rounded-xl border border-outline bg-surface px-4 py-3 text-sm text-on-surface placeholder:text-on-surface-variant/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
         />
@@ -84,7 +86,7 @@ export function VerificationReglementairePage() {
           className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-on-primary transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-          {loading ? "Analyse en cours..." : "Confirmé"}
+          {loading ? t("verif.analysing") : t("verif.submit")}
         </button>
       </div>
 
@@ -99,7 +101,7 @@ export function VerificationReglementairePage() {
         <div className="mt-8 space-y-6">
           <div>
             <h2 className="mb-4 text-sm font-semibold text-on-surface-variant uppercase tracking-wider">
-              Plans recommandés ({result.plans.length})
+              {t("verif.plansRecommandes", { count: result.plans.length })}
             </h2>
             {result.plans.map((plan) => (
               <div
@@ -121,16 +123,16 @@ export function VerificationReglementairePage() {
                   </div>
                   <div className="shrink-0 text-right">
                     <p className="text-lg font-bold text-on-surface">{(plan.mcdm_score * 100).toFixed(0)}%</p>
-                    <p className="text-xs text-on-surface-variant">score</p>
+                    <p className="text-xs text-on-surface-variant">{t("verif.score")}</p>
                   </div>
                 </div>
 
                 <div className="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-xs text-on-surface-variant">
                   <span>{plan.type}</span>
                   <span>{plan.surface_utile_m2} m²</span>
-                  <span>{plan.nb_etages} étage{plan.nb_etages > 1 ? "s" : ""}</span>
+                  <span>{plan.nb_etages} {t("verif.etages", { count: plan.nb_etages })}</span>
                   <span>{plan.cout_estime_dh.toLocaleString("fr-FR")} DH</span>
-                  <span>{plan.delai_mois} mois</span>
+                  <span>{plan.delai_mois} {t("verif.mois", { count: plan.delai_mois })}</span>
                 </div>
 
                 <div className="mt-3 flex flex-wrap items-center gap-2">
@@ -143,7 +145,7 @@ export function VerificationReglementairePage() {
                           : "bg-error/10 text-error"
                     }`}
                   >
-                    Risque {plan.conformite.risk_level}
+                    {t("verif.risque", { label: plan.conformite.risk_level.toLowerCase() })}
                   </span>
                   <span className="text-xs text-on-surface-variant">{plan.conformite.classification}</span>
                 </div>
@@ -165,7 +167,7 @@ export function VerificationReglementairePage() {
           {result.regulations.regulations.length > 0 && (
             <div>
               <h2 className="mb-3 text-sm font-semibold text-on-surface-variant uppercase tracking-wider">
-                Réglementations applicables
+                {t("verif.reglementations")}
               </h2>
               <div className="space-y-2">
                 {result.regulations.regulations.map((reg, i) => (

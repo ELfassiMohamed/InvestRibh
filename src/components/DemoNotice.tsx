@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Info } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export function DemoNotice({ onDone }: { onDone?: () => void }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(true);
   const [closing, setClosing] = useState(false);
 
@@ -39,19 +41,19 @@ export function DemoNotice({ onDone }: { onDone?: () => void }) {
         </div>
 
         <h2 className="font-display text-xl font-semibold text-on-surface">
-          Plateforme de démonstration en cours de développement
+          {t("demoNotice.title")}
         </h2>
         <p className="mt-2 text-sm/relaxed text-on-surface-variant">
-          Ceci est une version de test. Aucune donnée personnelle n'est collectée ou conservée.
+          {t("demoNotice.body")}
         </p>
 
         <div className="mx-auto my-5 h-px w-3/4 bg-border" />
 
         <h2 className="font-display text-xl font-semibold text-on-surface" dir="rtl">
-          منصة تجريبية قيد التطوير
+          {t("demoNotice.titleAr")}
         </h2>
         <p className="mt-2 text-sm/relaxed text-on-surface-variant" dir="rtl">
-          هذه نسخة تجريبية. لا يتم جمع أو حفظ أي بيانات شخصية.
+          {t("demoNotice.bodyAr")}
         </p>
 
         <button
@@ -59,7 +61,7 @@ export function DemoNotice({ onDone }: { onDone?: () => void }) {
           className="mt-7 inline-flex items-center justify-center rounded-xl bg-primary px-7 py-2.5 text-sm font-medium text-on-primary transition-all hover:bg-primary/90 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           autoFocus
         >
-          Continue / استمر
+          {t("demoNotice.continue")}
         </button>
       </div>
     </div>

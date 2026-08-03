@@ -7,27 +7,30 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { I18nextProvider, useTranslation } from "react-i18next";
 
 import appCss from "../styles.css?url";
 import favicon from "@/assets/favicon.png";
 import { AuthProvider } from "@/hooks/use-auth";
 import { PermissionGate } from "@/components/PermissionGate";
+import i18n from "@/lib/i18n";
 
 function NotFoundComponent() {
+  const { t } = useTranslation();
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-primary">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-on-surface">Page introuvable</h2>
+        <h2 className="mt-4 text-xl font-semibold text-on-surface">{t("common.notFoundTitle")}</h2>
         <p className="mt-2 text-sm text-on-surface-variant">
-          La page que vous recherchez n'existe pas ou a été déplacée.
+          {t("common.notFoundDesc")}
         </p>
         <div className="mt-6">
           <a
             href="/"
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-container"
           >
-            Retour à l'accueil
+            {t("common.notFoundHome")}
           </a>
         </div>
       </div>
@@ -38,15 +41,16 @@ function NotFoundComponent() {
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   console.error(error);
   const router = useRouter();
+  const { t } = useTranslation();
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold tracking-tight text-on-surface">
-          Cette page n'a pas pu se charger
+          {t("common.errorTitle")}
         </h1>
         <p className="mt-2 text-sm text-on-surface-variant">
-          Une erreur est survenue. Vous pouvez réessayer ou revenir à l'accueil.
+          {t("common.errorDesc")}
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
@@ -56,13 +60,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
             }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-container"
           >
-            Réessayer
+            {t("common.retry")}
           </button>
           <a
             href="/"
             className="inline-flex items-center justify-center rounded-md border border-outline-variant bg-surface-lowest px-4 py-2 text-sm font-medium text-on-surface transition-colors hover:bg-surface-container"
           >
-            Accueil
+            {t("common.home")}
           </a>
         </div>
       </div>
@@ -119,12 +123,14 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   return (
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <PermissionGate>
-          <Outlet />
-        </PermissionGate>
-      </AuthProvider>
-    </QueryClientProvider>
+    <I18nextProvider i18n={i18n}>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <PermissionGate>
+            <Outlet />
+          </PermissionGate>
+        </AuthProvider>
+      </QueryClientProvider>
+    </I18nextProvider>
   );
 }

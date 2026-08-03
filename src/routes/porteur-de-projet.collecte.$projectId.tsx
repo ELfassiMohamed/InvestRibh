@@ -1,4 +1,5 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import {
   AreaChart,
   Area,
@@ -31,21 +32,22 @@ const evolutionCollecte = [
 ];
 
 const paliers = [
-  { seuil: 10_000_000, label: "Démarrage études", debloque: true },
-  { seuil: 25_000_000, label: "Terrassement & fondations", debloque: true },
-  { seuil: 40_000_000, label: "Gros œuvre lot 1", debloque: true },
-  { seuil: 52_000_000, label: "Gros œuvre complet", debloque: false },
+  { seuil: 10_000_000, labelKey: "porteur.collectePage.palier1", debloque: true },
+  { seuil: 25_000_000, labelKey: "porteur.collectePage.palier2", debloque: true },
+  { seuil: 40_000_000, labelKey: "porteur.collectePage.palier3", debloque: true },
+  { seuil: 52_000_000, labelKey: "porteur.collectePage.palier4", debloque: false },
 ];
 
 function CollectePage() {
+  const { t } = useTranslation();
   const { projectId } = Route.useParams();
   const { data: project, isLoading, isError } = useProject(projectId);
 
   if (isLoading) {
     return (
       <>
-        <PageHeader title="Chargement..." description="Veuillez patienter." />
-        <p className="text-sm text-on-surface-variant">Recuperation du projet...</p>
+        <PageHeader title={t("investor.loading")} description={t("investor.loadingSub")} />
+        <p className="text-sm text-on-surface-variant">{t("investor.projets.fetching")}</p>
       </>
     );
   }
@@ -59,7 +61,7 @@ function CollectePage() {
   return (
     <>
       <PageHeader
-        title={`Suivi de collecte — ${project.nom}`}
+        title={`${t("porteur.collectePage.title")} — ${project.nom}`}
         description={`${project.ville} · ${project.typologie}`}
       />
 
@@ -68,16 +70,16 @@ function CollectePage() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <KpiCard label="Investisseurs" value={String(project.investisseurs)} hint="Souscripteurs uniques" icon={<Users className="h-5 w-5" />} />
-        <KpiCard label="Ticket moyen" value={formatMAD(ticketMoyen)} icon={<TrendingUp className="h-5 w-5" />} />
-        <KpiCard label="Jours restants" value={`${project.joursRestants} j`} hint="Avant clôture de l'offre" icon={<Clock className="h-5 w-5" />} />
-        <KpiCard label="Reste à collecter" value={formatMAD(project.objectifCollecte - project.montantCollecte)} />
+        <KpiCard label={t("porteur.collectePage.investisseurs")} value={String(project.investisseurs)} hint={t("porteur.collectePage.souscripteurs")} icon={<Users className="h-5 w-5" />} />
+        <KpiCard label={t("porteur.collectePage.ticketMoyen")} value={formatMAD(ticketMoyen)} icon={<TrendingUp className="h-5 w-5" />} />
+        <KpiCard label={t("porteur.collectePage.joursRestants")} value={`${project.joursRestants} j`} hint={t("porteur.collectePage.avantCloture")} icon={<Clock className="h-5 w-5" />} />
+        <KpiCard label={t("porteur.collectePage.resteCollecter")} value={formatMAD(project.objectifCollecte - project.montantCollecte)} />
       </div>
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[2fr_1fr]">
         <div className="card-elevated p-6">
-          <h3 className="headline-md text-on-surface">Évolution de la collecte</h3>
-          <p className="mt-1 text-xs text-on-surface-variant">12 dernières semaines</p>
+          <h3 className="headline-md text-on-surface">{t("porteur.collectePage.evolution")}</h3>
+          <p className="mt-1 text-xs text-on-surface-variant">{t("porteur.collectePage.dernieresSemaines")}</p>
           <div className="mt-4 h-72">
             <ResponsiveContainer>
               <AreaChart data={evolutionCollecte}>
@@ -98,8 +100,8 @@ function CollectePage() {
         </div>
 
         <div className="card-elevated p-6">
-          <h3 className="headline-md text-on-surface">Paliers de financement</h3>
-          <p className="mt-1 text-xs text-on-surface-variant">Déblocage progressif des fonds par tranche.</p>
+          <h3 className="headline-md text-on-surface">{t("porteur.collectePage.paliers")}</h3>
+          <p className="mt-1 text-xs text-on-surface-variant">{t("porteur.collectePage.paliersDesc")}</p>
           <ul className="mt-5 space-y-4">
             {paliers.map((p) => (
               <li key={p.seuil} className="flex items-start gap-3">
@@ -111,8 +113,8 @@ function CollectePage() {
                   {p.debloque ? <Check className="h-4 w-4" /> : <Lock className="h-3.5 w-3.5" />}
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-on-surface">{p.label}</p>
-                  <p className="text-xs text-on-surface-variant">Seuil : {formatMAD(p.seuil)}</p>
+                  <p className="text-sm font-semibold text-on-surface">{t(p.labelKey)}</p>
+                  <p className="text-xs text-on-surface-variant">{t("porteur.collectePage.seuil")} : {formatMAD(p.seuil)}</p>
                 </div>
               </li>
             ))}

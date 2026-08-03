@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -23,16 +24,16 @@ export const Route = createFileRoute("/porteur-de-projet")({
   component: PorteurLayout,
 });
 
-const nav = [
-  { label: "Vue d'ensemble", to: "/porteur-de-projet" },
-  { label: "Soumettre un projet", to: "/porteur-de-projet/soumission" },
-  { label: "Suivi de collecte", to: "/porteur-de-projet/collecte/casa-anfa-residences" },
-  { label: "Suivi de chantier", to: "/porteur-de-projet/chantier/casa-anfa-residences" },
-  { label: "Vérification Réglementaire", to: "/porteur-de-projet/verification-reglementaire" },
-];
-
 function PorteurLayout() {
+  const { t } = useTranslation();
   const { user } = useAuth();
+  const nav = [
+    { label: t("porteur.nav.overview"), to: "/porteur-de-projet" },
+    { label: t("porteur.nav.submit"), to: "/porteur-de-projet/soumission" },
+    { label: t("porteur.nav.collecte"), to: "/porteur-de-projet/collecte/casa-anfa-residences" },
+    { label: t("porteur.nav.chantier"), to: "/porteur-de-projet/chantier/casa-anfa-residences" },
+    { label: t("porteur.nav.verification"), to: "/porteur-de-projet/verification-reglementaire" },
+  ];
   return (
     <AppShell zone="Porteur de Projet" nav={nav}>
       <Outlet />

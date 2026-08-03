@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -28,14 +29,14 @@ export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
-const nav = [
-  { label: "Validation IA & conformité", to: "/admin/validation-ia" },
-  { label: "Gestion des utilisateurs", to: "/admin/utilisateurs" },
-  { label: "Audit & eKYC", to: "/admin/audit-ekyc" },
-];
-
 function AdminLayout() {
   const { user } = useAuth();
+  const { t } = useTranslation();
+  const nav = [
+    { label: t("admin.navValidation"), to: "/admin/validation-ia" },
+    { label: t("admin.navUtilisateurs"), to: "/admin/utilisateurs" },
+    { label: t("admin.navAudit"), to: "/admin/audit-ekyc" },
+  ];
   return (
     <AppShell
       zone="Conformité"

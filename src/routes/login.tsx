@@ -1,4 +1,5 @@
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { TrendingUp, Building2, ShieldCheck } from "lucide-react";
 import type { UserRole } from "@/lib/mock-data";
 import logoImage from "@/assets/place2invest_logo.png";
@@ -27,9 +28,7 @@ export const Route = createFileRoute("/login")({
 
 interface Espace {
   role: UserRole;
-  label: string;
-  titre: string;
-  description: string;
+  section: "investisseur" | "porteur" | "conformite";
   icon: typeof TrendingUp;
   redirect: string;
 }
@@ -37,31 +36,26 @@ interface Espace {
 const espaces: Espace[] = [
   {
     role: "Investisseur",
-    label: "Espace Investisseur",
-    titre: "Diversifiez votre patrimoine",
-    description: "Accédez à des opportunités d'investissement qualifiées.",
+    section: "investisseur",
     icon: TrendingUp,
     redirect: "/investisseur",
   },
   {
     role: "Porteur de Projet",
-    label: "Espace Porteur de Projet",
-    titre: "Levez les fonds de votre opération",
-    description: "Présentez votre projet et levez des capitaux.",
+    section: "porteur",
     icon: Building2,
     redirect: "/porteur-de-projet",
   },
   {
     role: "Agent Conformité",
-    label: "Espace Conformité",
-    titre: "Supervision et conformité AMMC",
-    description: "Supervisez et validez les dossiers d'investissement.",
+    section: "conformite",
     icon: ShieldCheck,
     redirect: "/admin/validation-ia",
   },
 ];
 
 function LoginPage() {
+  const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-surface">
       {/* Top bar */}
@@ -77,46 +71,50 @@ function LoginPage() {
             to="/projets"
             className="text-sm font-medium text-on-surface-variant hover:text-on-surface"
           >
-            Découvrir les projets
+            {t("login.decouvrir")}
           </Link>
         </div>
       </div>
 
       <div className="mx-auto max-w-3xl px-4 py-20 sm:px-10">
         <div className="mb-12 text-center">
-          <p className="label-sm text-primary">Connexion</p>
+          <p className="label-sm text-primary">{t("login.connexion")}</p>
           <h1 className="headline-lg mt-2 text-on-surface">
-            Choisissez votre espace
+            {t("login.choisissez")}
           </h1>
           <p className="mt-3 text-on-surface-variant">
-            Sélectionnez le rôle qui correspond à votre activité sur la
-            plateforme. Les comptes de démonstration sont préremplis.
+            {t("login.description")}
           </p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
-          {espaces.map(({ role, label, titre, description, icon: Icon, redirect }) => (
-            <Link
-              key={role}
-              to="/auth"
-              search={{ role, redirect }}
-              className="card-elevated group flex flex-col items-start gap-4 p-6 text-left transition-all hover:-translate-y-1 hover:shadow-lg"
-            >
-              <div className="grid h-12 w-12 place-items-center rounded-xl bg-primary text-on-primary">
-                <Icon className="h-6 w-6" />
-              </div>
-              <div>
-                <p className="label-sm text-on-surface-variant">{label}</p>
-                <h3 className="headline-md mt-1.5 text-on-surface">{titre}</h3>
-                <p className="mt-2 text-sm text-on-surface-variant">
-                  {description}
-                </p>
-              </div>
-              <span className="mt-auto text-sm font-semibold text-primary group-hover:underline">
-                Se connecter →
-              </span>
-            </Link>
-          ))}
+          {espaces.map(({ role, section, icon: Icon, redirect }) => {
+            const label = t(`login.espaces.${section}.label`);
+            const titre = t(`login.espaces.${section}.titre`);
+            const description = t(`login.espaces.${section}.description`);
+            return (
+              <Link
+                key={role}
+                to="/auth"
+                search={{ role, redirect }}
+                className="card-elevated group flex flex-col items-start gap-4 p-6 text-left transition-all hover:-translate-y-1 hover:shadow-lg"
+              >
+                <div className="grid h-12 w-12 place-items-center rounded-xl bg-primary text-on-primary">
+                  <Icon className="h-6 w-6" />
+                </div>
+                <div>
+                  <p className="label-sm text-on-surface-variant">{label}</p>
+                  <h3 className="headline-md mt-1.5 text-on-surface">{titre}</h3>
+                  <p className="mt-2 text-sm text-on-surface-variant">
+                    {description}
+                  </p>
+                </div>
+                <span className="mt-auto text-sm font-semibold text-primary group-hover:underline">
+                  {t("login.seConnecter")}
+                </span>
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>

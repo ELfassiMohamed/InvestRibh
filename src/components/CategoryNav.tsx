@@ -1,21 +1,23 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import { ChevronDown } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 type NavItem = { label: string; to: string; hasMenu?: boolean };
 
-const items: NavItem[] = [
-  { label: "Page principale", to: "/" },
-  { label: "Biens", to: "/investisseur/projets" },
-  { label: "Investissements collectifs", to: "/investisseur/projets", hasMenu: true },
-  { label: "Investissement solidaire", to: "/investisseur/projets" },
-  { label: "Annuaire des professionnels", to: "/" },
-  { label: "Pratique", to: "/" },
-  { label: "Espace communautaire", to: "/" },
-  { label: "Marketplace", to: "/" },
-];
-
 export function CategoryNav() {
+  const { t } = useTranslation();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  const items: NavItem[] = [
+    { label: t("categoryNav.pagePrincipale"), to: "/" },
+    { label: t("categoryNav.biens"), to: "/investisseur/projets" },
+    { label: t("categoryNav.investissementsCollectifs"), to: "/investisseur/projets", hasMenu: true },
+    { label: t("categoryNav.investissementSolidaire"), to: "/investisseur/projets" },
+    { label: t("categoryNav.annuaire"), to: "/" },
+    { label: t("categoryNav.pratique"), to: "/" },
+    { label: t("categoryNav.espaceCommunautaire"), to: "/" },
+    { label: t("categoryNav.marketplace"), to: "/" },
+  ];
 
   return (
     <nav className="border-b border-outline-variant bg-surface-lowest">

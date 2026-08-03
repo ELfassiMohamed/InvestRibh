@@ -1,4 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import {
   ArrowLeft,
   MapPin,
@@ -23,11 +24,12 @@ export const Route = createFileRoute("/projets/$id")({
 });
 
 function PublicProjetDetailPage() {
+  const { t } = useTranslation();
   const { id } = Route.useParams();
   const { data: project, isLoading, isError } = useProject(id);
 
   if (isLoading) {
-    return <div className="flex min-h-screen items-center justify-center bg-surface"><p className="text-on-surface-variant">Chargement…</p></div>;
+    return <div className="flex min-h-screen items-center justify-center bg-surface"><p className="text-on-surface-variant">{t("common.loading")}</p></div>;
   }
 
   if (isError || !project) {
@@ -51,14 +53,14 @@ function PublicProjetDetailPage() {
               className="hidden items-center gap-1.5 text-sm text-on-surface-variant hover:text-on-surface sm:flex"
             >
               <ArrowLeft className="h-4 w-4" />
-              Tous les projets
+              {t("projectDetail.tousProjets")}
             </Link>
             <Link
               to="/login"
               className="flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-container"
             >
               <User className="h-4 w-4" />
-              Se connecter pour investir
+              {t("projectDetail.loginInvest")}
             </Link>
           </div>
         </div>
@@ -69,7 +71,7 @@ function PublicProjetDetailPage() {
           to="/projets"
           className="mb-4 inline-flex items-center gap-1.5 text-sm text-on-surface-variant hover:text-primary"
         >
-          <ArrowLeft className="h-4 w-4" /> Retour au catalogue
+          <ArrowLeft className="h-4 w-4" /> {t("projectDetail.backCatalogue")}
         </Link>
 
         <div className="mb-8 flex flex-wrap items-start justify-between gap-4">
@@ -90,16 +92,16 @@ function PublicProjetDetailPage() {
             </div>
 
             <div className="card-elevated p-6">
-              <h2 className="headline-md text-on-surface">À propos du projet</h2>
+              <h2 className="headline-md text-on-surface">{t("projectDetail.aPropos")}</h2>
               <p className="mt-3 text-on-surface-variant">{project.description}</p>
 
               <div className="mt-6 grid gap-4 sm:grid-cols-3">
-                <Detail icon={<MapPin className="h-4 w-4" />} label="Localisation" value={project.ville} />
-                <Detail icon={<Calendar className="h-4 w-4" />} label="Durée" value={`${project.dureeMois} mois`} />
-                <Detail icon={<Users className="h-4 w-4" />} label="Investisseurs" value={String(project.investisseurs)} />
-                <Detail icon={<TrendingUp className="h-4 w-4" />} label="Rendement cible" value={formatPercent(project.rendementCible)} />
-                <Detail label="Budget total" value={formatMAD(project.budgetTotal)} />
-                <Detail label="Ticket min." value={formatMAD(project.ticketMinimum)} />
+                <Detail icon={<MapPin className="h-4 w-4" />} label={t("projectDetail.localisation")} value={project.ville} />
+                <Detail icon={<Calendar className="h-4 w-4" />} label={t("projectDetail.duree")} value={t("projectDetail.mois", { count: project.dureeMois })} />
+                <Detail icon={<Users className="h-4 w-4" />} label={t("projectDetail.investisseurs")} value={String(project.investisseurs)} />
+                <Detail icon={<TrendingUp className="h-4 w-4" />} label={t("projectDetail.rendementCible")} value={formatPercent(project.rendementCible)} />
+                <Detail label={t("projectDetail.budgetTotal")} value={formatMAD(project.budgetTotal)} />
+                <Detail label={t("projectDetail.ticketMin")} value={formatMAD(project.ticketMinimum)} />
               </div>
             </div>
 
@@ -110,15 +112,15 @@ function PublicProjetDetailPage() {
                   <Sparkles className="h-4 w-4" />
                 </div>
                 <div>
-                  <h2 className="headline-md text-on-surface">Synthèse de l'analyse IA</h2>
+                  <h2 className="headline-md text-on-surface">{t("projectDetail.analyseIa")}</h2>
                   <p className="text-xs text-on-surface-variant">
-                    Pipeline multi-agents · score global {project.scoreRisque}/100
+                    {t("projectDetail.analyseIaSub", { score: project.scoreRisque })}
                   </p>
                 </div>
               </div>
               <div className="grid gap-6 p-6 md:grid-cols-2">
                 <div>
-                  <p className="label-sm text-success">Points forts</p>
+                  <p className="label-sm text-success">{t("projectDetail.pointsForts")}</p>
                   <ul className="mt-3 space-y-2">
                     {project.pointsForts.map((pt: string) => (
                       <li key={pt} className="flex gap-2 text-sm text-on-surface">
@@ -129,7 +131,7 @@ function PublicProjetDetailPage() {
                   </ul>
                 </div>
                 <div>
-                  <p className="label-sm text-warning">Points de vigilance</p>
+                  <p className="label-sm text-warning">{t("projectDetail.pointsVigilance")}</p>
                   <ul className="mt-3 space-y-2">
                     {project.pointsVigilance.map((pt: string) => (
                       <li key={pt} className="flex gap-2 text-sm text-on-surface">
@@ -144,20 +146,13 @@ function PublicProjetDetailPage() {
 
             {/* Documents */}
             <div className="card-elevated p-6">
-              <h2 className="headline-md text-on-surface">Documents du projet</h2>
+              <h2 className="headline-md text-on-surface">{t("projectDetail.documents")}</h2>
               <ul className="mt-4 divide-y divide-outline-variant/50">
-                {[
-                  "Notice d'information AMMC",
-                  "Titre foncier",
-                  "Permis de construire",
-                  "Business plan détaillé",
-                  "Étude de sol",
-                  "Plans architecturaux",
-                ].map((doc) => (
+                {(t("projectDetail.docs", { returnObjects: true }) as string[]).map((doc: string) => (
                   <li key={doc} className="flex items-center justify-between py-3 text-sm">
                     <span className="text-on-surface">{doc}</span>
                     <button className="flex items-center gap-1.5 font-semibold text-primary hover:underline">
-                      <Download className="h-4 w-4" /> Télécharger
+                      <Download className="h-4 w-4" /> {t("projectDetail.download")}
                     </button>
                   </li>
                 ))}
@@ -175,11 +170,11 @@ function PublicProjetDetailPage() {
                 />
                 <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
                   <div>
-                    <p className="text-on-surface-variant">Investisseurs</p>
+                    <p className="text-on-surface-variant">{t("projectDetail.investisseurs")}</p>
                     <p className="text-base font-bold text-on-surface">{project.investisseurs}</p>
                   </div>
                   <div>
-                    <p className="text-on-surface-variant">Jours restants</p>
+                    <p className="text-on-surface-variant">{t("projectDetail.joursRestants")}</p>
                     <p className="text-base font-bold text-on-surface">{project.joursRestants}</p>
                   </div>
                 </div>
@@ -187,14 +182,14 @@ function PublicProjetDetailPage() {
 
               <div className="p-6 text-center">
                 <p className="text-sm text-on-surface-variant">
-                  Pour investir dans ce projet, connectez-vous à votre espace investisseur.
+                  {t("projectDetail.sidebarText")}
                 </p>
                 <Link
                   to="/login"
                   className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-container"
                 >
                   <User className="h-4 w-4" />
-                  Se connecter
+                  {t("projectDetail.sidebarLogin")}
                 </Link>
               </div>
             </div>
@@ -205,7 +200,7 @@ function PublicProjetDetailPage() {
       {/* Footer */}
       <footer className="mt-20 bg-inverse-surface text-inverse-on-surface">
         <div className="mx-auto max-w-[1280px] px-4 py-8 text-center text-xs opacity-60 sm:px-10">
-          © {new Date().getFullYear()} Place2Invest. Investir comporte un risque de perte en capital.
+          © {new Date().getFullYear()} Place2Invest. {t("common.footer")}
         </div>
       </footer>
     </div>

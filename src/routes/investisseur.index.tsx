@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import {
   Wallet,
   TrendingUp,
@@ -33,6 +34,7 @@ export const Route = createFileRoute("/investisseur/")({
 const COLORS = ["#693f2c", "#845642", "#c9a44c", "#585e6c", "#46494c"];
 
 function DashboardPage() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const { data: dashboard, isLoading } = useInvestorDashboard();
   const { data: allProjects = [] } = useProjects();
@@ -40,8 +42,8 @@ function DashboardPage() {
   if (isLoading || !dashboard) {
     return (
       <>
-        <PageHeader title="Chargement…" description="Veuillez patienter." />
-        <p className="text-sm text-on-surface-variant">Récupération des données…</p>
+        <PageHeader title={t("investor.loading")} description={t("investor.loadingSub")} />
+        <p className="text-sm text-on-surface-variant">{t("investor.fetching")}</p>
       </>
     );
   }
@@ -72,36 +74,36 @@ function DashboardPage() {
   return (
     <>
       <PageHeader
-        title={`Bonjour ${user?.nom?.split(" ")[0] ?? "Yasmine"} 👋`}
-        description="Voici l'état consolidé de votre portefeuille immobilier au 18/06/2026."
+        title={t("investor.bonjour", { name: user?.nom?.split(" ")[0] ?? "Yasmine" })}
+        description={t("investor.helloDesc")}
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <KpiCard
-          label="Valeur du portefeuille"
+          label={t("investor.kpi.valeurPortefeuille")}
           value={formatMAD(valeurTotale)}
-          hint={`Capital investi : ${formatMAD(totalInvesti)}`}
+          hint={t("investor.kpi.capitalInvesti", { value: formatMAD(totalInvesti) })}
           trend={6.2}
           icon={<Wallet className="h-5 w-5" />}
         />
         <KpiCard
-          label="Cash-flow mensuel net"
+          label={t("investor.kpi.cashflowMensuel")}
           value={formatMAD(cashflowMensuel)}
-          hint="Moyenne des 6 derniers mois"
+          hint={t("investor.kpi.moyenne6Mois")}
           trend={4.1}
           icon={<Coins className="h-5 w-5" />}
         />
         <KpiCard
-          label="Dividendes cumulés"
+          label={t("investor.kpi.dividendes")}
           value={formatMAD(dividendesCumules)}
-          hint="Depuis le premier investissement"
+          hint={t("investor.kpi.depuisPremier")}
           trend={12.4}
           icon={<TrendingUp className="h-5 w-5" />}
         />
         <KpiCard
-          label="Rendement moyen pondéré"
+          label={t("investor.kpi.rendementMoyen")}
           value={`${rendementMoyen.toFixed(2)} %`}
-          hint="Annualisé sur ticket investi"
+          hint={t("investor.kpi.annualise")}
           trend={0.3}
           icon={<CalendarClock className="h-5 w-5" />}
         />
@@ -111,8 +113,8 @@ function DashboardPage() {
         <div className="card-elevated p-6">
           <div className="mb-4 flex items-end justify-between">
             <div>
-              <p className="label-sm text-on-surface-variant">Évolution du portefeuille</p>
-              <h2 className="headline-md mt-1 text-on-surface">6 derniers mois</h2>
+              <p className="label-sm text-on-surface-variant">{t("investor.evolution.label")}</p>
+              <h2 className="headline-md mt-1 text-on-surface">{t("investor.evolution.title")}</h2>
             </div>
           </div>
           <div className="h-72">
@@ -148,8 +150,8 @@ function DashboardPage() {
         </div>
 
         <div className="card-elevated p-6">
-          <p className="label-sm text-on-surface-variant">Répartition par typologie</p>
-          <h2 className="headline-md mt-1 text-on-surface">Diversification</h2>
+          <p className="label-sm text-on-surface-variant">{t("investor.repartition.label")}</p>
+          <h2 className="headline-md mt-1 text-on-surface">{t("investor.repartition.title")}</h2>
           <div className="h-64">
             <ResponsiveContainer>
               <PieChart>
@@ -179,9 +181,9 @@ function DashboardPage() {
         {/* Prochaines distributions */}
         <div className="card-elevated p-6">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="headline-md text-on-surface">Prochaines distributions</h2>
+            <h2 className="headline-md text-on-surface">{t("investor.distributions.title")}</h2>
             <span className="text-xs text-on-surface-variant">
-              {upcomingDistributions.length} événements
+              {t("investor.distributions.count", { count: upcomingDistributions.length })}
             </span>
           </div>
           <ul className="divide-y divide-outline-variant/50">
@@ -206,7 +208,7 @@ function DashboardPage() {
                           : "text-on-surface-variant"
                       }`}
                     >
-                      {d.statut}
+                      {d.statut === "Versé" ? t("investor.distributions.versé") : d.statut === "En cours" ? t("investor.distributions.enCours") : d.statut}
                     </span>
                   </div>
                 </li>
@@ -218,12 +220,12 @@ function DashboardPage() {
         {/* Activité récente */}
         <div className="card-elevated p-6">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="headline-md text-on-surface">Activité récente</h2>
+            <h2 className="headline-md text-on-surface">{t("investor.activite.title")}</h2>
             <Link
               to="/investisseur/portefeuille"
               className="flex items-center gap-1 text-xs font-semibold text-primary hover:underline"
             >
-              Voir tout
+              {t("investor.activite.voirTout")}
               <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
@@ -256,14 +258,14 @@ function DashboardPage() {
       <section className="mt-10">
         <div className="mb-4 flex items-end justify-between">
           <div>
-            <p className="label-sm text-primary">Sélection pour vous</p>
-            <h2 className="headline-md mt-1 text-on-surface">Projets correspondant à votre profil</h2>
+            <p className="label-sm text-primary">{t("investor.suggestions.label")}</p>
+            <h2 className="headline-md mt-1 text-on-surface">{t("investor.suggestions.title")}</h2>
           </div>
           <Link
             to="/projets"
             className="flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
           >
-            Catalogue complet
+            {t("investor.suggestions.catalogue")}
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
@@ -283,7 +285,7 @@ function DashboardPage() {
                   <p className="text-xs text-on-surface-variant">{p.ville} · {p.typologie}</p>
                   <p className="mt-1 font-semibold text-on-surface">{p.nom}</p>
                   <p className="mt-1 text-sm font-bold text-primary">
-                    {p.rendementCible.toFixed(1)} % cible
+                    {p.rendementCible.toFixed(1)} % {t("investor.suggestions.cible")}
                   </p>
                 </div>
               </Link>

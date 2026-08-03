@@ -1,12 +1,14 @@
 import { Link } from "@tanstack/react-router";
 import { Heart } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import type { Project } from "@/lib/mock-data";
 import { formatMAD, formatPercent } from "@/lib/format";
 import { FundingProgressBar } from "./FundingProgressBar";
 import { RiskScoreBadge } from "./RiskScoreBadge";
 
 export function ProjectCard({ project }: { project: Project }) {
+  const { t } = useTranslation();
   const [fav, setFav] = useState(false);
 
   return (
@@ -27,11 +29,11 @@ export function ProjectCard({ project }: { project: Project }) {
         </span>
         {project.featured && (
           <span className="absolute right-12 top-3 rounded-md bg-accent-gold px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-on-surface">
-            Coup de cœur
+            {t("projectCard.coupDeCoeur")}
           </span>
         )}
         <button
-          aria-label="Ajouter aux favoris"
+          aria-label={t("projectCard.addFav")}
           onClick={(e) => {
             e.preventDefault();
             setFav(!fav);
@@ -58,11 +60,11 @@ export function ProjectCard({ project }: { project: Project }) {
 
         <div className="grid grid-cols-2 gap-3 border-t border-outline-variant/50 pt-3 text-sm">
           <div>
-            <p className="text-xs text-on-surface-variant">Ticket min.</p>
+            <p className="text-xs text-on-surface-variant">{t("projectCard.ticketMin")}</p>
             <p className="font-semibold text-on-surface">{formatMAD(project.ticketMinimum)}</p>
           </div>
           <div>
-            <p className="text-xs text-on-surface-variant">Rendement cible</p>
+            <p className="text-xs text-on-surface-variant">{t("projectCard.rendement")}</p>
             <p className="font-semibold text-primary">{formatPercent(project.rendementCible)}</p>
           </div>
         </div>

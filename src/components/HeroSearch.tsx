@@ -1,9 +1,17 @@
 import { Search, ChevronDown } from "lucide-react";
 import { useState } from "react";
-
-const types = ["Tous", "Immobilier", "Crypto", "Startup & Affaires", "Talent", "Objets de valeur"];
+import { useTranslation } from "react-i18next";
 
 export function HeroSearch() {
+  const { t } = useTranslation();
+  const types = [
+    t("hero.types.tous"),
+    t("hero.types.immobilier"),
+    t("hero.types.crypto"),
+    t("hero.types.startup"),
+    t("hero.types.talent"),
+    t("hero.types.objets"),
+  ];
   const [type, setType] = useState(types[0]);
   const [open, setOpen] = useState(false);
 
@@ -37,11 +45,11 @@ export function HeroSearch() {
       <div className="hidden h-6 w-px bg-outline-variant sm:block" />
       <input
         type="text"
-        placeholder="Que cherchez-vous ?"
+        placeholder={t("hero.searchPlaceholder")}
         className="min-w-0 flex-1 bg-transparent px-4 py-3 text-sm text-on-surface outline-none placeholder:text-on-surface-variant"
       />
       <button
-        aria-label="Rechercher"
+        aria-label={t("hero.search")}
         className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primary text-on-primary transition-colors hover:bg-primary-container"
       >
         <Search className="h-5 w-5" />

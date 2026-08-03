@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ArrowRight,
   Building2,
@@ -48,32 +49,30 @@ export const Route = createFileRoute("/")({
 });
 
 const categories = [
-  { label: "Immobilier", categorie: "Immobilier" as ProjectCategorie, icon: Building2, image: catImmobilier },
-  { label: "Monnaie virtuelle & Crypto", categorie: "Crypto" as ProjectCategorie, icon: Bitcoin, image: catCrypto },
-  { label: "Startup & Affaires", categorie: "Startup & Affaires" as ProjectCategorie, icon: Rocket, image: catStartup },
-  { label: "Solidaire", categorie: "Solidaire" as ProjectCategorie, icon: HeartHandshake, image: catSolidaire },
-  { label: "Crowdfunding", categorie: "Crowdfunding" as ProjectCategorie, icon: Users, image: catCrowdfunding },
-  { label: "Produit de forte valeur", categorie: "Produit de forte valeur" as ProjectCategorie, icon: Gem, image: catValeur },
+  { id: "immobilier", labelKey: "home.categories.immobilier", categorie: "Immobilier" as ProjectCategorie, icon: Building2, image: catImmobilier },
+  { id: "crypto", labelKey: "home.categories.crypto", categorie: "Crypto" as ProjectCategorie, icon: Bitcoin, image: catCrypto },
+  { id: "startup", labelKey: "home.categories.startup", categorie: "Startup & Affaires" as ProjectCategorie, icon: Rocket, image: catStartup },
+  { id: "solidaire", labelKey: "home.categories.solidaire", categorie: "Solidaire" as ProjectCategorie, icon: HeartHandshake, image: catSolidaire },
+  { id: "crowdfunding", labelKey: "home.categories.crowdfunding", categorie: "Crowdfunding" as ProjectCategorie, icon: Users, image: catCrowdfunding },
+  { id: "valeur", labelKey: "home.categories.valeur", categorie: "Produit de forte valeur" as ProjectCategorie, icon: Gem, image: catValeur },
 ];
 
 const espaces = [
   {
     to: "/investisseur" as const,
-    label: "Espace Investisseur",
-    titre: "Diversifiez votre patrimoine",
-    description:
-      "Tableau de bord temps réel, simulateur de ROI fiscal marocain et portefeuille consolidé.",
-    points: ["Opportunités qualifiées", "Suivi de performance", "Simulateur fiscal MA"],
+    labelKey: "home.espaceInvestisseur.label",
+    titreKey: "home.espaceInvestisseur.titre",
+    descriptionKey: "home.espaceInvestisseur.description",
+    pointsKeys: ["home.espaceInvestisseur.points.0", "home.espaceInvestisseur.points.1", "home.espaceInvestisseur.points.2"],
     icon: TrendingUp,
     image: espaceInvestisseurImg,
   },
   {
     to: "/porteur-de-projet" as const,
-    label: "Espace Porteur de Projet",
-    titre: "Levez les fonds de votre opération",
-    description:
-      "Soumission de dossier guidée, suivi de collecte et avancement de chantier transparents.",
-    points: ["Dossier guidé", "Collecte en direct", "Reporting investisseurs"],
+    labelKey: "home.espacePorteur.label",
+    titreKey: "home.espacePorteur.titre",
+    descriptionKey: "home.espacePorteur.description",
+    pointsKeys: ["home.espacePorteur.points.0", "home.espacePorteur.points.1", "home.espacePorteur.points.2"],
     icon: Building2,
     image: espacePorteurImg,
   },
@@ -81,7 +80,7 @@ const espaces = [
 
 
 function HomePage() {
-
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-surface">
@@ -123,14 +122,12 @@ function HomePage() {
             {/* Headline */}
             <div className="mt-16 max-w-2xl sm:mt-24">
               <h1 className="display-lg text-white [text-shadow:0_2px_20px_rgba(0,0,0,0.5),0_1px_3px_rgba(0,0,0,0.4)]">
-                Investissez dans le futur,
+                {t("hero.headline1")}
                 <br />
-                aujourd'hui.
+                {t("hero.headline2")}
               </h1>
               <p className="body-md mt-5 max-w-xl text-white/95 [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]">
-                Place2Invest est votre plateforme digitale pour diversifier vos
-                investissements dans l'immobilier, les startups, l'art, la crypto
-                et le talent, tout en soutenant l'économie sociale et solidaire.
+                {t("hero.subtitle")}
               </p>
             </div>
           </div>
@@ -141,7 +138,7 @@ function HomePage() {
           <div className="mx-auto max-w-[1280px] px-4 sm:px-10">
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-3">
               {categories.map((c) => (
-                <CategoryCard key={c.label} {...c} />
+                <CategoryCard key={c.id} {...c} />
               ))}
             </div>
           </div>
@@ -151,17 +148,16 @@ function HomePage() {
       {/* Nos espaces */}
       <section className="mx-auto max-w-[1280px] px-4 py-20 sm:px-10">
         <div className="mb-10 max-w-2xl">
-          <p className="label-sm text-primary">Nos espaces</p>
+          <p className="label-sm text-primary">{t("home.espacesLabel")}</p>
           <h2 className="headline-lg mt-2 text-on-surface">
-            Deux façons de faire grandir votre projet
+            {t("home.espacesTitle")}
           </h2>
           <p className="mt-3 text-on-surface-variant">
-            Que vous cherchiez à placer votre épargne ou à financer votre
-            opération, votre espace dédié vous attend.
+            {t("home.espacesDesc")}
           </p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
-          {espaces.map(({ to, label, titre, description, points, icon: Icon, image }) => (
+          {espaces.map(({ to, labelKey, titreKey, descriptionKey, pointsKeys, icon: Icon, image }) => (
             <Link
               key={to}
               to={to}
@@ -170,7 +166,7 @@ function HomePage() {
               <div className="relative aspect-[16/8] w-full overflow-hidden">
                 <img
                   src={image}
-                  alt={label}
+                  alt={t(labelKey)}
                   loading="lazy"
                   width={1024}
                   height={640}
@@ -183,20 +179,20 @@ function HomePage() {
               </div>
               <div className="flex flex-1 flex-col gap-5 p-8">
                 <div>
-                  <p className="label-sm text-on-surface-variant">{label}</p>
-                  <h3 className="headline-md mt-1.5 text-on-surface">{titre}</h3>
-                  <p className="mt-2 text-sm text-on-surface-variant">{description}</p>
+                  <p className="label-sm text-on-surface-variant">{t(labelKey)}</p>
+                  <h3 className="headline-md mt-1.5 text-on-surface">{t(titreKey)}</h3>
+                  <p className="mt-2 text-sm text-on-surface-variant">{t(descriptionKey)}</p>
                 </div>
                 <ul className="space-y-2">
-                  {points.map((pt) => (
+                  {pointsKeys.map((pt) => (
                     <li key={pt} className="flex items-center gap-2 text-sm text-on-surface">
                       <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
-                      {pt}
+                      {t(pt)}
                     </li>
                   ))}
                 </ul>
                 <span className="mt-auto inline-flex w-fit items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary">
-                  Accéder à l'espace
+                  {t("home.accederEspace")}
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
               </div>
@@ -217,15 +213,15 @@ function HomePage() {
               Place<span className="text-inverse-primary">2</span>invest
             </p>
             <p className="mt-2 text-sm opacity-70">
-              Plateforme digitale d'investissement multi-actifs régulée au Maroc.
+              {t("home.footer.tagline")}
             </p>
           </div>
           {[
-            { titre: "Plateforme", liens: ["Projets", "Comment ça marche", "Fiscalité MA", "Sécurité"] },
-            { titre: "Société", liens: ["À propos", "Carrières", "Presse", "Contact"] },
-            { titre: "Légal", liens: ["Mentions légales", "Conformité AMMC", "Confidentialité", "Cookies"] },
+            { id: "plateforme", titre: t("home.footer.plateforme"), liens: t("home.footer.plateformeLinks", { returnObjects: true }) as string[] },
+            { id: "societe", titre: t("home.footer.societe"), liens: t("home.footer.societeLinks", { returnObjects: true }) as string[] },
+            { id: "legal", titre: t("home.footer.legal"), liens: t("home.footer.legalLinks", { returnObjects: true }) as string[] },
           ].map((col) => (
-            <div key={col.titre}>
+            <div key={col.id}>
               <p className="label-sm">{col.titre}</p>
               <ul className="mt-3 space-y-2 text-sm opacity-80">
                 {col.liens.map((l) => <li key={l} className="hover:opacity-100">{l}</li>)}
@@ -235,7 +231,7 @@ function HomePage() {
         </div>
         <div className="border-t border-inverse-on-surface/10">
           <p className="mx-auto max-w-[1280px] px-4 py-4 text-xs opacity-60 sm:px-10">
-            © {new Date().getFullYear()} Place2Invest. Investir comporte un risque de perte en capital.
+            © {new Date().getFullYear()} Place2Invest. {t("common.footer")}
           </p>
         </div>
       </footer>
@@ -244,16 +240,18 @@ function HomePage() {
 }
 
 function CategoryCard({
-  label,
+  labelKey,
   categorie,
   icon: Icon,
   image,
 }: {
-  label: string;
+  labelKey: string;
   categorie: ProjectCategorie;
   icon: typeof Building2;
   image: string;
 }) {
+  const { t } = useTranslation();
+  const label = t(labelKey);
   return (
     <Link
       to="/projects/$categorie"
@@ -278,18 +276,21 @@ function CategoryCard({
   );
 }
 
-const interets = [
-  "Immobilier",
-  "Monnaie virtuelle & Crypto",
-  "Startup & Affaires",
-  "Solidaire",
-  "Crowdfunding",
-  "Produit de forte valeur",
+const interetsKeys = [
+  "home.categories.immobilier",
+  "home.categories.crypto",
+  "home.categories.startup",
+  "home.categories.solidaire",
+  "home.categories.crowdfunding",
+  "home.categories.valeur",
 ];
 
 function InterestForm() {
+  const { t } = useTranslation();
   const [sent, setSent] = useState(false);
   const [selected, setSelected] = useState<string[]>([]);
+
+  const interets = interetsKeys.map((k) => t(k));
 
   const toggle = (v: string) =>
     setSelected((s) => (s.includes(v) ? s.filter((x) => x !== v) : [...s, v]));
@@ -299,13 +300,12 @@ function InterestForm() {
       <div className="mx-auto max-w-[1280px] px-4 py-20 sm:px-10">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
           <div>
-            <p className="label-sm text-primary">Rejoignez-nous</p>
+            <p className="label-sm text-primary">{t("home.rejoignezLabel")}</p>
             <h2 className="headline-lg mt-2 text-on-surface">
-              Dites-nous ce qui vous intéresse
+              {t("home.interetsTitle")}
             </h2>
             <p className="mt-3 max-w-md text-on-surface-variant">
-              Laissez vos coordonnées et vos centres d'intérêt : notre équipe vous
-              envoie en priorité les opportunités correspondant à votre profil.
+              {t("home.interetsDesc")}
             </p>
           </div>
 
@@ -313,10 +313,9 @@ function InterestForm() {
             {sent ? (
               <div className="flex flex-col items-center gap-3 py-10 text-center">
                 <CheckCircle2 className="h-10 w-10 text-primary" />
-                <h3 className="headline-md text-on-surface">Merci !</h3>
+                <h3 className="headline-md text-on-surface">{t("home.merci")}</h3>
                 <p className="text-sm text-on-surface-variant">
-                  Votre demande a bien été enregistrée. Nous vous recontactons
-                  très prochainement.
+                  {t("home.merciDesc")}
                 </p>
               </div>
             ) : (
@@ -328,27 +327,27 @@ function InterestForm() {
                 }}
               >
                 <div className="grid gap-4 sm:grid-cols-2">
-                  <Field label="Nom complet" name="nom" placeholder="Amine El Mansouri" />
-                  <Field label="E-mail" name="email" type="email" placeholder="vous@exemple.ma" />
-                  <Field label="Téléphone" name="tel" type="tel" placeholder="+212 6 00 00 00 00" />
+                  <Field label={t("home.fields.nom")} name="nom" placeholder="Amine El Mansouri" />
+                  <Field label={t("home.fields.email")} name="email" type="email" placeholder="vous@exemple.ma" />
+                  <Field label={t("home.fields.tel")} name="tel" type="tel" placeholder="+212 6 00 00 00 00" />
                   <div>
                     <label className="label-sm text-on-surface-variant" htmlFor="profil">
-                      Je suis
+                      {t("home.fields.jeSuis")}
                     </label>
                     <select
                       id="profil"
                       name="profil"
                       className="mt-2 w-full rounded-md border border-outline-variant bg-surface-lowest px-3 py-2 text-sm text-on-surface focus:border-primary focus:outline-none"
                     >
-                      <option>Investisseur</option>
-                      <option>Porteur de projet</option>
-                      <option>Partenaire</option>
+                      <option>{t("home.fields.profilInvestisseur")}</option>
+                      <option>{t("home.fields.profilPorteur")}</option>
+                      <option>{t("home.fields.profilPartenaire")}</option>
                     </select>
                   </div>
                 </div>
 
                 <div>
-                  <p className="label-sm text-on-surface-variant">Centres d'intérêt</p>
+                  <p className="label-sm text-on-surface-variant">{t("home.interets.label")}</p>
                   <div className="mt-2 flex flex-wrap gap-2">
                     {interets.map((i) => {
                       const on = selected.includes(i);
@@ -372,13 +371,13 @@ function InterestForm() {
 
                 <div>
                   <label className="label-sm text-on-surface-variant" htmlFor="message">
-                    Message (optionnel)
+                    {t("home.fields.message")}
                   </label>
                   <textarea
                     id="message"
                     name="message"
                     rows={3}
-                    placeholder="Montant envisagé, horizon d'investissement…"
+                    placeholder={t("home.fields.messagePlaceholder")}
                     className="mt-2 w-full rounded-md border border-outline-variant bg-surface-lowest px-3 py-2 text-sm text-on-surface focus:border-primary focus:outline-none"
                   />
                 </div>
@@ -387,7 +386,7 @@ function InterestForm() {
                   type="submit"
                   className="mt-2 flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-on-primary transition-colors hover:opacity-90"
                 >
-                  Envoyer ma demande
+                  {t("home.fields.envoyer")}
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </form>

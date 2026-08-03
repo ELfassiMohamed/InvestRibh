@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Filter } from "lucide-react";
 
 import { PageHeader } from "@/components/AppShell";
@@ -11,15 +12,18 @@ export const Route = createFileRoute("/investisseur/projets/")({
   component: ProjetsPage,
 });
 
-const statuts = ["Tous", "En collecte", "Financé", "En construction", "Livré"];
+const statutValues = ["Tous", "En collecte", "Financé", "En construction", "Livré"];
 
 function ProjetsPage() {
+  const { t } = useTranslation();
   const { data: projects = [], isLoading } = useProjects();
   const [ville, setVille] = useState("Toutes");
   const [typologie, setTypologie] = useState("Toutes");
-  const [statut, setStatut] = useState("Tous");
+  const [statut, setStatut] = useState<string>(() => t("projets.tous"));
   const [ticketMax, setTicketMax] = useState(50_000);
   const [rendementMin, setRendementMin] = useState(0);
+
+  const statuts = statutValues.map((s) => (s === "Tous" ? t("projets.tous") : t(`statuses.${s}`)));
 
   const villes = ["Toutes", ...Array.from(new Set(projects.map((p) => p.ville)))];
   const typologies = ["Toutes", ...Array.from(new Set(projects.map((p) => p.typologie)))];
@@ -30,18 +34,18 @@ function ProjetsPage() {
         (p) =>
           (ville === "Toutes" || p.ville === ville) &&
           (typologie === "Toutes" || p.typologie === typologie) &&
-          (statut === "Tous" || p.statut === statut) &&
+          (statut === t("projets.tous") || p.statut === statut) &&
           p.ticketMinimum <= ticketMax &&
           p.rendementCible >= rendementMin,
       ),
-    [ville, typologie, statut, ticketMax, rendementMin, projects],
+    [ville, typologie, statut, ticketMax, rendementMin, projects, t],
   );
 
   return (
     <>
       <PageHeader
-        title="Catalogue de projets"
-        description={isLoading ? "Chargement..." : `${filtered.length} projets disponibles à l'investissement.`}
+        title={t("investor.projets.title")}
+        description={isLoading ? t("common.loading") : t("projets.count", { count: filtered.length })}
       />
 
       <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
@@ -49,14 +53,14 @@ function ProjetsPage() {
         <aside className="card-elevated h-fit p-5">
           <div className="mb-4 flex items-center gap-2">
             <Filter className="h-4 w-4 text-primary" />
-            <p className="label-sm text-on-surface">Filtrer votre recherche</p>
+            <p className="label-sm text-on-surface">{t("projets.filter")}</p>
           </div>
 
-          <FilterSelect label="Ville" value={ville} options={villes} onChange={setVille} />
-          <FilterSelect label="Typologie" value={typologie} options={typologies} onChange={setTypologie} />
-          <FilterSelect label="Statut" value={statut} options={statuts} onChange={setStatut} />          <div className="mt-5">
+          <FilterSelect label={t("projets.ville")} value={ville} options={villes} onChange={setVille} />
+          <FilterSelect label={t("projets.typologie")} value={typologie} options={typologies} onChange={setTypologie} />
+          <FilterSelect label={t("projets.statut")} value={statut} options={statuts} onChange={setStatut} />          <div className="mt-5">
             <label className="label-sm text-on-surface-variant">
-              Ticket maximum : {ticketMax.toLocaleString("fr-FR")} MAD
+              {t("common.ticketMax", { value: ticketMax.toLocaleString("fr-FR") })}
             </label>
             <input
               type="range"
@@ -71,7 +75,7 @@ function ProjetsPage() {
 
           <div className="mt-5">
             <label className="label-sm text-on-surface-variant">
-              Rendement minimum : {rendementMin.toFixed(1)} %
+              {t("common.rendementMin", { value: rendementMin.toFixed(1) })}
             </label>
             <input
               type="range"
@@ -88,20 +92,20 @@ function ProjetsPage() {
             onClick={() => {
               setVille("Toutes");
               setTypologie("Toutes");
-              setStatut("Tous");
+              setStatut(t("projets.tous"));
               setTicketMax(50_000);
               setRendementMin(0);
             }}
             className="mt-6 w-full rounded-md border border-outline-variant px-3 py-2 text-sm font-medium text-on-surface hover:bg-surface-container"
           >
-            Réinitialiser
+            {t("common.reset")}
           </button>
         </aside>
 
         <div>
           {filtered.length === 0 ? (
             <div className="card-elevated p-12 text-center text-on-surface-variant">
-              Aucun projet ne correspond à ces critères.
+              {t("common.noResults")}
             </div>
           ) : (
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">

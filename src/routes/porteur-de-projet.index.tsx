@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { Plus, ChevronRight, FileText, Building, Coins } from "lucide-react";
 
 import { PageHeader } from "@/components/AppShell";
@@ -12,6 +13,7 @@ export const Route = createFileRoute("/porteur-de-projet/")({
 });
 
 function PorteurHomePage() {
+  const { t } = useTranslation();
   const { user } = useAuth();
   const { data: projects = [] } = useProjects();
   const { data: submissionDrafts = [] } = useSubmissionDrafts();
@@ -21,26 +23,26 @@ function PorteurHomePage() {
   return (
     <>
       <PageHeader
-        title={`Bonjour ${user?.nom?.split(" ")[0] ?? "Atlas Promotion"} 👋`}
-        description="Vue consolidée de vos opérations en cours sur la plateforme."
+        title={t("porteur.bonjour", { name: user?.nom?.split(" ")[0] ?? "Atlas Promotion" })}
+        description={t("porteur.helloDesc")}
         actions={
           <Link
             to="/porteur-de-projet/soumission"
             className="flex items-center gap-1.5 rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-on-primary hover:bg-primary-container"
           >
-            <Plus className="h-4 w-4" /> Soumettre un projet
+            <Plus className="h-4 w-4" /> {t("porteur.submitProject")}
           </Link>
         }
       />
 
       <div className="grid gap-4 sm:grid-cols-3">
-        <KpiCard label="Projets actifs" value={String(mesProjets.length)} icon={<Building className="h-5 w-5" />} />
-        <KpiCard label="Capital levé" value={formatMAD(totalLeve)} hint="Toutes opérations" icon={<Coins className="h-5 w-5" />} />
-        <KpiCard label="Dossiers en cours" value={String(submissionDrafts.length)} hint="Soumissions / brouillons" icon={<FileText className="h-5 w-5" />} />
+        <KpiCard label={t("porteur.kpi.projetsActifs")} value={String(mesProjets.length)} icon={<Building className="h-5 w-5" />} />
+        <KpiCard label={t("porteur.kpi.capitalLeve")} value={formatMAD(totalLeve)} hint={t("porteur.kpi.toutesOperations")} icon={<Coins className="h-5 w-5" />} />
+        <KpiCard label={t("porteur.kpi.dossiers")} value={String(submissionDrafts.length)} hint={t("porteur.kpi.soumissions")} icon={<FileText className="h-5 w-5" />} />
       </div>
 
       <section className="mt-8">
-        <h2 className="headline-md mb-4 text-on-surface">Mes projets en collecte / chantier</h2>
+        <h2 className="headline-md mb-4 text-on-surface">{t("porteur.mesProjets")}</h2>
         <div className="grid gap-4 md:grid-cols-2">
           {mesProjets.map((p) => (
             <div key={p.id} className="card-elevated overflow-hidden">
@@ -54,14 +56,14 @@ function PorteurHomePage() {
                     params={{ projectId: p.id }}
                     className="flex-1 rounded-md bg-primary px-3 py-2 text-center text-sm font-semibold text-on-primary hover:bg-primary-container"
                   >
-                    Collecte
+                    {t("porteur.collecte")}
                   </Link>
                   <Link
                     to="/porteur-de-projet/chantier/$projectId"
                     params={{ projectId: p.id }}
                     className="flex-1 rounded-md border border-outline-variant px-3 py-2 text-center text-sm font-semibold text-on-surface hover:bg-surface-container"
                   >
-                    Chantier
+                    {t("porteur.chantier")}
                   </Link>
                 </div>
               </div>
@@ -71,15 +73,15 @@ function PorteurHomePage() {
       </section>
 
       <section className="mt-8">
-        <h2 className="headline-md mb-4 text-on-surface">Mes soumissions</h2>
+        <h2 className="headline-md mb-4 text-on-surface">{t("porteur.mesSoumissions")}</h2>
         <div className="card-elevated overflow-hidden">
           <table className="w-full text-sm">
             <thead className="bg-surface-low text-left">
               <tr>
-                <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Projet</th>
-                <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Statut</th>
-                <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Avancement</th>
-                <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-on-surface-variant">Mis à jour</th>
+                <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-on-surface-variant">{t("porteur.table.projet")}</th>
+                <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-on-surface-variant">{t("porteur.table.statut")}</th>
+                <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-on-surface-variant">{t("porteur.table.avancement")}</th>
+                <th className="px-4 py-3 text-xs font-bold uppercase tracking-wider text-on-surface-variant">{t("porteur.table.misAJour")}</th>
                 <th className="px-4 py-3"></th>
               </tr>
             </thead>
@@ -97,7 +99,7 @@ function PorteurHomePage() {
                       : s.statut === "En analyse IA" ? "bg-warning/10 text-warning"
                       : "bg-secondary-container text-on-secondary-container"
                     }`}>
-                      {s.statut}
+                      {s.statut === "Approuvé" ? t("statuses.Approuvé") : s.statut === "Rejeté" ? t("statuses.Rejeté") : s.statut === "En analyse IA" ? t("statuses.En analyse IA") : s.statut}
                     </span>
                   </td>
                   <td className="px-4 py-3">
@@ -111,7 +113,7 @@ function PorteurHomePage() {
                   <td className="px-4 py-3 text-on-surface-variant">{formatDate(s.dateMaj)}</td>
                   <td className="px-4 py-3 text-right">
                     <Link to="/porteur-de-projet/soumission" className="inline-flex items-center text-primary hover:underline">
-                      Ouvrir <ChevronRight className="h-4 w-4" />
+                      {t("porteur.table.ouvrir")} <ChevronRight className="h-4 w-4" />
                     </Link>
                   </td>
                 </tr>

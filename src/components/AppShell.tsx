@@ -1,6 +1,7 @@
 import { Link, useRouterState, useRouter } from "@tanstack/react-router";
 import { ArrowLeft, LogOut } from "lucide-react";
 import type { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { useAuth } from "@/hooks/use-auth";
 import logoImage from "@/assets/place2invest_logo.png";
 
@@ -30,10 +31,11 @@ const zoneLabels: Record<string, string> = {
 
 export function AppShell({ zone, nav, children }: Props) {
   const { user, logout } = useAuth();
+  const { t } = useTranslation();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const router = useRouter();
 
-  const displayName = user?.nom ?? "Utilisateur";
+  const displayName = user?.nom ?? t("appShell.utilisateur");
   const displayRole = user?.role ?? zoneLabels[zone] ?? "";
   const initials = displayName
     .split(" ")
@@ -80,7 +82,7 @@ export function AppShell({ zone, nav, children }: Props) {
               className="hidden items-center gap-1.5 text-sm text-on-surface-variant hover:text-on-surface sm:flex"
             >
               <ArrowLeft className="h-4 w-4" />
-              Site public
+              {t("appShell.sitePublic")}
             </Link>
             <div className="flex items-center gap-2.5 rounded-full bg-surface-container px-2 py-1.5">
               <div className={`grid h-7 w-7 place-items-center rounded-full ${zoneTone[zone]} text-xs font-bold`}>
@@ -93,7 +95,7 @@ export function AppShell({ zone, nav, children }: Props) {
             </div>
             <button
               onClick={handleLogout}
-              aria-label="Déconnexion"
+              aria-label={t("common.logout")}
               className="grid h-9 w-9 place-items-center rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
             >
               <LogOut className="h-4 w-4" />

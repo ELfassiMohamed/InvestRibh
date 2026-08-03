@@ -1,5 +1,6 @@
 import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Shield, Smartphone, CheckCircle2, ArrowLeft, ArrowRight } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
 import type { UserRole } from "@/lib/mock-data";
@@ -45,6 +46,7 @@ function getLast6(value: string): string {
 }
 
 function AuthPage() {
+  const { t } = useTranslation();
   const { role, redirect: redirectTo } = Route.useSearch();
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -61,9 +63,9 @@ function AuthPage() {
     return (
       <div className="flex min-h-screen items-center justify-center bg-surface">
         <div className="text-center">
-          <p className="text-on-surface-variant">Rôle invalide ou utilisateur introuvable.</p>
+          <p className="text-on-surface-variant">{t("auth.invalidRole")}</p>
           <Link to="/login" className="mt-4 inline-block text-primary hover:underline">
-            Retour à la connexion
+            {t("auth.backToLogin")}
           </Link>
         </div>
       </div>
@@ -77,11 +79,11 @@ function AuthPage() {
     setError("");
     const input = codeInput.replace(/\s/g, "");
     if (!input) {
-      setError("Veuillez saisir les 6 derniers caractères.");
+      setError(t("auth.enter6"));
       return;
     }
     if (input !== ribLast6 && input !== cinLast6) {
-      setError("Code invalide. Vérifiez vos 6 derniers chiffres RIB ou CIN.");
+      setError(t("auth.invalidCode"));
       return;
     }
     setStep(2);
@@ -91,11 +93,11 @@ function AuthPage() {
   const handleVerifySms = () => {
     setError("");
     if (!smsCode) {
-      setError("Veuillez saisir le code reçu par SMS.");
+      setError(t("auth.enterSms"));
       return;
     }
     if (smsCode !== MOCK_CODE) {
-      setError("Code incorrect.");
+      setError(t("auth.incorrectCode"));
       return;
     }
     setVerified(true);
@@ -108,8 +110,8 @@ function AuthPage() {
       <div className="flex min-h-screen items-center justify-center bg-surface">
         <div className="text-center">
           <CheckCircle2 className="mx-auto h-16 w-16 text-success" />
-          <h2 className="mt-4 headline-md text-on-surface">Connexion réussie</h2>
-          <p className="mt-2 text-on-surface-variant">Redirection vers votre espace…</p>
+          <h2 className="mt-4 headline-md text-on-surface">{t("auth.success")}</h2>
+          <p className="mt-2 text-on-surface-variant">{t("auth.redirecting")}</p>
         </div>
       </div>
     );
@@ -123,7 +125,7 @@ function AuthPage() {
             <img src={logoImage} alt="Place2Invest" className="h-9 rounded-lg object-contain" />
           </Link>
           <Link to="/login" className="text-sm text-on-surface-variant hover:text-on-surface">
-            Retour
+            {t("common.back")}
           </Link>
         </div>
       </div>
@@ -146,15 +148,15 @@ function AuthPage() {
               <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-primary-container/20 text-primary">
                 <Shield className="h-7 w-7" />
               </div>
-              <h1 className="headline-lg text-on-surface">Vérification Identité</h1>
+              <h1 className="headline-lg text-on-surface">{t("auth.verifyIdentity")}</h1>
               <p className="mt-1 text-xs text-on-surface-variant">
-                Rôle : {roleLabels[role]?.nom ?? role}
+                {t("auth.role", { role: roleLabels[role]?.nom ?? role })}
               </p>
             </div>
 
             <div className="card-elevated p-6">
               <label className="label-sm text-on-surface-variant">
-                Saisissez les 6 derniers caractères de votre RIB ou CIN
+                {t("auth.enterLast6")}
               </label>
               <div className="mt-2 flex gap-2">
                 <input
@@ -169,7 +171,7 @@ function AuthPage() {
               </div>
 
               <div className="mt-3 rounded-md border border-dashed border-outline-variant bg-surface-lowest/50 p-2.5 text-xs leading-relaxed text-on-surface-variant">
-                <p className="font-semibold text-on-surface">Démo</p>
+                <p className="font-semibold text-on-surface">{t("auth.demo")}</p>
                 {ribLast6 && <p>RIB : <span className="font-mono text-primary">{ribLast6}</span></p>}
                 <p>CIN : <span className="font-mono text-primary">{cinLast6}</span></p>
               </div>
@@ -180,7 +182,7 @@ function AuthPage() {
                 onClick={handleVerifyIdentity}
                 className="mt-5 flex w-full items-center justify-center gap-2 rounded-md bg-primary px-4 py-3 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-container"
               >
-                Vérifier mon identité
+                {t("auth.verifyIdentityBtn")}
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>
@@ -195,20 +197,20 @@ function AuthPage() {
               <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-primary-container/20 text-primary">
                 <Smartphone className="h-7 w-7" />
               </div>
-              <h1 className="headline-lg text-on-surface">Code de vérification</h1>
+              <h1 className="headline-lg text-on-surface">{t("auth.verifyCode")}</h1>
               <p className="mt-2 text-on-surface-variant">
-                Un code a été envoyé par SMS au numéro enregistré.
+                {t("auth.smsSent")}
               </p>
               {ribLast6 && (
                 <p className="mt-1 text-xs text-on-surface-variant">
-                  Numéro se terminant par ••{ribLast6.slice(-2)}
+                  {t("auth.endingWith", { last: ribLast6.slice(-2) })}
                 </p>
               )}
             </div>
 
             <div className="card-elevated p-6">
               <label className="label-sm text-on-surface-variant">
-                Code de vérification à 6 chiffres
+                {t("auth.enter6Digit")}
               </label>
               <input
                 type="text"
@@ -221,8 +223,8 @@ function AuthPage() {
               />
 
               <div className="mt-3 rounded-md border border-dashed border-outline-variant bg-surface-lowest/50 p-2.5 text-xs leading-relaxed text-on-surface-variant">
-                <p className="font-semibold text-on-surface">Démo</p>
-                <p>Code SMS : <span className="font-mono text-primary">{MOCK_CODE}</span></p>
+                <p className="font-semibold text-on-surface">{t("auth.demo")}</p>
+                <p>{t("auth.smsCode")} : <span className="font-mono text-primary">{MOCK_CODE}</span></p>
               </div>
 
               {error && <p className="mt-3 text-sm text-error">{error}</p>}
@@ -231,7 +233,7 @@ function AuthPage() {
                 onClick={handleVerifySms}
                 className="mt-5 flex w-full items-center justify-center gap-2 rounded-md bg-primary px-4 py-3 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-container"
               >
-                Valider le code
+                {t("auth.validateCode")}
                 <ArrowRight className="h-4 w-4" />
               </button>
 
@@ -240,7 +242,7 @@ function AuthPage() {
                 className="mt-3 flex w-full items-center justify-center gap-1.5 text-sm text-on-surface-variant hover:text-on-surface"
               >
                 <ArrowLeft className="h-4 w-4" />
-                Revenir à l'étape précédente
+                {t("auth.previousStep")}
               </button>
             </div>
           </>

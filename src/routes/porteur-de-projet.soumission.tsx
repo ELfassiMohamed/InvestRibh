@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Check, Upload, Save, Send, FileText, X } from "lucide-react";
 import { PageHeader } from "@/components/AppShell";
 import { useCreateDraft, useSubmitForReview, useSubmissionDrafts } from "@/hooks/use-queries";
@@ -10,14 +11,8 @@ export const Route = createFileRoute("/porteur-de-projet/soumission")({
 
 type Step = 1 | 2 | 3 | 4;
 
-const steps: { num: Step; titre: string; description: string }[] = [
-  { num: 1, titre: "Informations générales", description: "Identité du projet et budget" },
-  { num: 2, titre: "Documents techniques", description: "Plans, permis, études" },
-  { num: 3, titre: "Documents juridiques", description: "Titre, statuts SPV, autorisations" },
-  { num: 4, titre: "Données financières", description: "Business plan, échéancier" },
-];
-
 function SoumissionPage() {
+  const { t } = useTranslation();
   const [step, setStep] = useState<Step>(1);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -31,13 +26,20 @@ function SoumissionPage() {
     montantRecherche: "",
   });
 
+  const steps = [
+    { num: 1 as Step, titre: t("porteur.soumissionPage.step1Title"), description: t("porteur.soumissionPage.step1Desc") },
+    { num: 2 as Step, titre: t("porteur.soumissionPage.step2Title"), description: t("porteur.soumissionPage.step2Desc") },
+    { num: 3 as Step, titre: t("porteur.soumissionPage.step3Title"), description: t("porteur.soumissionPage.step3Desc") },
+    { num: 4 as Step, titre: t("porteur.soumissionPage.step4Title"), description: t("porteur.soumissionPage.step4Desc") },
+  ];
+
   const createDraft = useCreateDraft();
   const submitForReview = useSubmitForReview();
   const { data: drafts } = useSubmissionDrafts();
 
   const handleSaveDraft = () => {
     if (!data.titre.trim() || !data.ville.trim() || !data.budget || !data.montantRecherche) {
-      setErrorMsg("Veuillez remplir les champs obligatoires (titre, ville, budget, montant).");
+      setErrorMsg(t("porteur.soumissionPage.erreurChamps"));
       return;
     }
     createDraft.mutate(
@@ -51,11 +53,11 @@ function SoumissionPage() {
       {
         onSuccess: (result) => {
           setLastDraftId(result.id);
-          setSuccessMsg("Brouillon enregistré avec succès dans la base de données.");
+          setSuccessMsg(t("porteur.soumissionPage.succesBrouillon"));
           setErrorMsg(null);
         },
         onError: () => {
-          setErrorMsg("Erreur lors de l'enregistrement du brouillon.");
+          setErrorMsg(t("porteur.soumissionPage.erreurBrouillon"));
         },
       }
     );
@@ -63,19 +65,19 @@ function SoumissionPage() {
 
   const handleSubmit = () => {
     if (!lastDraftId) {
-      setErrorMsg("Veuillez d'abord enregistrer le brouillon.");
+      setErrorMsg(t("porteur.soumissionPage.erreurDraftManquant"));
       return;
     }
     submitForReview.mutate(lastDraftId, {
       onSuccess: () => {
-        setSuccessMsg("Projet soumis à l'analyse IA avec succès. Il apparaîtra dans la file d'attente admin.");
+        setSuccessMsg(t("porteur.soumissionPage.succesSoumission"));
         setErrorMsg(null);
         setData({ titre: "", typologie: "Résidentiel", ville: "", adresse: "", budget: "", montantRecherche: "" });
         setLastDraftId(null);
         setStep(1);
       },
       onError: () => {
-        setErrorMsg("Erreur lors de la soumission du projet.");
+        setErrorMsg(t("porteur.soumissionPage.erreurSoumission"));
       },
     });
   };
@@ -83,8 +85,8 @@ function SoumissionPage() {
   return (
     <>
       <PageHeader
-        title="Soumettre un projet"
-        description="Constituez votre dossier étape par étape. Vous pouvez enregistrer en brouillon à tout moment."
+        title={t("porteur.soumissionPage.title")}
+        description={t("porteur.soumissionPage.subtitle")}
         actions={
           <>
             <button
@@ -92,7 +94,7 @@ function SoumissionPage() {
               disabled={createDraft.isPending}
               className="flex items-center gap-1.5 rounded-md border border-outline-variant px-3 py-2 text-sm font-medium text-on-surface hover:bg-surface-container disabled:opacity-50"
             >
-              <Save className="h-4 w-4" /> {createDraft.isPending ? "Enregistrement…" : "Enregistrer en brouillon"}
+              <Save className="h-4 w-4" /> {createDraft.isPending ? t("porteur.soumissionPage.enregistrement") : t("porteur.soumissionPage.enregistrerBrouillon")}
             </button>
             {step === 4 && (
               <button
@@ -100,7 +102,7 @@ function SoumissionPage() {
                 disabled={submitForReview.isPending || !lastDraftId}
                 className="flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary hover:bg-primary-container disabled:opacity-50"
               >
-                <Send className="h-4 w-4" /> {submitForReview.isPending ? "Soumission…" : "Soumettre à l'analyse IA"}
+                <Send className="h-4 w-4" /> {submitForReview.isPending ? t("porteur.soumissionPage.soumissionEnCours") : t("porteur.soumissionPage.soumettreAnalyse")}
               </button>
             )}
           </>
@@ -129,7 +131,7 @@ function SoumissionPage() {
 
       {drafts && drafts.length > 0 && (
         <div className="card-elevated mb-6 p-4">
-          <p className="label-sm text-on-surface-variant mb-2">Brouillons existants</p>
+          <p className="label-sm text-on-surface-variant mb-2">{t("porteur.soumissionPage.brouillonsExistants")}</p>
           <div className="flex flex-wrap gap-2">
             {drafts.map((d: any) => (
               <button
@@ -137,7 +139,7 @@ function SoumissionPage() {
                 onClick={() => {
                   setData({ titre: d.nom, ville: d.ville, typologie: d.typologie, adresse: "", budget: String(d.budget), montantRecherche: String(d.montantRecherche) });
                   setLastDraftId(d.id);
-                  setSuccessMsg(`Brouillon "${d.nom}" chargé.`);
+                  setSuccessMsg(t("porteur.soumissionPage.brouillonCharge", { nom: d.nom }));
                 }}
                 className="rounded-md border border-outline-variant px-3 py-1.5 text-xs hover:bg-surface-container"
               >
@@ -176,7 +178,7 @@ function SoumissionPage() {
                 >
                   {done ? <Check className="h-3.5 w-3.5" /> : s.num}
                 </div>
-                <p className="text-xs font-bold text-on-surface">Étape {s.num}</p>
+                <p className="text-xs font-bold text-on-surface">{t("porteur.soumissionPage.etape")} {s.num}</p>
               </div>
               <p className="mt-1.5 text-sm font-semibold text-on-surface">{s.titre}</p>
               <p className="text-xs text-on-surface-variant">{s.description}</p>
@@ -188,63 +190,63 @@ function SoumissionPage() {
       <div className="card-elevated p-6 lg:p-8">
         {step === 1 && (
           <div className="grid gap-5 md:grid-cols-2">
-            <Field label="Titre du projet" required>
+            <Field label={t("porteur.soumissionPage.titreProjet")} required>
               <input
                 value={data.titre}
                 onChange={(e) => setData({ ...data, titre: e.target.value })}
-                placeholder="Ex. Résidence Anfa Park"
+                placeholder={t("porteur.soumissionPage.titrePlaceholder")}
                 className="input"
               />
             </Field>
-            <Field label="Typologie" required>
+            <Field label={t("porteur.soumissionPage.typologieLabel")} required>
               <select
                 value={data.typologie}
                 onChange={(e) => setData({ ...data, typologie: e.target.value })}
                 className="input"
               >
-                {["Résidentiel", "Commercial & Bureaux", "Terrains & Lotissements", "Projets neufs en collecte"].map((t) => (
-                  <option key={t}>{t}</option>
+                {["Résidentiel", "Commercial & Bureaux", "Terrains & Lotissements", "Projets neufs en collecte"].map((typo) => (
+                  <option key={typo}>{t(`typologies.${typo}`)}</option>
                 ))}
               </select>
             </Field>
-            <Field label="Ville" required>
+            <Field label={t("porteur.soumissionPage.ville")} required>
               <input
                 value={data.ville}
                 onChange={(e) => setData({ ...data, ville: e.target.value })}
-                placeholder="Casablanca, Rabat, Marrakech…"
+                placeholder={t("porteur.soumissionPage.villePlaceholder")}
                 className="input"
               />
             </Field>
-            <Field label="Adresse complète">
+            <Field label={t("porteur.soumissionPage.adresseComplete")}>
               <input
                 value={data.adresse}
                 onChange={(e) => setData({ ...data, adresse: e.target.value })}
-                placeholder="Quartier, rue, n°"
+                placeholder={t("porteur.soumissionPage.adressePlaceholder")}
                 className="input"
               />
             </Field>
-            <Field label="Budget total (MAD)" required>
+            <Field label={t("porteur.soumissionPage.budgetTotal")} required>
               <input
                 type="number"
                 value={data.budget}
                 onChange={(e) => setData({ ...data, budget: e.target.value })}
-                placeholder="50 000 000"
+                placeholder={t("porteur.soumissionPage.budgetPlaceholder")}
                 className="input"
               />
             </Field>
-            <Field label="Montant recherché (MAD)" required>
+            <Field label={t("porteur.soumissionPage.montantRecherche")} required>
               <input
                 type="number"
                 value={data.montantRecherche}
                 onChange={(e) => setData({ ...data, montantRecherche: e.target.value })}
-                placeholder="30 000 000"
+                placeholder={t("porteur.soumissionPage.montantPlaceholder")}
                 className="input"
               />
             </Field>
-            <Field label="Description du projet" full>
+            <Field label={t("porteur.soumissionPage.descriptionProjet")} full>
               <textarea
                 rows={5}
-                placeholder="Décrivez votre opération : programme, marché cible, calendrier, partenaires…"
+                placeholder={t("porteur.soumissionPage.descriptionPlaceholder")}
                 className="input"
               />
             </Field>
@@ -253,28 +255,28 @@ function SoumissionPage() {
 
         {step === 2 && (
           <div className="grid gap-4 md:grid-cols-2">
-            <Uploader titre="Plans architecturaux" description="DWG, PDF — max 50 Mo" />
-            <Uploader titre="Permis de construire" description="PDF" />
-            <Uploader titre="Étude de sol" description="PDF — datée < 24 mois" />
-            <Uploader titre="Étude d'impact environnemental" description="PDF (si applicable)" />
+            <Uploader titre={t("porteur.soumissionPage.upload1")} description={t("porteur.soumissionPage.upload1Desc")} />
+            <Uploader titre={t("porteur.soumissionPage.upload2")} description={t("porteur.soumissionPage.upload2Desc")} />
+            <Uploader titre={t("porteur.soumissionPage.upload3")} description={t("porteur.soumissionPage.upload3Desc")} />
+            <Uploader titre={t("porteur.soumissionPage.upload4")} description={t("porteur.soumissionPage.upload4Desc")} />
           </div>
         )}
 
         {step === 3 && (
           <div className="grid gap-4 md:grid-cols-2">
-            <Uploader titre="Titre foncier purgé" description="PDF" required />
-            <Uploader titre="Statuts de la SPV" description="PDF" required />
-            <Uploader titre="Autorisation de lotir / construire" description="PDF" required />
-            <Uploader titre="Quitus fiscal" description="PDF" />
+            <Uploader titre={t("porteur.soumissionPage.upload5")} description={t("porteur.soumissionPage.upload2Desc")} required />
+            <Uploader titre={t("porteur.soumissionPage.upload6")} description={t("porteur.soumissionPage.upload2Desc")} required />
+            <Uploader titre={t("porteur.soumissionPage.upload7")} description={t("porteur.soumissionPage.upload2Desc")} required />
+            <Uploader titre={t("porteur.soumissionPage.upload8")} description={t("porteur.soumissionPage.upload2Desc")} />
           </div>
         )}
 
         {step === 4 && (
           <div className="grid gap-4 md:grid-cols-2">
-            <Uploader titre="Business plan détaillé" description="PDF, Excel" required />
-            <Uploader titre="Budget prévisionnel" description="Excel" required />
-            <Uploader titre="Échéancier de construction" description="PDF, MS Project" />
-            <Uploader titre="Garanties et assurances" description="PDF" />
+            <Uploader titre={t("porteur.soumissionPage.upload9")} description={t("porteur.soumissionPage.upload9Desc")} required />
+            <Uploader titre={t("porteur.soumissionPage.upload10")} description={t("porteur.soumissionPage.upload10Desc")} required />
+            <Uploader titre={t("porteur.soumissionPage.upload11")} description={t("porteur.soumissionPage.upload11Desc")} />
+            <Uploader titre={t("porteur.soumissionPage.upload12")} description={t("porteur.soumissionPage.upload2Desc")} />
           </div>
         )}
 
@@ -284,14 +286,14 @@ function SoumissionPage() {
             onClick={() => setStep((step - 1) as Step)}
             className="rounded-md border border-outline-variant px-4 py-2 text-sm font-medium text-on-surface hover:bg-surface-container disabled:opacity-50"
           >
-            Étape précédente
+            {t("porteur.soumissionPage.etapePrecedente")}
           </button>
           {step < 4 && (
             <button
               onClick={() => setStep((step + 1) as Step)}
               className="rounded-md bg-primary px-5 py-2 text-sm font-semibold text-on-primary hover:bg-primary-container"
             >
-              Étape suivante
+              {t("porteur.soumissionPage.etapeSuivante")}
             </button>
           )}
         </div>
@@ -315,6 +317,7 @@ function Field({ label, children, required, full }: { label: string; children: R
 }
 
 function Uploader({ titre, description, required }: { titre: string; description: string; required?: boolean }) {
+  const { t } = useTranslation();
   const [file, setFile] = useState<File | null>(null);
 
   return (
@@ -346,7 +349,7 @@ function Uploader({ titre, description, required }: { titre: string; description
       ) : (
         <label className="flex cursor-pointer flex-col items-center gap-2 rounded-lg bg-surface-low py-6 text-on-surface-variant hover:bg-surface-container">
           <Upload className="h-6 w-6" />
-          <span className="text-xs font-medium">Glisser-déposer ou cliquer</span>
+          <span className="text-xs font-medium">{t("porteur.soumissionPage.glisserDeposer")}</span>
           <input
             type="file"
             className="hidden"

@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Filter, ArrowLeft, User } from "lucide-react";
 
 import { FilterSelect } from "@/components/FilterSelect";
@@ -8,7 +9,6 @@ import logoImage from "@/assets/place2invest_logo.png";
 import { useProjects } from "@/hooks/use-queries";
 import {
   getCategorieForSlug,
-  sectionMeta,
   sectionOrder,
   type Project,
 } from "@/lib/mock-data";
@@ -17,22 +17,27 @@ export const Route = createFileRoute("/projects/$categorie")({
   component: SectionProjectsPage,
 });
 
-const statuts = ["Tous", "En collecte", "Financé", "En construction", "Livré"];
+const statutValues = ["Tous", "En collecte", "Financé", "En construction", "Livré"];
 
 function SectionProjectsPage() {
+  const { t } = useTranslation();
   const { categorie: slug } = Route.useParams();
   const categorie = getCategorieForSlug(slug);
 
   const { data: projects = [], isLoading } = useProjects();
   const [ville, setVille] = useState("Toutes");
   const [typologie, setTypologie] = useState("Toutes");
-  const [statut, setStatut] = useState("Tous");
+  const [statut, setStatut] = useState<string>(() => t("projets.tous"));
   const [ticketMax, setTicketMax] = useState(50_000);
   const [rendementMin, setRendementMin] = useState(0);
 
+  const statuts = statutValues.map((s) => (s === "Tous" ? t("projets.tous") : t(`statuses.${s}`)));
+
+  const translatedCategorie = categorie ? t(`categories.${categorie}`) : categorie;
+
   const sectionProjects = useMemo(
-    () => (categorie ? projects.filter((p) => p.categorie === categorie) : []),
-    [categorie, projects],
+    () => (translatedCategorie ? projects.filter((p) => p.categorie === translatedCategorie) : []),
+    [translatedCategorie, projects],
   );
 
   const villes = ["Toutes", ...Array.from(new Set(sectionProjects.map((p) => p.ville)))];
@@ -44,18 +49,19 @@ function SectionProjectsPage() {
         (p: Project) =>
           (ville === "Toutes" || p.ville === ville) &&
           (typologie === "Toutes" || p.typologie === typologie) &&
-          (statut === "Tous" || p.statut === statut) &&
+          (statut === t("projets.tous") || p.statut === statut) &&
           p.ticketMinimum <= ticketMax &&
           p.rendementCible >= rendementMin,
       ),
-    [ville, typologie, statut, ticketMax, rendementMin, sectionProjects],
+    [ville, typologie, statut, ticketMax, rendementMin, sectionProjects, t],
   );
 
   if (!categorie) {
     throw notFound();
   }
 
-  const meta = sectionMeta[categorie];
+  const sectionKey =
+    { Immobilier: "immobilier", Crypto: "crypto", "Startup & Affaires": "startup", Solidaire: "solidaire", Crowdfunding: "crowdfunding", "Produit de forte valeur": "valeur" }[categorie] ?? "immobilier";
 
   return (
     <div className="min-h-screen bg-surface">
@@ -71,14 +77,14 @@ function SectionProjectsPage() {
               className="hidden items-center gap-1.5 text-sm text-on-surface-variant hover:text-on-surface sm:flex"
             >
               <ArrowLeft className="h-4 w-4" />
-              Tous les projets
+              {t("projectsSection.backAll")}
             </Link>
             <Link
               to="/login"
               className="flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-container"
             >
               <User className="h-4 w-4" />
-              Se connecter
+              {t("common.login")}
             </Link>
           </div>
         </div>
@@ -87,14 +93,14 @@ function SectionProjectsPage() {
       <div className="mx-auto max-w-[1280px] px-4 py-8 sm:px-8">
         <div className="mb-8">
           <p className="label-sm text-primary">
-            Section · {sectionOrder.indexOf(categorie) + 1}/{sectionOrder.length}
+            {t("projectsSection.section", { index: sectionOrder.indexOf(categorie) + 1, total: sectionOrder.length })}
           </p>
-          <h1 className="headline-lg text-on-surface">{meta.titre}</h1>
-          <p className="mt-1.5 max-w-2xl text-on-surface-variant">{meta.description}</p>
+          <h1 className="headline-lg text-on-surface">{t(`sections.${sectionKey}.titre`)}</h1>
+          <p className="mt-1.5 max-w-2xl text-on-surface-variant">{t(`sections.${sectionKey}.description`)}</p>
           <p className="mt-1.5 text-on-surface-variant">
             {isLoading
-              ? "Chargement…"
-              : `${sectionProjects.length} projet${sectionProjects.length > 1 ? "s" : ""} disponible${sectionProjects.length > 1 ? "s" : ""} à l'investissement.`}
+              ? t("common.loading")
+              : t("projectsSection.count", { count: sectionProjects.length })}
           </p>
         </div>
 
@@ -103,16 +109,16 @@ function SectionProjectsPage() {
           <aside className="card-elevated h-fit p-5">
             <div className="mb-4 flex items-center gap-2">
               <Filter className="h-4 w-4 text-primary" />
-              <p className="label-sm text-on-surface">Filtrer votre recherche</p>
+              <p className="label-sm text-on-surface">{t("projets.filter")}</p>
             </div>
 
-            <FilterSelect label="Ville" value={ville} options={villes} onChange={setVille} />
-            <FilterSelect label="Typologie" value={typologie} options={typologies} onChange={setTypologie} />
-            <FilterSelect label="Statut" value={statut} options={statuts} onChange={setStatut} />
+            <FilterSelect label={t("projets.ville")} value={ville} options={villes} onChange={setVille} />
+            <FilterSelect label={t("projets.typologie")} value={typologie} options={typologies} onChange={setTypologie} />
+            <FilterSelect label={t("projets.statut")} value={statut} options={statuts} onChange={setStatut} />
 
             <div className="mt-5">
               <label className="label-sm text-on-surface-variant">
-                Ticket maximum : {ticketMax.toLocaleString("fr-FR")} MAD
+                {t("common.ticketMax", { value: ticketMax.toLocaleString("fr-FR") })}
               </label>
               <input
                 type="range"
@@ -127,7 +133,7 @@ function SectionProjectsPage() {
 
             <div className="mt-5">
               <label className="label-sm text-on-surface-variant">
-                Rendement minimum : {rendementMin.toFixed(1)} %
+                {t("common.rendementMin", { value: rendementMin.toFixed(1) })}
               </label>
               <input
                 type="range"
@@ -144,20 +150,20 @@ function SectionProjectsPage() {
               onClick={() => {
                 setVille("Toutes");
                 setTypologie("Toutes");
-                setStatut("Tous");
+                setStatut(t("projets.tous"));
                 setTicketMax(50_000);
                 setRendementMin(0);
               }}
               className="mt-6 w-full rounded-md border border-outline-variant px-3 py-2 text-sm font-medium text-on-surface hover:bg-surface-container"
             >
-              Réinitialiser
+              {t("common.reset")}
             </button>
           </aside>
 
           <div>
             {filtered.length === 0 ? (
               <div className="card-elevated p-12 text-center text-on-surface-variant">
-                Aucun projet ne correspond à ces critères.
+                {t("common.noResults")}
               </div>
             ) : (
               <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
@@ -173,7 +179,7 @@ function SectionProjectsPage() {
       {/* Footer */}
       <footer className="mt-20 bg-inverse-surface text-inverse-on-surface">
         <div className="mx-auto max-w-[1280px] px-4 py-8 text-center text-xs opacity-60 sm:px-10">
-          © {new Date().getFullYear()} Place2Invest. Investir comporte un risque de perte en capital.
+          © {new Date().getFullYear()} Place2Invest. {t("common.footer")}
         </div>
       </footer>
     </div>

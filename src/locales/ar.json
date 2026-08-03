@@ -1,0 +1,1123 @@
+{
+  "common": {
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "back": "رجوع",
+    "home": "الرئيسية",
+    "loading": "جارٍ التحميل…",
+    "reset": "إعادة تعيين",
+    "voirTout": "عرض الكل",
+    "projectsAvailable": "{{count}} مشروع متاح للاستثمار.",
+    "noResults": "لا يوجد مشروع يطابق هذه المعايير.",
+    "ticketMax": "الحد الأدنى للمساهمة: {{value}} درهم",
+    "rendementMin": "العائد الأدنى: {{value}} %",
+    "footer": "الاستثمار ينطوي على مخاطر فقدان رأس المال.",
+    "notFoundTitle": "الصفحة غير موجودة",
+    "notFoundDesc": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+    "notFoundHome": "العودة إلى الرئيسية",
+    "errorTitle": "تعذر تحميل هذه الصفحة",
+    "errorDesc": "حدث خطأ. يمكنك إعادة المحاولة أو العودة إلى الصفحة الرئيسية.",
+    "retry": "إعادة المحاولة"
+  },
+  "funding": {
+    "of": "من"
+  },
+  "topBar": {
+    "share": "مشاركة",
+    "notifications": "إشعارات",
+    "favorites": "المفضلة",
+    "cart": "السلة"
+  },
+  "categoryNav": {
+    "pagePrincipale": "الصفحة الرئيسية",
+    "biens": "العقارات",
+    "investissementsCollectifs": "الاستثمارات الجماعية",
+    "investissementSolidaire": "الاستثمار التضامني",
+    "annuaire": "دليل المهنيين",
+    "pratique": "معلومات عملية",
+    "espaceCommunautaire": "الفضاء المجتمعي",
+    "marketplace": "السوق"
+  },
+  "demoNotice": {
+    "title": "منصة تجريبية",
+    "body": "هذه نسخة تجريبية. لا يتم جمع أو حفظ أي بيانات شخصية.",
+    "titleAr": "منصة تجريبية",
+    "bodyAr": "هذه نسخة تجريبية. لا يتم جمع أو حفظ أي بيانات شخصية.",
+    "continue": "متابعة / Continue"
+  },
+  "hero": {
+    "headline1": "استثمر في المستقبل،",
+    "headline2": "اليوم.",
+    "subtitle": "منصة Place2Invest هي منصتك الرقمية لتنويع استثماراتك في العقارات والشركات الناشئة والفن والعملات الرقمية والمواهب، مع دعم الاقتصاد الاجتماعي والتضامني.",
+    "searchPlaceholder": "ماذا تبحث عنه؟",
+    "search": "بحث",
+    "types": {
+      "tous": "الكل",
+      "immobilier": "العقارات",
+      "crypto": "العملات الرقمية",
+      "startup": "الشركات الناشئة",
+      "talent": "المواهب",
+      "objets": "الأشياء الثمينة"
+    }
+  },
+  "home": {
+    "espacesLabel": "مساحاتنا",
+    "espacesTitle": "طريقتان لتطوير مشروعك",
+    "espacesDesc": "سواء كنت تبحث عن استثمار مدخراتك أو تمويل مشروعك، ففضاؤك المخصص في انتظارك.",
+    "espaceInvestisseur": {
+      "label": "فضاء المستثمر",
+      "titre": "نوّع أصولك المالية",
+      "description": "لوحة تحكم لحظية، محاكي للعائد الضريبي المغربي ومحفظة موحدة.",
+      "points": ["فرص مؤهلة", "تتبع الأداء", "محاكي ضريبي مغربي"]
+    },
+    "espacePorteur": {
+      "label": "فضاء صاحب المشروع",
+      "titre": "اجمع أموال مشروعك",
+      "description": "تقديم ملفات موجه، تتبع الجمع وتقدم الأشغال بشفافية.",
+      "points": ["ملف موجه", "جمع مباشر", "تقارير للمستثمرين"]
+    },
+    "accederEspace": "الوصول إلى الفضاء",
+    "rejoignezLabel": "انضم إلينا",
+    "interetsTitle": "أخبرنا بما يهمك",
+    "interetsDesc": "اترك بياناتك واهتماماتك: سيرسل فريقنا لك الأولويات الفرص المناسبة لملفك.",
+    "merci": "شكراً!",
+    "merciDesc": "تم تسجيل طلبك بنجاح. سنتواصل معك قريباً.",
+    "fields": {
+      "nom": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "tel": "الهاتف",
+      "jeSuis": "أنا",
+      "profilInvestisseur": "مستثمر",
+      "profilPorteur": "صاحب مشروع",
+      "profilPartenaire": "شريك",
+      "message": "رسالة (اختياري)",
+      "messagePlaceholder": "المبلغ المتوقع، أفق الاستثمار…",
+      "envoyer": "إرسال طلبي"
+    },
+    "interets": {
+      "label": "اهتماماتك",
+      "immobilier": "العقارات",
+      "crypto": "العملات الرقمية",
+      "startup": "الشركات الناشئة والأعمال",
+      "solidaire": "التضامن",
+      "crowdfunding": "التمويل الجماعي",
+      "valeur": "المنتجات الثمينة"
+    },
+    "categories": {
+      "immobilier": "العقارات",
+      "crypto": "العملات الرقمية",
+      "startup": "الشركات الناشئة والأعمال",
+      "solidaire": "التضامن",
+      "crowdfunding": "التمويل الجماعي",
+      "valeur": "المنتجات الثمينة"
+    },
+    "footer": {
+      "tagline": "منصة رقمية متعددة الأصول للاستثمار منظمة في المغرب.",
+      "plateforme": "المنصة",
+      "plateformeLinks": ["المشاريع", "كيف تعمل", "الضريبة المغربية", "الأمان"],
+      "societe": "الشركة",
+      "societeLinks": ["من نحن", "الوظائف", "الصحافة", "اتصل بنا"],
+      "legal": "قانوني",
+      "legalLinks": ["إشعارات قانونية", "الامتثال AMMC", "السرية", "الكوكيز"]
+    }
+  },
+  "projets": {
+    "title": "المشاريع المتاحة",
+    "filter": "تصفية بحثك",
+    "ville": "المدينة",
+    "typologie": "النوع",
+    "statut": "الحالة",
+    "tous": "الكل",
+    "count": "{{count}} مشروع متاح للاستثمار.",
+    "sectionCount": "{{count}} مشروع متاح للاستثمار."
+  },
+  "projectCard": {
+    "coupDeCoeur": "المفضل",
+    "addFav": "أضف إلى المفضلة",
+    "ticketMin": "الحد الأدنى للمساهمة",
+    "rendement": "العائد المستهدف"
+  },
+  "riskScore": {
+    "risque": "المخاطر {{label}}"
+  },
+  "projectDetail": {
+    "backCatalogue": "العودة إلى الكتالوج",
+    "tousProjets": "جميع المشاريع",
+    "loginInvest": "سجّل الدخول للاستثمار",
+    "aPropos": "حول المشروع",
+    "localisation": "الموقع",
+    "duree": "المدة",
+    "investisseurs": "المستثمرون",
+    "rendementCible": "العائد المستهدف",
+    "budgetTotal": "الميزانية الإجمالية",
+    "ticketMin": "الحد الأدنى للمساهمة",
+    "analyseIa": "ملخص التحليل الذكي",
+    "analyseIaSub": "مسار متعدد الوكلاء · النتيجة العامة {{score}}/100",
+    "pointsForts": "نقاط القوة",
+    "pointsVigilance": "نقاط التحذير",
+    "documents": "وثائق المشروع",
+    "mois": "{{count}} شهر",
+    "joursRestants": "الأيام المتبقية",
+    "download": "تحميل",
+    "sidebarText": "للاستثمار في هذا المشروع، سجّل الدخول إلى فضاء المستثمر.",
+    "sidebarLogin": "تسجيل الدخول",
+    "docs": [
+      "نشرة معلومات AMMC",
+      "العقار (سند الملكية)",
+      "رخصة البناء",
+      "خطة عمل مفصلة",
+      "دراسة التربة",
+      "المخططات المعمارية"
+    ]
+  },
+  "projectsIndex": {
+    "title": "أقسام الاستثمار",
+    "subtitle": "استكشف كل فئة أصول على صفحتها المخصصة.",
+    "voirSection": "عرض القسم",
+    "count": "{{count}} مشروع"
+  },
+  "projectsSection": {
+    "section": "القسم · {{index}}/{{total}}",
+    "backAll": "جميع المشاريع",
+    "count": "{{count}} مشروع متاح للاستثمار."
+  },
+  "sections": {
+    "immobilier": {
+      "titre": "العقارات",
+      "description": "استثمر في برامج سكنية وتجارية وعقارية تحللها أنظمة الذكاء الاصطناعي لدينا."
+    },
+    "crypto": {
+      "titre": "العملات الرقمية",
+      "description": "التعرض للأصول الرقمية عبر صناديق منظمة وستاكينغ وأصول رمزية."
+    },
+    "startup": {
+      "titre": "الشركات الناشئة والأعمال",
+      "description": "رافق الشركات الناشئة المغربية الواعدة في مجالات التكنولوجيا والتكنولوجيا المالية والتكنولوجيا الزراعية."
+    },
+    "solidaire": {
+      "titre": "التضامن",
+      "description": "استثمارات ذات أثر اجتماعي وبيئي في خدمة الاقتصاد الاجتماعي والتضامني."
+    },
+    "crowdfunding": {
+      "titre": "التمويل الجماعي",
+      "description": "شارك في التمويل الجماعي للأفلام والمهرجانات والألبومات والمنتجات المحلية."
+    },
+    "valeur": {
+      "titre": "المنتجات الثمينة",
+      "description": "استثمر في أصول ملموسة: الفن، الساعات، الماس، الذهب والسيارات الكلاسيكية."
+    }
+  },
+  "login": {
+    "decouvrir": "اكتشف المشاريع",
+    "connexion": "تسجيل الدخول",
+    "choisissez": "اختر فضاءك",
+    "description": "حدد الدور الذي يطابق نشاطك على المنصة. حسابات العرض مملوءة مسبقًا.",
+    "seConnecter": "تسجيل الدخول ←",
+    "espaces": {
+      "investisseur": {
+        "label": "فضاء المستثمر",
+        "titre": "نوّع أصولك المالية",
+        "description": "الوصول إلى فرص استثمار مؤهلة."
+      },
+      "porteur": {
+        "label": "فضاء صاحب المشروع",
+        "titre": "اجمع أموال مشروعك",
+        "description": "قدّم مشروعك واجمع رأس المال."
+      },
+      "conformite": {
+        "label": "فضاء الامتثال",
+        "titre": "الإشراف والامتثال AMMC",
+        "description": "أشرف على ملفات الاستثمار وصادق عليها."
+      }
+    }
+  },
+  "kpi": {
+    "vsTrimestre": "مقارنة بالربع السابق"
+  },
+  "investor": {
+    "nav": {
+      "dashboard": "لوحة التحكم",
+      "simulateur": "محاكي العائد",
+      "portefeuille": "محفظتي",
+      "verification": "التحقق التنظيمي",
+      "projets": "المشاريع"
+    },
+    "loading": "جارٍ التحميل…",
+    "loadingSub": "يرجى الانتظار.",
+    "fetching": "جاري استرجاع البيانات…",
+    "bonjour": "مرحباً {{name}} 👋",
+    "helloDesc": "هذه هي الحالة الموحدة لمحفظتك العقارية بتاريخ 18/06/2026.",
+    "kpi": {
+      "valeurPortefeuille": "قيمة المحفظة",
+      "capitalInvesti": "رأس المال المستثمر: {{value}}",
+      "cashflowMensuel": "صافي التدفق النقدي الشهري",
+      "moyenne6Mois": "متوسط آخر 6 أشهر",
+      "dividendes": "الأرباح المتراكمة",
+      "depuisPremier": "منذ أول استثمار",
+      "rendementMoyen": "متوسط العائد المرجح",
+      "annualise": "سنوي على السهم المستثمر"
+    },
+    "evolution": {
+      "label": "تطور المحفظة",
+      "title": "آخر 6 أشهر"
+    },
+    "repartition": {
+      "label": "التوزيع حسب النوع",
+      "title": "التنويع"
+    },
+    "distributions": {
+      "title": "التوزيعات القادمة",
+      "count": "{{count}} حدث",
+      "versé": "مدفوع",
+      "enCours": "قيد التنفيذ"
+    },
+    "activite": {
+      "title": "النشاط الأخير",
+      "voirTout": "عرض الكل"
+    },
+    "suggestions": {
+      "label": "مختارات لك",
+      "title": "مشاريع تناسب ملفك",
+      "catalogue": "الكامل",
+      "cible": "مستهدف"
+    },
+    "projets": {
+      "title": "كتالوج المشاريع",
+      "subtitle": "جميع المشاريع المتاحة",
+      "count": "{{count}} مشروع",
+      "search": "ابحث عن مشروع…",
+      "statut": "الحالة",
+      "avancement": "التقدم",
+      "montantInvesti": "المبلغ المستثمر",
+      "rendement": "العائد",
+      "voirDetails": "عرض التفاصيل",
+      "fetching": "جاري استرجاع المشروع…"
+    },
+    "invest": {
+      "step1Label": "المرحلة 1 — الاختيار",
+      "step2Label": "المرحلة 2 — التحقق KYC",
+      "step3Label": "المرحلة 3 — الدفع",
+      "unites": "عدد الوحدات",
+      "montantInvesti": "المبلغ المستثمر",
+      "rendementAnnuel": "العائد السنوي المقدر",
+      "surDuree": "على المدة الإجمالية",
+      "ekycValidated": "ملفك eKYC تم التحقق منه",
+      "ekycDetail": "بطاقة الهوية تم التحقق منها · الريب مؤكد · فحص الحيوية (بنك المغرب).",
+      "virement": "تحويل آمن من الريب المسجل.",
+      "montantDebiter": "المبلغ المراد خصمه:",
+      "confirme": "تم تأكيد الاستثمار",
+      "reference": "المرجع INV-{{id}}",
+      "continuer": "متابعة",
+      "allerPaiement": "الانتقال إلى الدفع",
+      "confirmer": "تأكيد"
+    },
+    "portefeuille": {
+      "title": "محفظتي",
+      "subtitle": "عرض موحد لمشاركاتك",
+      "desc": "عرض مفصل لمشاركاتك وسجل آمن وخزنة مستندات.",
+      "rib": "الريب المرجعي",
+      "masquer": "إخفاء",
+      "reveler": "إظهار",
+      "valeurTotale": "القيمة الإجمالية",
+      "totalInvesti": "إجمالي المستثمر",
+      "plusValue": "الربح غير المحقق",
+      "participations": "المشاركات",
+      "tableTitle": "مشاركاتي",
+      "project": "المشروع",
+      "unites": "الوحدات",
+      "prixMoyen": "متوسط السعر",
+      "valeur": "القيمة الحالية",
+      "plusValueCol": "الربح",
+      "acquisition": "الاستحواذ",
+      "historique": "سجل المعاملات",
+      "date": "التاريخ",
+      "type": "النوع",
+      "reference": "المرجع",
+      "montant": "المبلغ",
+      "statut": "الحالة",
+      "confirme": "مؤكد",
+      "enAttente": "قيد الانتظار",
+      "coffre": "خزنة المستندات",
+      "distributions": "التوزيعات",
+      "actions": "إجراءات"
+    }
+  },
+  "auth": {
+    "connexion": "تسجيل الدخول",
+    "bienvenue": "مرحباً {{name}}",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "seConnecter": "تسجيل الدخول",
+    "retour": "العودة لاختيار الفضاء",
+    "demo": "حساب تجريبي — الحقول مملوءة مسبقاً.",
+    "invalid": "بيانات غير صحيحة.",
+    "invalidRole": "دور غير صالح أو مستخدم غير موجود.",
+    "backToLogin": "العودة إلى تسجيل الدخول",
+    "enter6": "يرجى إدخال آخر 6 أحرف.",
+    "invalidCode": "رمز غير صالح. تحقق من آخر 6 أرقام من الريب أو بطاقة الهوية.",
+    "enterSms": "يرجى إدخال الرمز المستلم عبر الرسائل القصيرة.",
+    "incorrectCode": "الرمز غير صحيح.",
+    "success": "تم تسجيل الدخول بنجاح",
+    "redirecting": "جارٍ إعادة التوجيه إلى فضاءك…",
+    "verifyIdentity": "التحقق من الهوية",
+    "role": "الدور: {{role}}",
+    "enterLast6": "أدخل آخر 6 أحرف من الريب أو بطاقة الهوية",
+    "verifyIdentityBtn": "التحقق من هويتي",
+    "verifyCode": "رمز التحقق",
+    "smsSent": "تم إرسال رمز عبر الرسائل القصيرة إلى الرقم المسجل.",
+    "endingWith": "الرقم ينتهي بـ ••{{last}}",
+    "enter6Digit": "رمز تحقق من 6 أرقام",
+    "smsCode": "رمز الرسائل القصيرة",
+    "validateCode": "التحقق من الرمز",
+    "previousStep": "العودة إلى المرحلة السابقة"
+  },
+  "simulator": {
+    "title": "محاكي العائد",
+    "subtitle": "قدّر أرباحك الصافية حسب نمط الاستغلال والضريبة المغربية.",
+    "disclaimer": "معدلات الضريبة المستخدمة (IR على المداخيل العقارية، اقتطاع الأرباح، TPI، TVA) استرشادية ويجب أن يعتمدها محاسب قانوني قبل أي قرار استثماري حقيقي. الإطار المرجعي: المدونة العامة للضرائب المغربية.",
+    "parametres": "المعايير",
+    "projetCible": "المشروع المستهدف",
+    "montant": "المبلغ المراد استثماره: {{value}}",
+    "duree": "مدة الحيازة: {{value}} سنة",
+    "modeLabel": "نمط الاستغلال",
+    "modes": {
+      "locationNue": "كراء عاري",
+      "locationMeublee": "كراء مفروش",
+      "courteDuree": "مدة قصيرة",
+      "revente": "إعادة البيع آجلاً"
+    },
+    "annee": "سنة",
+    "rendementNet": "العائد الصافي",
+    "annualise": "سنوي",
+    "cashflowNet": "التدفق النقدي الصافي السنوي",
+    "apresFiscalite": "بعد الضريبة",
+    "gainTotal": "الربح الإجمالي المقدر",
+    "surDuree": "على {{value}} سنة",
+    "projectionTitle": "توقع رأس مالك",
+    "projectionSub": "مقارنة العائد الإجمالي مقابل الصافي (بعد الاقتطاعات الضريبية المغربية).",
+    "comparatifTitle": "مقارنة أنماط الاستغلال",
+    "fiscaliteTitle": "تفاصيل الضريبة المطبقة",
+    "mode": "النمط",
+    "rendementBrut": "العائد الإجمالي المستهدف",
+    "irFonciers": "IR المداخيل العقارية",
+    "abattement": "الإعفاء الضريبي",
+    "retenueDividendes": "اقتطاع الأرباح",
+    "tpi": "ضريبة الربح العقاري (TPI)"
+  },
+  "verif": {
+    "title": "التحقق التنظيمي",
+    "subtitle": "صف قطعة أرض للحصول على مخططات مطابقة للوائح المغربية.",
+    "placeholder": "صف أرضك بحرية (مثال: أرض بمساحة 60 م2 في المدينة بالمغرب، ميزانية 1.2 مليون درهم، طابقان كحد أقصى)",
+    "analysing": "جارٍ التحليل…",
+    "submit": "تأكيد",
+    "serverError": "خطأ في الخادم",
+    "connError": "خطأ في الاتصال",
+    "plansRecommandes": "المخططات الموصى بها ({{count}})",
+    "score": "النتيجة",
+    "etages": "{{count}} طابق",
+    "mois": "{{count}} شهر",
+    "risque": "خطر {{label}}",
+    "reglementations": "اللوائح المطبقة"
+  },
+  "appShell": {
+    "sitePublic": "الموقع العام",
+    "utilisateur": "المستخدم",
+    "investisseur": "المستثمر",
+    "porteur": "صاحب المشروع",
+    "conformite": "وكيل الامتثال"
+  },
+  "porteur": {
+    "nav": {
+      "overview": "نظرة عامة",
+      "submit": "تقديم مشروع",
+      "collecte": "تتبع الجمع",
+      "chantier": "تتبع الأشغال",
+      "verification": "التحقق التنظيمي"
+    },
+    "bonjour": "مرحباً {{name}} 👋",
+    "helloDesc": "نظرة موحدة على عملياتك الجارية على المنصة.",
+    "submitProject": "تقديم مشروع",
+    "kpi": {
+      "projetsActifs": "المشاريع النشطة",
+      "capitalLeve": "رأس المال المجموع",
+      "toutesOperations": "جميع العمليات",
+      "dossiers": "الملفات الجارية",
+      "soumissions": "تقديمات / مسودات"
+    },
+    "mesProjets": "مشاريعي في الجمع / الأشغال",
+    "collecte": "الجمع",
+    "chantier": "الأشغال",
+    "mesSoumissions": "تقديماتي",
+    "table": {
+      "projet": "المشروع",
+      "statut": "الحالة",
+      "avancement": "التقدم",
+      "misAJour": "آخر تحديث",
+      "ouvrir": "فتح"
+    },
+    "collectePage": {
+      "title": "تتبع الجمع",
+      "subtitle": "حالة جمع الأموال في الوقت الحقيقي",
+      "investisseurs": "المستثمرون",
+      "jourRestant": "الأيام المتبقية",
+      "objectif": "الهدف",
+      "collecte": "المجموع",
+      "rendementCible": "العائد المستهدف",
+      "progress": "التقدم",
+      "derniersInvestisseurs": "آخر المستثمرين",
+      "montant": "المبلغ",
+      "date": "التاريخ",
+      "historique": "سجل الجمع",
+      "souscripteurs": "مكتتبون فريدون",
+      "ticketMoyen": "متوسط المساهمة",
+      "joursRestants": "الأيام المتبقية",
+      "avantCloture": "قبل إغلاق العرض",
+      "resteCollecter": "المتبقي جمعه",
+      "evolution": "تطور الجمع",
+      "dernieresSemaines": "آخر 12 أسبوعًا",
+      "paliers": "مراحل التمويل",
+      "paliersDesc": "تحرير تدريجي للأموال على دفعات.",
+      "palier1": "بداية الدراسات",
+      "palier2": "الحفر والأساسات",
+      "palier3": "الهيكل الرئيسي دفعة 1",
+      "palier4": "الهيكل الرئيسي الكامل",
+      "seuil": "العتبة"
+    },
+    "chantierPage": {
+      "title": "تتبع الأشغال",
+      "subtitle": "تقدم الأشغال والمعالم",
+      "avancement": "التقدم الإجمالي",
+      "jalons": "معالم المشروع",
+      "jalon": "المعلم",
+      "datePrevue": "التاريخ المتوقع",
+      "statut": "الحالة",
+      "misesAJour": "آخر التحديثات",
+      "publier": "نشر تحديث",
+      "message": "رسالتك…",
+      "envoyer": "نشر",
+      "chantierEnCours": "الأشغال جارية",
+      "livre": "تم التسليم",
+      "description": "حدّث التقدم وانشر أخبارًا تظهر لمستثمريك.",
+      "nouvellePublication": "منشور جديد",
+      "titreMiseAJour": "عنوان التحديث",
+      "decrivez": "صف التقدم والنقاط البارزة…",
+      "ajouterMedia": "أضف صورة أو فيديو",
+      "annuler": "إلغاء",
+      "publicationEnCours": "نشر...",
+      "historiquePublications": "سجل المنشورات",
+      "livraisonPrevue": "التسليم المتوقع",
+      "phasesConstruction": "مراحل البناء",
+      "du": "من",
+      "au": "إلى"
+    },
+    "soumissionPage": {
+      "title": "تقديم مشروع",
+      "subtitle": "قم بإعداد ملفك خطوة بخطوة. يمكنك الحفظ كمسودة في أي وقت.",
+      "infosProjet": "معلومات المشروع",
+      "nom": "اسم المشروع",
+      "ville": "المدينة",
+      "description": "الوصف",
+      "budget": "الميزانية الإجمالية (درهم)",
+      "objectif": "هدف الجمع (درهم)",
+      "ticketMin": "الحد الأدنى للمساهمة (درهم)",
+      "rendement": "العائد المستهدف (%)",
+      "duree": "المدة (بالأشهر)",
+      "documents": "المستندات (اختياري)",
+      "upload": "اسحب ملفاتك هنا أو انقر للإضافة",
+      "preview": "معاينة الذكاء الاصطناعي",
+      "envoyerAnalyse": "إرسال إلى تحليل الذكاء الاصطناعي",
+      "soumettre": "تقديم",
+      "brouillonSauvegarde": "تم حفظ المسودة",
+      "step1Title": "معلومات عامة",
+      "step1Desc": "هوية المشروع والميزانية",
+      "step2Title": "المستندات التقنية",
+      "step2Desc": "المخططات والتصاريح والدراسات",
+      "step3Title": "المستندات القانونية",
+      "step3Desc": "السند، النظام الأساسي للشركة، التصاريح",
+      "step4Title": "البيانات المالية",
+      "step4Desc": "خطة العمل والجدول الزمني",
+      "etape": "الخطوة",
+      "etapePrecedente": "الخطوة السابقة",
+      "etapeSuivante": "الخطوة التالية",
+      "enregistrerBrouillon": "حفظ كمسودة",
+      "enregistrement": "جارٍ الحفظ…",
+      "soumettreAnalyse": "إرسال إلى تحليل الذكاء الاصطناعي",
+      "soumissionEnCours": "جارٍ الإرسال…",
+      "titreProjet": "عنوان المشروع",
+      "titrePlaceholder": "مثال: إقامة أنفا بارك",
+      "typologieLabel": "التصنيف",
+      "adresseComplete": "العنوان الكامل",
+      "adressePlaceholder": "الحي، الشارع، رقم",
+      "budgetTotal": "الميزانية الإجمالية (درهم)",
+      "budgetPlaceholder": "50 000 000",
+      "montantRecherche": "المبلغ المطلوب (درهم)",
+      "montantPlaceholder": "30 000 000",
+      "descriptionProjet": "وصف المشروع",
+      "descriptionPlaceholder": "صف عمليتك: البرنامج، السوق المستهدف، الجدول الزمني، الشركاء…",
+      "villePlaceholder": "الدار البيضاء، الرباط، مراكش…",
+      "erreurChamps": "يرجى ملء الحقول الإلزامية (العنوان، المدينة، الميزانية، المبلغ).",
+      "succesBrouillon": "تم حفظ المسودة بنجاح في قاعدة البيانات.",
+      "erreurBrouillon": "خطأ أثناء حفظ المسودة.",
+      "erreurDraftManquant": "يرجى حفظ المسودة أولاً.",
+      "succesSoumission": "تم إرسال المشروع إلى تحليل الذكاء الاصطناعي بنجاح. سيظهر في قائمة انتظار الإدارة.",
+      "erreurSoumission": "خطأ أثناء إرسال المشروع.",
+      "brouillonsExistants": "المسودات الموجودة",
+      "brouillonCharge": "تم تحميل المسودة « {{nom}} ».",
+      "upload1": "المخططات المعمارية",
+      "upload1Desc": "DWG, PDF — بحد أقصى 50 ميغا",
+      "upload2": "رخصة البناء",
+      "upload2Desc": "PDF",
+      "upload3": "دراسة التربة",
+      "upload3Desc": "PDF — تاريخها أقل من 24 شهرًا",
+      "upload4": "دراسة الأثر البيئي",
+      "upload4Desc": "PDF (إن وجدت)",
+      "upload5": "السند العقاري المخلي",
+      "upload6": "النظام الأساسي لشركة المشروع",
+      "upload7": "تصريح التجزئة / البناء",
+      "upload8": "إبراء الذمة الضريبية",
+      "upload9": "خطة عمل مفصلة",
+      "upload9Desc": "PDF, Excel",
+      "upload10": "الميزانية التقديرية",
+      "upload10Desc": "Excel",
+      "upload11": "الجدول الزمني للبناء",
+      "upload11Desc": "PDF, MS Project",
+      "upload12": "الضمانات والتأمينات",
+      "glisserDeposer": "اسحب وأفلت أو انقر"
+    }
+  },
+  "roles": {
+    "Investisseur": "مستثمر",
+    "Porteur de Projet": "حامل مشروع",
+    "Agent Conformité": "وكيل الامتثال",
+    "Super Admin": "مدير عام"
+  },
+  "admin": {
+    "zone": "الامتثال",
+    "navValidation": "التحقق الذكي والامتثال",
+    "navUtilisateurs": "إدارة المستخدمين",
+    "navAudit": "التدقيق والتحقق الإلكتروني",
+    "validationIA": {
+      "title": "التحقق الذكي والامتثال",
+      "loading": "جارٍ التحميل…",
+      "loadingDossiers": "جارٍ تحميل الملفات…",
+      "enAttente": "{{count}} ملف في انتظار المراجعة.",
+      "aucunDossier": "لا يوجد ملف في الانتظار.",
+      "porteur": "حامل المشروع: {{nom}}",
+      "alerte": "{{count}} تنبيه",
+      "alertes": "{{count}} تنبيهات",
+      "scoreRisque": "درجة المخاطر",
+      "indiceFraude": "مؤشر الاحتيال",
+      "authenticiteDocs": "صحة الوثائق",
+      "syntheseAgents": "ملخص وكلاء الذكاء الاصطناعي",
+      "alertesTitle": "التنبيهات",
+      "decision": "القرار",
+      "decisionEnregistree": "تم تسجيل القرار في القاعدة",
+      "commentaire": "التعليق",
+      "commentaireObligatoire": "تعليق (إلزامي ومسجل)",
+      "justifiez": "برر قرارك…",
+      "approuver": "اعتماد",
+      "demanderModifications": "طلب تعديلات",
+      "rejeter": "رفض",
+      "annulerDecision": "إلغاء القرار",
+      "decisionApproved": "تمت الموافقة",
+      "decisionChanges": "تعديلات مطلوبة",
+      "decisionRejected": "مرفوض",
+      "echellePositive": "0 = حرج · 100 = ممتاز",
+      "echelleInverse": "0 = سليم · 100 = حرج"
+    },
+    "utilisateurs": {
+      "title": "إدارة المستخدمين",
+      "subtitle": "مصفوفة الأدوار RBAC وقائمة الحسابات.",
+      "matriceRoles": "مصفوفة الأدوار",
+      "reinitialiser": "إعادة تعيين",
+      "permission": "الصلاحية",
+      "comptes": "حسابات المستخدمين ({{count}})",
+      "rechercher": "بحث…",
+      "tousRoles": "جميع الأدوار",
+      "ajouter": "إضافة",
+      "nomComplet": "الاسم الكامل",
+      "annuler": "إلغاء",
+      "creation": "جارٍ الإنشاء…",
+      "creer": "إنشاء",
+      "colUtilisateur": "المستخدم",
+      "colRole": "الدور",
+      "colStatut": "الحالة",
+      "colInscrit": "مسجل في",
+      "colActions": "إجراءات",
+      "chargement": "جارٍ التحميل…",
+      "revealSensibles": "كشف البيانات الحساسة",
+      "reactiver": "إعادة تفعيل",
+      "suspendre": "تعليق",
+      "supprimer": "حذف",
+      "confirmerSuppression": "حذف {{nom}}؟",
+      "retirerPermission": "إزالة {{perm}} لـ{{role}}",
+      "ajouterPermission": "إضافة {{perm}} لـ{{role}}",
+      "permConsulterProjets": "تصفح المشاريع",
+      "permInvestir": "الاستثمار",
+      "permConsulterPortefeuille": "تصفح المحفظة",
+      "permSoumettreProjet": "تقديم مشروع",
+      "permSuiviCollecte": "متابعة الجمع",
+      "permSuiviChantier": "متابعة الأشغال",
+      "permValiderDossiers": "اعتماد الملفات",
+      "permConsulterEkyc": "تصفح التحقق الإلكتروني",
+      "permVoirSensibles": "رؤية البيانات الحساسة (بطاقة التعريف/الرييب)",
+      "permSuspendreComptes": "تعليق الحسابات",
+      "permGererRoles": "إدارة الأدوار",
+      "permConfigurer": "إعداد المنصة",
+      "statusActif": "نشط",
+      "statusSuspendu": "موقوف"
+    },
+    "auditEkyc": {
+      "title": "التدقيق والتحقق الإلكتروني",
+      "subtitle": "امتثال بنك المغرب · التحقق من الهوية والتتبع الكامل.",
+      "exporter": "تصدير",
+      "journalAudit": "سجل التدقيق",
+      "verifsEkyc": "فحوصات التحقق الإلكتروني",
+      "rechercher": "ابحث عن مستخدم أو إجراء أو كيان…",
+      "filtresAvances": "فلاتر متقدمة",
+      "colHorodatage": "الطابع الزمني",
+      "colUtilisateur": "المستخدم",
+      "colRole": "الدور",
+      "colAction": "الإجراء",
+      "colEntite": "الكيان",
+      "colIP": "IP",
+      "colID": "المعرف",
+      "dossiersEkyc": "ملفات التحقق الإلكتروني",
+      "colCIN": "بطاقة التعريف",
+      "colVivacite": "الحيوية",
+      "colRIB": "الرييب",
+      "colBanque": "البنك",
+      "colDate": "التاريخ",
+      "moduleEkyc": "وحدة التحقق الإلكتروني",
+      "conformeBAM": "متوافق مع متطلبات بنك المغرب للتعرف عن بُعد.",
+      "cinRecto": "وجه بطاقة التعريف",
+      "cinVerso": "خلف بطاقة التعريف",
+      "lancerVivacite": "بدء فحص الحيوية",
+      "statsEkyc": "إحصائيات التحقق الإلكتروني",
+      "valides": "مقبولون",
+      "enRevue": "قيد المراجعة",
+      "rejetes": "مرفوضون",
+      "ekycValide": "مقبول",
+      "ekycRejete": "مرفوض",
+      "ekycEnRevue": "قيد المراجعة",
+      "ekycAEffectuer": "يجب إجراؤه",
+      "ekycEnAttente": "في انتظار"
+    }
+  },
+  "statuses": {
+    "En collecte": "قيد الجمع",
+    "Financé": "ممول",
+    "En construction": "قيد الإنشاء",
+    "Livré": "تم التسليم",
+    "Approuvé": "مقبول",
+    "Rejeté": "مرفوض",
+    "En analyse IA": "قيد التحليل بالذكاء الاصطناعي",
+    "Brouillon": "مسودة"
+  },
+  "categories": {
+    "Immobilier": "العقارات",
+    "Crypto": "العملات الرقمية",
+    "Startup & Affaires": "الشركات الناشئة والأعمال",
+    "Solidaire": "التضامن",
+    "Crowdfunding": "التمويل الجماعي",
+    "Produit de forte valeur": "المنتجات الثمينة"
+  },
+  "typologies": {
+    "Résidentiel": "سكني",
+    "Commercial & Bureaux": "تجاري ومكاتب",
+    "Terrains & Lotissements": "أراضٍ وتقسيم",
+    "Projets neufs en collecte": "مشاريع جديدة قيد الجمع",
+    "Fonds Crypto": "صندوق العملات الرقمية",
+    "Staking": "ستاكنغ",
+    "Mining": "التعدين",
+    "NFT": "NFT",
+    "Tokenisation": "الترميز",
+    "Startup Tech": "شركة ناشئة تقنية",
+    "Fintech": "تكنولوجيا مالية",
+    "AgriTech": "تكنولوجيا زراعية",
+    "MedTech": "تكنولوجيا طبية",
+    "SaaS": "SaaS",
+    "Logistique": "اللوجستيك",
+    "Coopérative": "تعاونية",
+    "Économie sociale": "الاقتصاد الاجتماعي",
+    "Impact social": "أثر اجتماعي",
+    "Micro-crédit": "قرض صغير",
+    "Énergie verte": "طاقة خضراء",
+    "Film": "فيلم",
+    "Événement": "حدث",
+    "Album": "ألبوم",
+    "Produit local": "منتج محلي",
+    "Artisanat": "حرف يدوية",
+    "Horlogerie": "الساعات الفاخرة",
+    "Vins & Spiritueux": "نبيذ ومشروبات",
+    "Art": "فن",
+    "Or & Métaux précieux": "الذهب والمعادن الثمينة",
+    "Voitures de collection": "سيارات كلاسيكية"
+  },
+  "shared": {
+    "categories": {
+      "Immobilier": "العقارات",
+      "Crypto": "العملات الرقمية",
+      "Startup & Affaires": "الشركات الناشئة والأعمال",
+      "Solidaire": "التضامن",
+      "Crowdfunding": "التمويل الجماعي",
+      "Produit de forte valeur": "المنتجات الثمينة"
+    },
+    "typologies": {
+      "Résidentiel": "سكني",
+      "Commercial & Bureaux": "تجاري ومكاتب",
+      "Terrains & Lotissements": "أراضٍ وتقسيم",
+      "Projets neufs en collecte": "مشاريع جديدة قيد الجمع",
+      "Fonds Crypto": "صندوق العملات الرقمية",
+      "Staking": "ستاكنغ",
+      "Mining": "التعدين",
+      "NFT": "NFT",
+      "Tokenisation": "الترميز",
+      "Startup Tech": "شركة ناشئة تقنية",
+      "Fintech": "تكنولوجيا مالية",
+      "AgriTech": "تكنولوجيا زراعية",
+      "MedTech": "تكنولوجيا طبية",
+      "SaaS": "SaaS",
+      "Logistique": "اللوجستيك",
+      "Coopérative": "تعاونية",
+      "Économie sociale": "الاقتصاد الاجتماعي",
+      "Impact social": "أثر اجتماعي",
+      "Micro-crédit": "قرض صغير",
+      "Énergie verte": "طاقة خضراء",
+      "Film": "فيلم",
+      "Événement": "حدث",
+      "Album": "ألبوم",
+      "Produit local": "منتج محلي",
+      "Artisanat": "حرف يدوية",
+      "Horlogerie": "الساعات الفاخرة",
+      "Vins & Spiritueux": "نبيذ ومشروبات",
+      "Art": "فن",
+      "Or & Métaux précieux": "الذهب والمعادن الثمينة",
+      "Voitures de collection": "سيارات كلاسيكية"
+    },
+    "statuses": {
+      "En collecte": "قيد الجمع",
+      "Financé": "ممول",
+      "En construction": "قيد الإنشاء",
+      "Livré": "تم التسليم"
+    }
+  },
+  "projectData": {
+    "casa-anfa-residences": {
+      "nom": "أنفا بارك ريزيدنس",
+      "description": "برنامج سكني راقٍ في قلب حي أنفا، 48 شقة فاخرة بإطلالة مفتوحة.",
+      "pointsForts": [
+        "مطور معروف، 14 عملية تسليم سابقة مطابقة.",
+        "رخصة البناء صادرة وسند الملكية نظيف.",
+        "بيع مسبق بنسبة 38٪ قبل الإطلاق."
+      ],
+      "pointsVigilance": ["حساسية لمواعيد التسليم العامة المجاورة."]
+    },
+    "rabat-hay-riad-bureaux": {
+      "nom": "هاي رياض بيزنس سنتر",
+      "description": "مبنى إداري مساحته 6200 م² معتمد HQE، مؤجر مسبقًا بنسبة 62٪ من قبل إدارتين.",
+      "pointsForts": [
+        "مستأجرون مؤسسيون بعقود إيجار 9 سنوات.",
+        "موقع مميز، معدل شغور القطاع أقل من 4٪."
+      ],
+      "pointsVigilance": ["جدول أشغال ضيق على حصة التكييف."]
+    },
+    "marrakech-palmeraie-villas": {
+      "nom": "قصور النخيل هيريتاج",
+      "description": "12 فيلا معمارية بمسبح خاص في منطقة النخيل، سوق إيجار سياحي راقٍ.",
+      "pointsForts": [
+        "عائد إيجار قصير المدى يقدر بـ 8.5٪ صافي.",
+        "دراسة سوق من Knight Frank."
+      ],
+      "pointsVigilance": ["موسمية سياحية قوية.", "الاعتماد على الطلب الدولي."]
+    },
+    "tanger-med-logistique": {
+      "nom": "طنجة المتوسط اللوجستيك المرحلة الثانية",
+      "description": "منصة لوجستية بمساحة 24000 م² ملاصقة للمنطقة الحرة بطنجة المتوسط، بمستأجر صناعي موقع.",
+      "pointsForts": [
+        "عقد إيجار ثابت 12 سنة مع فهرسة سنوية.",
+        "منطقة حرة: مزايا ضريبية للمستأجر."
+      ],
+      "pointsVigilance": ["التركيز على مستأجر واحد."]
+    },
+    "agadir-marina-lots": {
+      "nom": "أكادير مارينا — أراضٍ مجهزة",
+      "description": "عملية تجهيز 36 قطعة سكنية على واجهة المارينا، بيع تدريجي على 24 شهرًا.",
+      "pointsForts": [
+        "دفتر حجوزات بنسبة 41٪.",
+        "خروج تدريجي: سيولة جزئية بدءًا من 12 شهرًا."
+      ],
+      "pointsVigilance": ["دورة قصيرة، حساسة للظروف المحلية."]
+    },
+    "btc-yield-atlas": {
+      "nom": "أطلس ييلد فاند BTC",
+      "description": "صندوق مؤشر سلبي مدعوم بالبيتكوين مع عائد قرض آمن، تديره شركة معتمدة للعملات الرقمية في المغرب.",
+      "pointsForts": [
+        "حفظ لدى جهة إيداع منظمة.",
+        "استراتيجية قرض مضمونة 100٪."
+      ],
+      "pointsVigilance": ["تقلب سعر البيتكوين."]
+    },
+    "stablecoin-renta": {
+      "nom": "ستيبل ييلد USDT",
+      "description": "محفظة ستاكنغ بالعملات المستقرة على بروتوكولات مدققة، مع حفظ الأموال في خزائن متعددة التوقيع.",
+      "pointsForts": [
+        "تدقيق أمني سنوي مستقل.",
+        "دخل يومي آلي."
+      ],
+      "pointsVigilance": ["الاعتماد على أسعار DeFi."]
+    },
+    "hash-mining-ouzoud": {
+      "nom": "أوزود هاش باور",
+      "description": "مزرعة تعدين تعمل بالطاقة الكهرومائية لسد أوزود، قدرة مستهدفة 8 ميغاواط.",
+      "pointsForts": [
+        "تكلفة طاقة من بين الأرخص في إفريقيا.",
+        "عقود صيانة موقعة."
+      ],
+      "pointsVigilance": ["حساسية لسعر الكهرباء."]
+    },
+    "nft-art-medina": {
+      "nom": "مجموعة ميدينة آرت NFT",
+      "description": "مجموعة NFT من 10000 عمل فني مولّد لفنانين مغاربة، مع عائدات ملكية للفنانين.",
+      "pointsForts": [
+        "سوق ثانوي نشط منذ الإطلاق.",
+        "وثائق وشهادات رقمية."
+      ],
+      "pointsVigilance": ["سوق NFT متقلب للغاية."]
+    },
+    "token-art-essaouira": {
+      "nom": "ترميز الصويرة",
+      "description": "ترميز رياض تراثي في الصويرة: كل رمز يمثل جزءًا من ملكية إيجارية.",
+      "pointsForts": [
+        "عائد إيجار سياحي مؤكد.",
+        "شفافية الدخل على السلسلة."
+      ],
+      "pointsVigilance": ["الإطار التنظيمي للترميز في تطور."]
+    },
+    "digital-gold-ref": {
+      "nom": "ديجيتال جولد ريفاينري",
+      "description": "ذهب رقمي مدعوم باحتياطيات فيزيائية معتمدة، مع شراء مضمون بسعر المرجع الدولي.",
+      "pointsForts": [
+        "احتياطيات مدققة كل ثلاثة أشهر.",
+        "ملاذ آمن غير مرتبط بالأسهم."
+      ],
+      "pointsVigilance": ["رسوم حفظ سنوية."]
+    },
+    "fintech-simplex-pay": {
+      "nom": "سيمبلكس باي — تكنولوجيا مالية",
+      "description": "تطبيق مغربي للدفع بالتقسيط والحصالات العائلية، 80 ألف مستخدم نشط بالفعل.",
+      "pointsForts": [
+        "ترخيص الدفع بالعملات الرقمية قيد الإجراء.",
+        "نمو 32٪ كل ثلاثة أشهر."
+      ],
+      "pointsVigilance": ["منافسة عمالقة الدفع."]
+    },
+    "agritech-gharb-hub": {
+      "nom": "أغري هاب الغرب",
+      "description": "منصة ري ذكي وإدارة دفيئات الغرب عبر حساسات إنترنت الأشياء والذكاء الاصطناعي.",
+      "pointsForts": [
+        "توفير مياه مثبت بنسبة 28٪.",
+        "عقود تجريبية مع 3 تعاونيات."
+      ],
+      "pointsVigilance": ["الاعتماد على المعدات المستوردة."]
+    },
+    "medtech-tabib-care": {
+      "nom": "طبيب كير — تكنولوجيا طبية",
+      "description": "طب عن بعد وملف طبي مشترك للعيادات الخاصة المغربية، 45 عيادة شريكة.",
+      "pointsForts": [
+        "دخل سنوي متكرر مستقر.",
+        "شراكة مع هيئة الأطباء."
+      ],
+      "pointsVigilance": ["خاضعة للتنظيم الصحي."]
+    },
+    "saas-erp-atin": {
+      "nom": "أتين ERP برو",
+      "description": "نظام ERP سحابي للمقاولات الصغيرة والمتوسطة المغربية: محاسبة وفوترة ورواتب مطابقة للتنظيم المحلي.",
+      "pointsForts": [
+        "نسبة توقف شبه معدومة على 12 شهرًا.",
+        "هجرة سهلة من المنافسين المحليين."
+      ],
+      "pointsVigilance": ["حجم السوق القابل للاستهداف محدود."]
+    },
+    "logi-marketplace-souss": {
+      "nom": "سوس إكسبريس — لوجستيك",
+      "description": "سوق لتوصيل الكيلومتر الأخير في سوس، يربط التعاونيات وتجار التجزئة.",
+      "pointsForts": [
+        "شبكة من 120 موزعًا مستقلًا.",
+        "عقود مع 4 تعاونيات فلاحية."
+      ],
+      "pointsVigilance": ["هامش الوحدة منخفض."]
+    },
+    "edtech-tamazight-learn": {
+      "nom": "تامازيغت ليرن",
+      "description": "تكنولوجيا تعليمية لتعلم اللغتين الأمازيغية والعربية بالذكاء الاصطناعي، تستهدف الجاليات والمدارس المغربية.",
+      "pointsForts": [
+        "مجال غير تنافسي وذو هوية قوية.",
+        "دعم من مؤسسات ثقافية."
+      ],
+      "pointsVigilance": ["الربحية لم تثبت بعد."]
+    },
+    "coop-zaffran-taliouine": {
+      "nom": "تعاونية زعفران تالوين",
+      "description": "تحديث تعاونية الزعفران في تالوين: مجففات شمسية واعتماد AOP.",
+      "pointsForts": [
+        "أثر اجتماعي مباشر على 320 عائلة.",
+        "شهادة عضوية بيولوجية قيد الإجراء."
+      ],
+      "pointsVigilance": ["الاعتماد على الظروف المناخية."]
+    },
+    "ecole-ingenierie-atlas": {
+      "nom": "مدرسة الأطلس للهندسة",
+      "description": "حرم هندسي بمنح دراسية للمناطق القروية بالأطلس الكبير، أول دفعة من 120 طالبًا.",
+      "pointsForts": [
+        "اتفاقيات مع شركات توظيف.",
+        "نسبة نجاح مستهدفة 90٪."
+      ],
+      "pointsVigilance": ["أفق عائد طويل."]
+    },
+    "microcredit-tiznit": {
+      "nom": "قروض صغيرة تيزنيت للنساء",
+      "description": "صندوق قروض صغيرة مخصص لرائدات الأعمال في تيزنيت، مع مرافقة وضمان تضامني.",
+      "pointsForts": [
+        "نسبة سداد 96٪.",
+        "شراكة مع منظمة غير حكومية محلية."
+      ],
+      "pointsVigilance": ["عائد مالي متواضع."]
+    },
+    "sante-rurale-taghazout": {
+      "nom": "صحة قروية الحوز",
+      "description": "وحدة طبية متنقلة متصلة للدواوير المعزولة بالحوز: استشارات عن بعد وصيدلية قريبة.",
+      "pointsForts": [
+        "تغطية 18000 استشارة سنويًا.",
+        "تمويل مشترك من وزارة الصحة."
+      ],
+      "pointsVigilance": ["لوجستيك في مناطق وعرة."]
+    },
+    "eau-potable-figuiq": {
+      "nom": "مياه الشرب لفكيك",
+      "description": "شبكة تزويد وتحلية بالطاقة الشمسية لواحة فكيك، أمن مائي لـ 12000 نسمة.",
+      "pointsForts": [
+        "دعم عمومي 40٪.",
+        "أثر بيئي قابل للقياس."
+      ],
+      "pointsVigilance": ["صيانة عن بعد معقدة."]
+    },
+    "solaire-villages-ouzoud": {
+      "nom": "طاقة شمسية لـ 12 قرية",
+      "description": "شبكات صغيرة شمسية لـ 12 قرية غير مرتبطة بالشبكة الوطنية حول أزيلال.",
+      "pointsForts": [
+        "كهربة 2400 منزل.",
+        "أرصدة كربون قابلة للبيع."
+      ],
+      "pointsVigilance": ["مدة طويلة قبل العائد."]
+    },
+    "film-atlas-festival": {
+      "nom": "فيلم «أضواء الأطلس»",
+      "description": "فيلم روائي طويل صُور في ورزازات، مرشح مسبقًا لمهرجان مراكش السينمائي الدولي.",
+      "pointsForts": [
+        "توزيع دولي مخطط له.",
+        "تدفق نقدي عبر حقوق البث والمهرجانات."
+      ],
+      "pointsVigilance": ["النتيجة الفنية غير مؤكدة."]
+    },
+    "festival-gnaoua-remix": {
+      "nom": "مهرجان كناوة ريمكس",
+      "description": "نسخة موسعة من مهرجان موسيقى كناوة في الصويرة: مسرح دولي وبث مباشر على الإنترنت.",
+      "pointsForts": [
+        "بيع مسبق قياسي للتذاكر.",
+        "رعاة وطنيون مؤكدون."
+      ],
+      "pointsVigilance": ["مخاطر الطقس والتنظيم."]
+    },
+    "album-berber-fusion": {
+      "nom": "ألبوم «فيوجن أمازيغي»",
+      "description": "ألبوم موسيقى أمازيغية-روك سُجل في أكادير، إصدار فاينيل وبث، جولة في 6 مدن.",
+      "pointsForts": [
+        "قاعدة معجبين نشطة من 40 ألف متابع.",
+        "دخل من البث والحفلات."
+      ],
+      "pointsVigilance": ["هامش الوحدة منخفض."]
+    },
+    "produit-local-argan": {
+      "nom": "سلسلة أركان وشركاؤه",
+      "description": "إطلاق خط مستحضرات تجميل من زيت الأركان التجاري العادل، منتج ومعبأ محليًا.",
+      "pointsForts": [
+        "طلبات مسبقة بنسبة 40٪ من الهدف.",
+        "قناة توزيع تصدير جاهزة."
+      ],
+      "pointsVigilance": ["ضغط تنافسي مرتفع."]
+    },
+    "artisanat-zellige-fes": {
+      "nom": "ورشة زليج فاس",
+      "description": "توسيع ورشة الزليج في فاس وتكوين 30 شابًا متدربًا على التقنيات التقليدية.",
+      "pointsForts": [
+        "طلبات تصدير في ارتفاع بنسبة 55٪.",
+        "شهادة حرفية قيد الإجراء."
+      ],
+      "pointsVigilance": ["قدرة إنتاج محدودة."]
+    },
+    "marathon-des-sables-hub": {
+      "nom": "ماراثون الرمال هاب",
+      "description": "قاعدة تموين وإيواء لسباقات التحمل في صحراء مرزوكة.",
+      "pointsForts": [
+        "عقود متعددة السنوات مع 3 منظمين.",
+        "نشاط طوال السنة (سياحة رياضية)."
+      ],
+      "pointsVigilance": ["موسمية قوية."]
+    },
+    "montre-luxe-casa": {
+      "nom": "مجموعة الساعات أتيلييه",
+      "description": "صندوق اقتناء ساعات فاخرة (رولكس، باتيك، أوديمار) مع خبرة وتخزين آمن في المغرب.",
+      "pointsForts": [
+        "سوق السلع المستعملة في نمو قوي.",
+        "ارتفاع تاريخي متوسط 8٪ سنويًا."
+      ],
+      "pointsVigilance": ["سوق دوري ومضاربي."]
+    },
+    "whisky-single-malt-reserve": {
+      "nom": "احتياطي سينغل مالت",
+      "description": "صندوق مشروبات نادرة: براميل سينغل مالت وإصدارات محدودة، مخزنة في قبو آمن.",
+      "pointsForts": [
+        "عرض عالمي محدود هيكليًا.",
+        "إعادة بيع عبر دور المزادات."
+      ],
+      "pointsVigilance": ["سوق متخصص بسيولة منخفضة."]
+    },
+    "diamant-certifie-ref": {
+      "nom": "ألماس معتمد أطلس",
+      "description": "سلة ألماس معتمد GIA (أكثر من قيراط)، مشترى دون سعر التجزئة ويباع لصائغي المجوهرات.",
+      "pointsForts": [
+        "اعتماد مستقل منهجي.",
+        "مقاومة تاريخية للتضخم."
+      ],
+      "pointsVigilance": ["فارق شراء/بيع مرتفع."]
+    },
+    "art-contemporain-maroc": {
+      "nom": "صندوق الفن المعاصر المغربي",
+      "description": "مجموعة أعمال لفنانين مغاربة صاعدين، تُعرض ثم تُباع عبر دور المزادات الدولية.",
+      "pointsForts": [
+        "المشهد الفني المغربي في ازدهار.",
+        "معارض في الخارج مبرمجة."
+      ],
+      "pointsVigilance": ["تقدير قيمته ذاتي جدًا."]
+    },
+    "voiture-collection-motor": {
+      "nom": "موتور هيريتاج كولكشن",
+      "description": "مرآب سيارات كلاسيكية وشابة بحالة ممتازة، مع ترميم وإعادة بيع في السوق الدولية.",
+      "pointsForts": [
+        "ندرة متزايدة للطرازات الشهيرة.",
+        "ورشة ترميم مدمجة."
+      ],
+      "pointsVigilance": ["تكاليف تخزين وتأمين مرتفعة."]
+    },
+    "or-physique-bullion": {
+      "nom": "بوليون ذهب — احتياطيات فيزيائية",
+      "description": "سبائك وعملات ذهبية فيزيائية مخزنة في خزائن بنكية، مسكوكة من مؤسسات معتمدة LBMA.",
+      "pointsForts": [
+        "أصل ملموس بسيولة عالمية.",
+        "شهادة ملكية اسمية."
+      ],
+      "pointsVigilance": ["تكلفة الحفظ ورسوم السك."]
+    }
+  }
+}

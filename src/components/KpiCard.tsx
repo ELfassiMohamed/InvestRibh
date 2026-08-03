@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   label: string;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export function KpiCard({ label, value, hint, trend, icon }: Props) {
+  const { t } = useTranslation();
   const positive = (trend ?? 0) >= 0;
   return (
     <div className="card-elevated p-5">
@@ -33,7 +35,7 @@ export function KpiCard({ label, value, hint, trend, icon }: Props) {
         >
           {positive ? <ArrowUpRight className="h-3.5 w-3.5" /> : <ArrowDownRight className="h-3.5 w-3.5" />}
           {positive ? "+" : ""}
-          {trend.toFixed(1)} % vs trimestre précédent
+          {trend.toFixed(1)} % {t("kpi.vsTrimestre")}
         </div>
       )}
     </div>

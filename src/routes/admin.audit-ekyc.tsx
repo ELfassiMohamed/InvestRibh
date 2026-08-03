@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Download, Search, ShieldCheck, Upload, UserCheck, Camera, AlertCircle, Filter } from "lucide-react";
 
 import { PageHeader } from "@/components/AppShell";
@@ -16,7 +17,16 @@ const ekycDossiers = [
   { user: "Nadia Cherkaoui", cinStatut: "rejeté", livenessStatut: "validé", ribStatut: "validé", date: "2026-06-10", banque: "CIH Bank" },
 ];
 
+const ekycStatusKeyMap: Record<string, string> = {
+  "validé": "admin.auditEkyc.ekycValide",
+  "rejeté": "admin.auditEkyc.ekycRejete",
+  "en revue": "admin.auditEkyc.ekycEnRevue",
+  "à effectuer": "admin.auditEkyc.ekycAEffectuer",
+  "en attente": "admin.auditEkyc.ekycEnAttente",
+};
+
 function AuditEkycPage() {
+  const { t } = useTranslation();
   const [tab, setTab] = useState<"audit" | "ekyc">("audit");
   const [search, setSearch] = useState("");
   const { data: auditLogs = [] } = useAuditLogs();
@@ -24,11 +34,11 @@ function AuditEkycPage() {
   return (
     <>
       <PageHeader
-        title="Audit & eKYC"
-        description="Conformité Bank Al-Maghrib · vérification d'identité et traçabilité complète."
+        title={t("admin.auditEkyc.title")}
+        description={t("admin.auditEkyc.subtitle")}
         actions={
           <button className="flex items-center gap-1.5 rounded-md border border-outline-variant px-3 py-2 text-sm font-medium text-on-surface hover:bg-surface-container">
-            <Download className="h-4 w-4" /> Exporter
+            <Download className="h-4 w-4" /> {t("admin.auditEkyc.exporter")}
           </button>
         }
       />
@@ -40,7 +50,7 @@ function AuditEkycPage() {
             tab === "audit" ? "bg-surface-lowest text-primary shadow-sm" : "text-on-surface-variant"
           }`}
         >
-          Journal d'audit
+          {t("admin.auditEkyc.journalAudit")}
         </button>
         <button
           onClick={() => setTab("ekyc")}
@@ -48,7 +58,7 @@ function AuditEkycPage() {
             tab === "ekyc" ? "bg-surface-lowest text-primary shadow-sm" : "text-on-surface-variant"
           }`}
         >
-          Vérifications eKYC
+          {t("admin.auditEkyc.verifsEkyc")}
         </button>
       </div>
 
@@ -59,14 +69,14 @@ function AuditEkycPage() {
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-on-surface-variant" />
               <input
                 type="text"
-                placeholder="Rechercher utilisateur, action, entité…"
+                placeholder={t("admin.auditEkyc.rechercher")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="w-full rounded-md border border-outline-variant py-2 pl-9 pr-3 text-sm focus:border-primary focus:outline-none"
               />
             </div>
             <button className="flex items-center gap-1.5 rounded-md border border-outline-variant px-3 py-2 text-sm font-medium text-on-surface hover:bg-surface-container">
-              <Filter className="h-4 w-4" /> Filtres avancés
+              <Filter className="h-4 w-4" /> {t("admin.auditEkyc.filtresAvances")}
             </button>
           </div>
 
@@ -75,13 +85,13 @@ function AuditEkycPage() {
               <table className="w-full text-sm">
                 <thead className="bg-surface-low text-left">
                   <tr>
-                    <Th>Horodatage</Th>
-                    <Th>Utilisateur</Th>
-                    <Th>Rôle</Th>
-                    <Th>Action</Th>
-                    <Th>Entité</Th>
-                    <Th>IP</Th>
-                    <Th>ID</Th>
+                    <Th>{t("admin.auditEkyc.colHorodatage")}</Th>
+                    <Th>{t("admin.auditEkyc.colUtilisateur")}</Th>
+                    <Th>{t("admin.auditEkyc.colRole")}</Th>
+                    <Th>{t("admin.auditEkyc.colAction")}</Th>
+                    <Th>{t("admin.auditEkyc.colEntite")}</Th>
+                    <Th>{t("admin.auditEkyc.colIP")}</Th>
+                    <Th>{t("admin.auditEkyc.colID")}</Th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-outline-variant/50">
@@ -118,18 +128,18 @@ function AuditEkycPage() {
       {tab === "ekyc" && (
         <section className="grid gap-6 lg:grid-cols-[1fr_360px]">
           <div>
-            <h3 className="headline-md mb-4 text-on-surface">Dossiers eKYC</h3>
+            <h3 className="headline-md mb-4 text-on-surface">{t("admin.auditEkyc.dossiersEkyc")}</h3>
             <div className="card-elevated overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead className="bg-surface-low text-left">
                     <tr>
-                      <Th>Utilisateur</Th>
-                      <Th>CIN</Th>
-                      <Th>Vivacité</Th>
-                      <Th>RIB</Th>
-                      <Th>Banque</Th>
-                      <Th>Date</Th>
+                      <Th>{t("admin.auditEkyc.colUtilisateur")}</Th>
+                      <Th>{t("admin.auditEkyc.colCIN")}</Th>
+                      <Th>{t("admin.auditEkyc.colVivacite")}</Th>
+                      <Th>{t("admin.auditEkyc.colRIB")}</Th>
+                      <Th>{t("admin.auditEkyc.colBanque")}</Th>
+                      <Th>{t("admin.auditEkyc.colDate")}</Th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-outline-variant/50">
@@ -153,41 +163,41 @@ function AuditEkycPage() {
             <div className="card-elevated p-5">
               <div className="mb-3 flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-primary" />
-                <h3 className="headline-md text-on-surface">Module eKYC</h3>
+                <h3 className="headline-md text-on-surface">{t("admin.auditEkyc.moduleEkyc")}</h3>
               </div>
               <p className="text-xs text-on-surface-variant">
-                Conforme aux exigences Bank Al-Maghrib pour l'identification à distance.
+                {t("admin.auditEkyc.conformeBAM")}
               </p>
 
               <label className="mt-4 flex cursor-pointer flex-col items-center gap-2 rounded-lg border-2 border-dashed border-outline-variant py-6 text-on-surface-variant hover:border-primary hover:bg-surface-low">
                 <Upload className="h-5 w-5" />
-                <span className="text-xs font-medium">CIN recto</span>
+                <span className="text-xs font-medium">{t("admin.auditEkyc.cinRecto")}</span>
                 <input type="file" className="hidden" />
               </label>
               <label className="mt-2 flex cursor-pointer flex-col items-center gap-2 rounded-lg border-2 border-dashed border-outline-variant py-6 text-on-surface-variant hover:border-primary hover:bg-surface-low">
                 <Upload className="h-5 w-5" />
-                <span className="text-xs font-medium">CIN verso</span>
+                <span className="text-xs font-medium">{t("admin.auditEkyc.cinVerso")}</span>
                 <input type="file" className="hidden" />
               </label>
               <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 text-sm font-semibold text-on-primary hover:bg-primary-container">
                 <Camera className="h-4 w-4" />
-                Lancer la vérification de vivacité
+                {t("admin.auditEkyc.lancerVivacite")}
               </button>
             </div>
 
             <div className="card-elevated p-5">
-              <p className="label-sm text-on-surface-variant">Statistiques eKYC</p>
+              <p className="label-sm text-on-surface-variant">{t("admin.auditEkyc.statsEkyc")}</p>
               <ul className="mt-3 space-y-2 text-sm">
                 <li className="flex items-center justify-between">
-                  <span className="flex items-center gap-2"><UserCheck className="h-4 w-4 text-success" /> Validés</span>
+                  <span className="flex items-center gap-2"><UserCheck className="h-4 w-4 text-success" /> {t("admin.auditEkyc.valides")}</span>
                   <span className="font-bold text-on-surface">847</span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span className="flex items-center gap-2"><AlertCircle className="h-4 w-4 text-warning" /> En revue</span>
+                  <span className="flex items-center gap-2"><AlertCircle className="h-4 w-4 text-warning" /> {t("admin.auditEkyc.enRevue")}</span>
                   <span className="font-bold text-on-surface">23</span>
                 </li>
                 <li className="flex items-center justify-between">
-                  <span className="flex items-center gap-2"><AlertCircle className="h-4 w-4 text-error" /> Rejetés</span>
+                  <span className="flex items-center gap-2"><AlertCircle className="h-4 w-4 text-error" /> {t("admin.auditEkyc.rejetes")}</span>
                   <span className="font-bold text-on-surface">12</span>
                 </li>
               </ul>
@@ -200,6 +210,7 @@ function AuditEkycPage() {
 }
 
 function EkycStatusBadge({ statut }: { statut: string }) {
+  const { t } = useTranslation();
   const tone =
     statut === "validé" ? "bg-success/10 text-success"
     : statut === "rejeté" ? "bg-error/10 text-error"
@@ -207,7 +218,7 @@ function EkycStatusBadge({ statut }: { statut: string }) {
     : "bg-surface-container text-on-surface-variant";
   return (
     <span className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${tone}`}>
-      {statut}
+      {t(ekycStatusKeyMap[statut] ?? statut)}
     </span>
   );
 }

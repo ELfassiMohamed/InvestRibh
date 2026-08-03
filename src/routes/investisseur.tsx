@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { useTranslation } from "react-i18next";
 import { AppShell } from "@/components/AppShell";
 import { useAuth } from "@/hooks/use-auth";
 
@@ -23,15 +24,15 @@ export const Route = createFileRoute("/investisseur")({
   component: InvestisseurLayout,
 });
 
-const nav = [
-  { label: "Tableau de bord", to: "/investisseur" },
-  { label: "Simulateur ROI", to: "/investisseur/simulateur-roi" },
-  { label: "Mon portefeuille", to: "/investisseur/portefeuille" },
-  { label: "Vérification Réglementaire", to: "/investisseur/verification-reglementaire" },
-];
-
 function InvestisseurLayout() {
+  const { t } = useTranslation();
   const { user } = useAuth();
+  const nav = [
+    { label: t("investor.nav.dashboard"), to: "/investisseur" },
+    { label: t("investor.nav.simulateur"), to: "/investisseur/simulateur-roi" },
+    { label: t("investor.nav.portefeuille"), to: "/investisseur/portefeuille" },
+    { label: t("investor.nav.verification"), to: "/investisseur/verification-reglementaire" },
+  ];
   return (
     <AppShell zone="Investisseur" nav={nav}>
       <Outlet />

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Download, Eye, EyeOff, FileText } from "lucide-react";
 
 import { PageHeader } from "@/components/AppShell";
@@ -18,6 +19,7 @@ const documents = [
 ];
 
 function PortefeuillePage() {
+  const { t } = useTranslation();
   const [showRib, setShowRib] = useState(false);
   const rib = "230 780 1234567890123456 21";
   const { data: dashboard, isLoading } = useInvestorDashboard();
@@ -26,8 +28,8 @@ function PortefeuillePage() {
   if (isLoading || !dashboard) {
     return (
       <>
-        <PageHeader title="Mon portefeuille" description="Vue détaillée de vos participations." />
-        <p className="text-sm text-on-surface-variant">Chargement…</p>
+        <PageHeader title={t("investor.portefeuille.title")} description={t("investor.portefeuille.subtitle")} />
+        <p className="text-sm text-on-surface-variant">{t("investor.loading")}</p>
       </>
     );
   }
@@ -38,14 +40,14 @@ function PortefeuillePage() {
   return (
     <>
       <PageHeader
-        title="Mon portefeuille"
-        description="Vue détaillée de vos participations, historique sécurisé et coffre-fort documentaire."
+        title={t("investor.portefeuille.title")}
+        description={t("investor.portefeuille.desc")}
       />
 
       {/* Bandeau compte */}
       <div className="card-elevated mb-6 flex flex-wrap items-center justify-between gap-4 p-5">
         <div>
-          <p className="label-sm text-on-surface-variant">RIB de référence</p>
+          <p className="label-sm text-on-surface-variant">{t("investor.portefeuille.rib")}</p>
           <p className="mt-1 font-mono text-lg font-bold text-on-surface">
             {showRib ? rib : maskSensitive(rib)}
           </p>
@@ -55,24 +57,24 @@ function PortefeuillePage() {
           className="flex items-center gap-1.5 rounded-md border border-outline-variant px-3 py-2 text-sm font-medium text-on-surface hover:bg-surface-container"
         >
           {showRib ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-          {showRib ? "Masquer" : "Révéler"}
+          {showRib ? t("investor.portefeuille.masquer") : t("investor.portefeuille.reveler")}
         </button>
       </div>
 
       {/* Participations */}
       <section className="mb-8">
-        <h2 className="headline-md mb-4 text-on-surface">Participations</h2>
+        <h2 className="headline-md mb-4 text-on-surface">{t("investor.portefeuille.participations")}</h2>
         <div className="card-elevated overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead className="bg-surface-low text-left">
                 <tr>
-                  <Th>Projet</Th>
-                  <Th>Unités</Th>
-                  <Th>Prix moyen</Th>
-                  <Th>Valeur actuelle</Th>
+                  <Th>{t("investor.portefeuille.project")}</Th>
+                  <Th>{t("investor.portefeuille.unites")}</Th>
+                  <Th>{t("investor.portefeuille.prixMoyen")}</Th>
+                  <Th>{t("investor.portefeuille.valeur")}</Th>
                   <Th>+/-</Th>
-                  <Th>Acquisition</Th>
+                  <Th>{t("investor.portefeuille.acquisition")}</Th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant/50">
@@ -108,47 +110,47 @@ function PortefeuillePage() {
       <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
         {/* Historique transactions */}
         <section>
-          <h2 className="headline-md mb-4 text-on-surface">Historique des transactions</h2>
+          <h2 className="headline-md mb-4 text-on-surface">{t("investor.portefeuille.historique")}</h2>
           <div className="card-elevated overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-surface-low text-left">
                   <tr>
-                    <Th>Date</Th>
-                    <Th>Type</Th>
-                    <Th>Référence</Th>
-                    <Th>Montant</Th>
-                    <Th>Statut</Th>
+                    <Th>{t("investor.portefeuille.date")}</Th>
+                    <Th>{t("investor.portefeuille.type")}</Th>
+                    <Th>{t("investor.portefeuille.reference")}</Th>
+                    <Th>{t("investor.portefeuille.montant")}</Th>
+                    <Th>{t("investor.portefeuille.statut")}</Th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-outline-variant/50">
-                  {transactions.map((t) => (
-                    <tr key={t.id} className="hover:bg-surface-low">
-                      <Td>{formatDate(t.date)}</Td>
+                  {transactions.map((tx) => (
+                    <tr key={tx.id} className="hover:bg-surface-low">
+                      <Td>{formatDate(tx.date)}</Td>
                       <Td>
-                        <p className="font-semibold text-on-surface">{t.type}</p>
-                        {t.projet && (
-                          <p className="text-xs text-on-surface-variant">{t.projet}</p>
+                        <p className="font-semibold text-on-surface">{tx.type}</p>
+                        {tx.projet && (
+                          <p className="text-xs text-on-surface-variant">{tx.projet}</p>
                         )}
                       </Td>
                       <Td>
-                        <span className="font-mono text-xs">{t.reference}</span>
+                        <span className="font-mono text-xs">{tx.reference}</span>
                       </Td>
-                      <Td className={`font-semibold ${t.montant >= 0 ? "text-success" : "text-on-surface"}`}>
-                        {t.montant >= 0 ? "+" : ""}
-                        {formatMAD(t.montant)}
+                      <Td className={`font-semibold ${tx.montant >= 0 ? "text-success" : "text-on-surface"}`}>
+                        {tx.montant >= 0 ? "+" : ""}
+                        {formatMAD(tx.montant)}
                       </Td>
                       <Td>
                         <span
                           className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
-                            t.statut === "Confirmé"
+                            tx.statut === "Confirmé"
                               ? "bg-success/10 text-success"
-                              : t.statut === "En attente"
+                              : tx.statut === "En attente"
                               ? "bg-warning/10 text-warning"
                               : "bg-error/10 text-error"
                           }`}
                         >
-                          {t.statut}
+                          {tx.statut === "Confirmé" ? t("investor.portefeuille.confirme") : tx.statut === "En attente" ? t("investor.portefeuille.enAttente") : tx.statut}
                         </span>
                       </Td>
                     </tr>
@@ -161,7 +163,7 @@ function PortefeuillePage() {
 
         {/* Coffre-fort */}
         <section>
-          <h2 className="headline-md mb-4 text-on-surface">Coffre-fort documentaire</h2>
+          <h2 className="headline-md mb-4 text-on-surface">{t("investor.portefeuille.coffre")}</h2>
           <div className="card-elevated divide-y divide-outline-variant/50">
             {documents.map((doc) => (
               <div key={doc.nom} className="flex items-center gap-3 p-4">
@@ -174,7 +176,7 @@ function PortefeuillePage() {
                     {doc.type} · {formatDate(doc.date)}
                   </p>
                 </div>
-                <button aria-label="Télécharger" className="grid h-9 w-9 place-items-center rounded-md text-primary hover:bg-surface-container">
+                <button aria-label={t("projectDetail.download")} className="grid h-9 w-9 place-items-center rounded-md text-primary hover:bg-surface-container">
                   <Download className="h-4 w-4" />
                 </button>
               </div>

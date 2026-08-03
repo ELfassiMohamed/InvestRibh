@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   ArrowLeft,
   MapPin,
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/investisseur/projets/$id")({
 });
 
 function ProjetDetailPage() {
+  const { t } = useTranslation();
   const { id } = Route.useParams();
   const { data: project, isLoading, isError } = useProject(id);
   const [unites, setUnites] = useState(1);
@@ -31,8 +33,8 @@ function ProjetDetailPage() {
   if (isLoading) {
     return (
       <>
-        <PageHeader title="Chargement..." description="Veuillez patienter." />
-        <p className="text-sm text-on-surface-variant">Recuperation du projet...</p>
+        <PageHeader title={t("investor.loading")} description={t("investor.loadingSub")} />
+        <p className="text-sm text-on-surface-variant">{t("investor.projets.fetching")}</p>
       </>
     );
   }
@@ -50,7 +52,7 @@ function ProjetDetailPage() {
         to="/investisseur/projets"
         className="mb-4 inline-flex items-center gap-1.5 text-sm text-on-surface-variant hover:text-primary"
       >
-        <ArrowLeft className="h-4 w-4" /> Retour au catalogue
+        <ArrowLeft className="h-4 w-4" /> {t("projectDetail.backCatalogue")}
       </Link>
 
       <PageHeader
@@ -67,16 +69,16 @@ function ProjetDetailPage() {
           </div>
 
           <div className="card-elevated p-6">
-            <h2 className="headline-md text-on-surface">À propos du projet</h2>
+            <h2 className="headline-md text-on-surface">{t("projectDetail.aPropos")}</h2>
             <p className="mt-3 text-on-surface-variant">{project.description}</p>
 
             <div className="mt-6 grid gap-4 sm:grid-cols-3">
-              <Detail icon={<MapPin className="h-4 w-4" />} label="Localisation" value={project.ville} />
-              <Detail icon={<Calendar className="h-4 w-4" />} label="Durée" value={`${project.dureeMois} mois`} />
-              <Detail icon={<Users className="h-4 w-4" />} label="Investisseurs" value={String(project.investisseurs)} />
-              <Detail icon={<TrendingUp className="h-4 w-4" />} label="Rendement cible" value={formatPercent(project.rendementCible)} />
-              <Detail label="Budget total" value={formatMAD(project.budgetTotal)} />
-              <Detail label="Ticket min." value={formatMAD(project.ticketMinimum)} />
+              <Detail icon={<MapPin className="h-4 w-4" />} label={t("projectDetail.localisation")} value={project.ville} />
+              <Detail icon={<Calendar className="h-4 w-4" />} label={t("projectDetail.duree")} value={t("projectDetail.mois", { count: project.dureeMois })} />
+              <Detail icon={<Users className="h-4 w-4" />} label={t("projectDetail.investisseurs")} value={String(project.investisseurs)} />
+              <Detail icon={<TrendingUp className="h-4 w-4" />} label={t("projectDetail.rendementCible")} value={formatPercent(project.rendementCible)} />
+              <Detail label={t("projectDetail.budgetTotal")} value={formatMAD(project.budgetTotal)} />
+              <Detail label={t("projectDetail.ticketMin")} value={formatMAD(project.ticketMinimum)} />
             </div>
           </div>
 
@@ -87,15 +89,15 @@ function ProjetDetailPage() {
                 <Sparkles className="h-4 w-4" />
               </div>
               <div>
-                <h2 className="headline-md text-on-surface">Synthèse de l'analyse IA</h2>
+                <h2 className="headline-md text-on-surface">{t("projectDetail.analyseIa")}</h2>
                 <p className="text-xs text-on-surface-variant">
-                  Pipeline multi-agents · score global {project.scoreRisque}/100
+                  {t("projectDetail.analyseIaSub", { score: project.scoreRisque })}
                 </p>
               </div>
             </div>
             <div className="grid gap-6 p-6 md:grid-cols-2">
               <div>
-                <p className="label-sm text-success">Points forts</p>
+                <p className="label-sm text-success">{t("projectDetail.pointsForts")}</p>
                 <ul className="mt-3 space-y-2">
                   {project.pointsForts.map((pt) => (
                     <li key={pt} className="flex gap-2 text-sm text-on-surface">
@@ -106,7 +108,7 @@ function ProjetDetailPage() {
                 </ul>
               </div>
               <div>
-                <p className="label-sm text-warning">Points de vigilance</p>
+                <p className="label-sm text-warning">{t("projectDetail.pointsVigilance")}</p>
                 <ul className="mt-3 space-y-2">
                   {project.pointsVigilance.map((pt) => (
                     <li key={pt} className="flex gap-2 text-sm text-on-surface">
@@ -121,20 +123,13 @@ function ProjetDetailPage() {
 
           {/* Documents */}
           <div className="card-elevated p-6">
-            <h2 className="headline-md text-on-surface">Documents du projet</h2>
+            <h2 className="headline-md text-on-surface">{t("projectDetail.documents")}</h2>
             <ul className="mt-4 divide-y divide-outline-variant/50">
-              {[
-                "Notice d'information AMMC",
-                "Titre foncier",
-                "Permis de construire",
-                "Business plan détaillé",
-                "Étude de sol",
-                "Plans architecturaux",
-              ].map((doc) => (
+              {(t("projectDetail.docs", { returnObjects: true }) as string[]).map((doc: string) => (
                 <li key={doc} className="flex items-center justify-between py-3 text-sm">
                   <span className="text-on-surface">{doc}</span>
                   <button className="flex items-center gap-1.5 font-semibold text-primary hover:underline">
-                    <Download className="h-4 w-4" /> Télécharger
+                    <Download className="h-4 w-4" /> {t("projectDetail.download")}
                   </button>
                 </li>
               ))}
@@ -152,11 +147,11 @@ function ProjetDetailPage() {
               />
               <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
                 <div>
-                  <p className="text-on-surface-variant">Investisseurs</p>
+                  <p className="text-on-surface-variant">{t("projectDetail.investisseurs")}</p>
                   <p className="text-base font-bold text-on-surface">{project.investisseurs}</p>
                 </div>
                 <div>
-                  <p className="text-on-surface-variant">Jours restants</p>
+                  <p className="text-on-surface-variant">{t("projectDetail.joursRestants")}</p>
                   <p className="text-base font-bold text-on-surface">{project.joursRestants}</p>
                 </div>
               </div>
@@ -176,9 +171,9 @@ function ProjetDetailPage() {
 
               {step === 1 && (
                 <>
-                  <p className="label-sm text-on-surface-variant">Étape 1 — Sélection</p>
+                  <p className="label-sm text-on-surface-variant">{t("investor.invest.step1Label")}</p>
                   <label className="mt-3 block text-sm text-on-surface">
-                    Nombre d'unités
+                    {t("investor.invest.unites")}
                   </label>
                   <div className="mt-2 flex items-center rounded-md border border-outline-variant">
                     <button
@@ -202,33 +197,33 @@ function ProjetDetailPage() {
                   </div>
 
                   <dl className="mt-5 space-y-2 text-sm">
-                    <Row label="Montant investi" value={formatMAD(montant)} />
-                    <Row label="Rendement annuel estimé" value={formatMAD(rendementAnnuel)} highlight />
-                    <Row label="Sur la durée totale" value={formatMAD((rendementAnnuel * project.dureeMois) / 12)} />
+                    <Row label={t("investor.invest.montantInvesti")} value={formatMAD(montant)} />
+                    <Row label={t("investor.invest.rendementAnnuel")} value={formatMAD(rendementAnnuel)} highlight />
+                    <Row label={t("investor.invest.surDuree")} value={formatMAD((rendementAnnuel * project.dureeMois) / 12)} />
                   </dl>
                 </>
               )}
 
               {step === 2 && (
                 <>
-                  <p className="label-sm text-on-surface-variant">Étape 2 — Vérification KYC</p>
+                  <p className="label-sm text-on-surface-variant">{t("investor.invest.step2Label")}</p>
                   <p className="mt-3 text-sm text-on-surface">
-                    Votre dossier eKYC est <span className="font-bold text-success">validé</span> ✓
+                    {t("investor.invest.ekycValidated")} <span className="font-bold text-success">✓</span>
                   </p>
                   <p className="mt-2 text-xs text-on-surface-variant">
-                    CIN vérifié · RIB confirmé · Vivacité contrôlée (Bank Al-Maghrib).
+                    {t("investor.invest.ekycDetail")}
                   </p>
                 </>
               )}
 
               {step === 3 && (
                 <>
-                  <p className="label-sm text-on-surface-variant">Étape 3 — Paiement</p>
+                  <p className="label-sm text-on-surface-variant">{t("investor.invest.step3Label")}</p>
                   <p className="mt-3 text-sm text-on-surface">
-                    Virement sécurisé depuis le RIB enregistré.
+                    {t("investor.invest.virement")}
                   </p>
                   <div className="mt-3 rounded-md bg-surface-low p-3 text-xs text-on-surface-variant">
-                    Montant à débiter : <span className="font-bold text-on-surface">{formatMAD(montant)}</span>
+                    {t("investor.invest.montantDebiter")} <span className="font-bold text-on-surface">{formatMAD(montant)}</span>
                   </div>
                 </>
               )}
@@ -236,9 +231,9 @@ function ProjetDetailPage() {
               {step === 4 && (
                 <div className="text-center">
                   <CheckCircle2 className="mx-auto h-10 w-10 text-success" />
-                  <p className="mt-3 font-semibold text-on-surface">Investissement confirmé</p>
+                  <p className="mt-3 font-semibold text-on-surface">{t("investor.invest.confirme")}</p>
                   <p className="mt-1 text-xs text-on-surface-variant">
-                    Référence INV-{project.id.slice(0, 6).toUpperCase()}-{Date.now().toString().slice(-4)}
+                    {t("investor.invest.reference", { id: project.id.slice(0, 6).toUpperCase() })}-{Date.now().toString().slice(-4)}
                   </p>
                 </div>
               )}
@@ -249,16 +244,16 @@ function ProjetDetailPage() {
                     onClick={() => setStep((step - 1) as 1 | 2 | 3)}
                     className="flex-1 rounded-md border border-outline-variant px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-surface-container"
                   >
-                    Retour
+                    {t("common.back")}
                   </button>
                 )}
                 {step < 4 && (
                   <button
                     onClick={() => setStep((step + 1) as 2 | 3 | 4)}
-                    disabled={project.statut !== "En collecte"}
+                    disabled={project.statut !== t("statuses.En collecte")}
                     className="flex-1 rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-container disabled:opacity-50"
                   >
-                    {step === 1 ? "Continuer" : step === 2 ? "Aller au paiement" : "Confirmer"}
+                    {step === 1 ? t("investor.invest.continuer") : step === 2 ? t("investor.invest.allerPaiement") : t("investor.invest.confirmer")}
                   </button>
                 )}
               </div>

@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { formatMAD, formatPercent } from "@/lib/format";
 
 interface Props {
@@ -7,6 +8,7 @@ interface Props {
 }
 
 export function FundingProgressBar({ current, target, showLabels = true }: Props) {
+  const { t } = useTranslation();
   const pct = Math.min(100, (current / target) * 100);
   return (
     <div className="space-y-1.5">
@@ -20,7 +22,7 @@ export function FundingProgressBar({ current, target, showLabels = true }: Props
         <div className="flex items-center justify-between text-xs">
           <span className="font-semibold text-on-surface">{formatMAD(current)}</span>
           <span className="text-on-surface-variant">
-            {formatPercent(pct)} de {formatMAD(target)}
+            {formatPercent(pct)} {t("funding.of")} {formatMAD(target)}
           </span>
         </div>
       )}

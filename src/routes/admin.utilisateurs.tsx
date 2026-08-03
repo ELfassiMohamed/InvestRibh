@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Search, Eye, EyeOff, ShieldOff, ShieldCheck, RotateCcw, Plus, Trash2 } from "lucide-react";
 
 import { PageHeader } from "@/components/AppShell";
@@ -28,6 +29,21 @@ const allPermissions = [
   "Configurer plateforme",
 ];
 
+const permissionKeyMap: Record<string, string> = {
+  "Consulter projets": "admin.utilisateurs.permConsulterProjets",
+  "Investir": "admin.utilisateurs.permInvestir",
+  "Consulter portefeuille": "admin.utilisateurs.permConsulterPortefeuille",
+  "Soumettre projet": "admin.utilisateurs.permSoumettreProjet",
+  "Suivi collecte": "admin.utilisateurs.permSuiviCollecte",
+  "Suivi chantier": "admin.utilisateurs.permSuiviChantier",
+  "Valider dossiers": "admin.utilisateurs.permValiderDossiers",
+  "Consulter eKYC": "admin.utilisateurs.permConsulterEkyc",
+  "Voir données sensibles (CIN/RIB)": "admin.utilisateurs.permVoirSensibles",
+  "Suspendre comptes": "admin.utilisateurs.permSuspendreComptes",
+  "Gérer rôles": "admin.utilisateurs.permGererRoles",
+  "Configurer plateforme": "admin.utilisateurs.permConfigurer",
+};
+
 const defaultMatrix: Record<UserRole, string[]> = {
   Investisseur: ["Consulter projets", "Investir", "Consulter portefeuille"],
   "Porteur de Projet": ["Soumettre projet", "Suivi collecte", "Suivi chantier"],
@@ -36,6 +52,7 @@ const defaultMatrix: Record<UserRole, string[]> = {
 };
 
 function UtilisateursPage() {
+  const { t } = useTranslation();
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState<UserRole | "Tous">("Tous");
   const [revealed, setRevealed] = useState<Set<string>>(new Set());
@@ -47,6 +64,8 @@ function UtilisateursPage() {
   const toggleStatus = useToggleUserStatus();
   const createUser = useCreateUser();
   const deleteUser = useDeleteUser();
+
+  const permLabel = (perm: string) => t(permissionKeyMap[perm] ?? perm);
 
   const togglePermission = (role: UserRole, permission: string) => {
     setMatrix((prev) => {
@@ -93,28 +112,28 @@ function UtilisateursPage() {
   return (
     <>
       <PageHeader
-        title="Gestion des utilisateurs"
-        description="Matrice de rôles RBAC et liste des comptes."
+        title={t("admin.utilisateurs.title")}
+        description={t("admin.utilisateurs.subtitle")}
       />
 
       <section className="mb-8">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="headline-md text-on-surface">Matrice des rôles</h2>
+          <h2 className="headline-md text-on-surface">{t("admin.utilisateurs.matriceRoles")}</h2>
           <button
             onClick={() => setMatrix(defaultMatrix)}
             className="flex items-center gap-1.5 rounded-md border border-outline-variant px-3 py-1.5 text-xs font-medium text-on-surface-variant hover:bg-surface-container"
           >
-            <RotateCcw className="h-3.5 w-3.5" /> Réinitialiser
+            <RotateCcw className="h-3.5 w-3.5" /> {t("admin.utilisateurs.reinitialiser")}
           </button>
         </div>
         <div className="card-elevated overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-surface-low">
               <tr>
-                <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-on-surface-variant">Permission</th>
+                <th className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider text-on-surface-variant">{t("admin.utilisateurs.permission")}</th>
                 {roles.map((r) => (
                   <th key={r} className="px-4 py-3 text-center text-xs font-bold uppercase tracking-wider text-on-surface-variant">
-                    {r}
+                    {t(`roles.${r}`)}
                   </th>
                 ))}
               </tr>
@@ -124,7 +143,7 @@ function UtilisateursPage() {
                 <tr key={perm} className="hover:bg-surface-low/50">
                   <td className="px-4 py-2.5 text-on-surface">
                     <div className="flex items-center gap-2">
-                      <span>{perm}</span>
+                      <span>{permLabel(perm)}</span>
                       <span className="text-[10px] text-on-surface-variant/60">({countEnabled(perm)}/{roles.length})</span>
                     </div>
                   </td>
@@ -139,7 +158,7 @@ function UtilisateursPage() {
                               ? "bg-success/20 hover:bg-success/30"
                               : "bg-surface-container hover:bg-surface-container-hover"
                           }`}
-                          title={has ? `Retirer ${perm} pour ${r}` : `Ajouter ${perm} pour ${r}`}
+                          title={has ? t("admin.utilisateurs.retirerPermission", { perm: permLabel(perm), role: t(`roles.${r}`) }) : t("admin.utilisateurs.ajouterPermission", { perm: permLabel(perm), role: t(`roles.${r}`) })}
                         >
                           {has && <span className="mx-auto block h-2 w-2 rounded-full bg-success" />}
                         </button>
@@ -155,13 +174,13 @@ function UtilisateursPage() {
 
       <section>
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <h2 className="headline-md text-on-surface">Comptes utilisateurs ({filtered.length})</h2>
+          <h2 className="headline-md text-on-surface">{t("admin.utilisateurs.comptes", { count: filtered.length })}</h2>
           <div className="flex gap-2">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-on-surface-variant" />
               <input
                 type="text"
-                placeholder="Rechercher…"
+                placeholder={t("admin.utilisateurs.rechercher")}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="rounded-md border border-outline-variant py-2 pl-9 pr-3 text-sm focus:border-primary focus:outline-none"
@@ -172,16 +191,16 @@ function UtilisateursPage() {
               onChange={(e) => setRoleFilter(e.target.value as UserRole | "Tous")}
               className="rounded-md border border-outline-variant px-3 py-2 text-sm focus:border-primary focus:outline-none"
             >
-              <option value="Tous">Tous les rôles</option>
+              <option value="Tous">{t("admin.utilisateurs.tousRoles")}</option>
               {roles.map((r) => (
-                <option key={r} value={r}>{r}</option>
+                <option key={r} value={r}>{t(`roles.${r}`)}</option>
               ))}
             </select>
             <button
               onClick={() => setShowAddForm(!showAddForm)}
               className="flex items-center gap-1.5 rounded-md bg-primary px-3 py-2 text-sm font-semibold text-on-primary hover:opacity-90"
             >
-              <Plus className="h-4 w-4" /> Ajouter
+              <Plus className="h-4 w-4" /> {t("admin.utilisateurs.ajouter")}
             </button>
           </div>
         </div>
@@ -190,7 +209,7 @@ function UtilisateursPage() {
           <div className="card-elevated mb-4 p-4">
             <div className="grid gap-4 sm:grid-cols-5">
               <input
-                placeholder="Nom complet"
+                placeholder={t("admin.utilisateurs.nomComplet")}
                 value={newUser.nom}
                 onChange={(e) => setNewUser({ ...newUser, nom: e.target.value })}
                 className="rounded-md border border-outline-variant px-3 py-2 text-sm"
@@ -206,7 +225,7 @@ function UtilisateursPage() {
                 onChange={(e) => setNewUser({ ...newUser, role: e.target.value as UserRole })}
                 className="rounded-md border border-outline-variant px-3 py-2 text-sm"
               >
-                {roles.map((r) => (<option key={r} value={r}>{r}</option>))}
+                {roles.map((r) => (<option key={r} value={r}>{t(`roles.${r}`)}</option>))}
               </select>
               <input
                 placeholder="CIN"
@@ -222,9 +241,9 @@ function UtilisateursPage() {
               />
             </div>
             <div className="mt-3 flex justify-end gap-2">
-              <button onClick={() => setShowAddForm(false)} className="rounded-md border border-outline-variant px-3 py-1.5 text-sm text-on-surface hover:bg-surface-container">Annuler</button>
+              <button onClick={() => setShowAddForm(false)} className="rounded-md border border-outline-variant px-3 py-1.5 text-sm text-on-surface hover:bg-surface-container">{t("admin.utilisateurs.annuler")}</button>
               <button onClick={handleAddUser} disabled={createUser.isPending} className="rounded-md bg-primary px-4 py-1.5 text-sm font-semibold text-on-primary hover:opacity-90 disabled:opacity-50">
-                {createUser.isPending ? "Création…" : "Créer"}
+                {createUser.isPending ? t("admin.utilisateurs.creation") : t("admin.utilisateurs.creer")}
               </button>
             </div>
           </div>
@@ -235,18 +254,18 @@ function UtilisateursPage() {
             <table className="w-full text-sm">
               <thead className="bg-surface-low text-left">
                 <tr>
-                  <Th>Utilisateur</Th>
-                  <Th>Rôle</Th>
+                  <Th>{t("admin.utilisateurs.colUtilisateur")}</Th>
+                  <Th>{t("admin.utilisateurs.colRole")}</Th>
                   <Th>CIN</Th>
                   <Th>RIB</Th>
-                  <Th>Statut</Th>
-                  <Th>Inscrit</Th>
-                  <Th>Actions</Th>
+                  <Th>{t("admin.utilisateurs.colStatut")}</Th>
+                  <Th>{t("admin.utilisateurs.colInscrit")}</Th>
+                  <Th>{t("admin.utilisateurs.colActions")}</Th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-outline-variant/50">
                 {isLoading ? (
-                  <tr><td colSpan={7} className="px-4 py-8 text-center text-sm text-on-surface-variant">Chargement…</td></tr>
+                  <tr><td colSpan={7} className="px-4 py-8 text-center text-sm text-on-surface-variant">{t("admin.utilisateurs.chargement")}</td></tr>
                 ) : (
                   filtered.map((u: any) => {
                     const isRevealed = revealed.has(u.id);
@@ -268,7 +287,7 @@ function UtilisateursPage() {
                             u.statut === "Actif" ? "bg-success/10 text-success"
                             : u.statut === "Suspendu" ? "bg-error/10 text-error"
                             : "bg-warning/10 text-warning"
-                          }`}>{u.statut}</span>
+                          }`}>{u.statut === "Actif" ? t("admin.utilisateurs.statusActif") : u.statut === "Suspendu" ? t("admin.utilisateurs.statusSuspendu") : u.statut}</span>
                         </Td>
                         <Td>{formatDate(u.dateInscription)}</Td>
                         <Td>
@@ -276,7 +295,7 @@ function UtilisateursPage() {
                             <button
                               onClick={() => toggleReveal(u.id)}
                               className="grid h-8 w-8 place-items-center rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface"
-                              aria-label="Révéler données sensibles"
+                              aria-label={t("admin.utilisateurs.revealSensibles")}
                             >
                               {isRevealed ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                             </button>
@@ -284,15 +303,15 @@ function UtilisateursPage() {
                               onClick={() => toggleStatus.mutate(u.id)}
                               disabled={toggleStatus.isPending}
                               className="grid h-8 w-8 place-items-center rounded-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface disabled:opacity-50"
-                              aria-label={u.statut === "Suspendu" ? "Réactiver" : "Suspendre"}
+                              aria-label={u.statut === "Suspendu" ? t("admin.utilisateurs.reactiver") : t("admin.utilisateurs.suspendre")}
                             >
                               {u.statut === "Suspendu" ? <ShieldCheck className="h-4 w-4 text-success" /> : <ShieldOff className="h-4 w-4" />}
                             </button>
                             <button
-                              onClick={() => { if (confirm(`Supprimer ${u.nom} ?`)) deleteUser.mutate(u.id); }}
+                              onClick={() => { if (confirm(t("admin.utilisateurs.confirmerSuppression", { nom: u.nom }))) deleteUser.mutate(u.id); }}
                               disabled={deleteUser.isPending}
                               className="grid h-8 w-8 place-items-center rounded-md text-on-surface-variant hover:bg-surface-container hover:text-error disabled:opacity-50"
-                              aria-label="Supprimer"
+                              aria-label={t("admin.utilisateurs.supprimer")}
                             >
                               <Trash2 className="h-4 w-4" />
                             </button>
@@ -312,6 +331,7 @@ function UtilisateursPage() {
 }
 
 function RoleBadge({ role }: { role: UserRole }) {
+  const { t } = useTranslation();
   const tone =
     role === "Super Admin" ? "bg-primary text-on-primary"
     : role === "Agent Conformité" ? "bg-tertiary text-on-tertiary"
@@ -319,7 +339,7 @@ function RoleBadge({ role }: { role: UserRole }) {
     : "bg-secondary-container text-on-secondary-container";
   return (
     <span className={`inline-block rounded-md px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${tone}`}>
-      {role}
+      {t(`roles.${role}`)}
     </span>
   );
 }

@@ -1,0 +1,1123 @@
+{
+  "common": {
+    "login": "Se connecter",
+    "logout": "Déconnexion",
+    "back": "Retour",
+    "home": "Accueil",
+    "loading": "Chargement…",
+    "reset": "Réinitialiser",
+    "voirTout": "Voir tout",
+    "projectsAvailable": "{{count}} projets disponibles à l'investissement.",
+    "noResults": "Aucun projet ne correspond à ces critères.",
+    "ticketMax": "Ticket maximum : {{value}} MAD",
+    "rendementMin": "Rendement minimum : {{value}} %",
+    "footer": "Investir comporte un risque de perte en capital.",
+    "notFoundTitle": "Page introuvable",
+    "notFoundDesc": "La page que vous recherchez n'existe pas ou a été déplacée.",
+    "notFoundHome": "Retour à l'accueil",
+    "errorTitle": "Cette page n'a pas pu se charger",
+    "errorDesc": "Une erreur est survenue. Vous pouvez réessayer ou revenir à l'accueil.",
+    "retry": "Réessayer"
+  },
+  "funding": {
+    "of": "de"
+  },
+  "topBar": {
+    "share": "Partager",
+    "notifications": "Notifications",
+    "favorites": "Favoris",
+    "cart": "Panier"
+  },
+  "categoryNav": {
+    "pagePrincipale": "Page principale",
+    "biens": "Biens",
+    "investissementsCollectifs": "Investissements collectifs",
+    "investissementSolidaire": "Investissement solidaire",
+    "annuaire": "Annuaire des professionnels",
+    "pratique": "Pratique",
+    "espaceCommunautaire": "Espace communautaire",
+    "marketplace": "Marketplace"
+  },
+  "demoNotice": {
+    "title": "Plateforme de démonstration",
+    "body": "Ceci est une version de test. Aucune donnée personnelle n'est collectée ou conservée.",
+    "titleAr": "منصة تجريبية",
+    "bodyAr": "هذه نسخة تجريبية. لا يتم جمع أو حفظ أي بيانات شخصية.",
+    "continue": "Continue / استمر"
+  },
+  "hero": {
+    "headline1": "Investissez dans le futur,",
+    "headline2": "aujourd'hui.",
+    "subtitle": "Place2Invest est votre plateforme digitale pour diversifier vos investissements dans l'immobilier, les startups, l'art, la crypto et le talent, tout en soutenant l'économie sociale et solidaire.",
+    "searchPlaceholder": "Que cherchez-vous ?",
+    "search": "Rechercher",
+    "types": {
+      "tous": "Tous",
+      "immobilier": "Immobilier",
+      "crypto": "Crypto",
+      "startup": "Startup & Affaires",
+      "talent": "Talent",
+      "objets": "Objets de valeur"
+    }
+  },
+  "home": {
+    "espacesLabel": "Nos espaces",
+    "espacesTitle": "Deux façons de faire grandir votre projet",
+    "espacesDesc": "Que vous cherchiez à placer votre épargne ou à financer votre opération, votre espace dédié vous attend.",
+    "espaceInvestisseur": {
+      "label": "Espace Investisseur",
+      "titre": "Diversifiez votre patrimoine",
+      "description": "Tableau de bord temps réel, simulateur de ROI fiscal marocain et portefeuille consolidé.",
+      "points": ["Opportunités qualifiées", "Suivi de performance", "Simulateur fiscal MA"]
+    },
+    "espacePorteur": {
+      "label": "Espace Porteur de Projet",
+      "titre": "Levez les fonds de votre opération",
+      "description": "Soumission de dossier guidée, suivi de collecte et avancement de chantier transparents.",
+      "points": ["Dossier guidé", "Collecte en direct", "Reporting investisseurs"]
+    },
+    "accederEspace": "Accéder à l'espace",
+    "rejoignezLabel": "Rejoignez-nous",
+    "interetsTitle": "Dites-nous ce qui vous intéresse",
+    "interetsDesc": "Laissez vos coordonnées et vos centres d'intérêt : notre équipe vous envoie en priorité les opportunités correspondant à votre profil.",
+    "merci": "Merci !",
+    "merciDesc": "Votre demande a bien été enregistrée. Nous vous recontactons très prochainement.",
+    "fields": {
+      "nom": "Nom complet",
+      "email": "E-mail",
+      "tel": "Téléphone",
+      "jeSuis": "Je suis",
+      "profilInvestisseur": "Investisseur",
+      "profilPorteur": "Porteur de projet",
+      "profilPartenaire": "Partenaire",
+      "message": "Message (optionnel)",
+      "messagePlaceholder": "Montant envisagé, horizon d'investissement…",
+      "envoyer": "Envoyer ma demande"
+    },
+    "interets": {
+      "label": "Vos centres d'intérêt",
+      "immobilier": "Immobilier",
+      "crypto": "Monnaie virtuelle & Crypto",
+      "startup": "Startup & Affaires",
+      "solidaire": "Solidaire",
+      "crowdfunding": "Crowdfunding",
+      "valeur": "Produit de forte valeur"
+    },
+    "categories": {
+      "immobilier": "Immobilier",
+      "crypto": "Monnaie virtuelle & Crypto",
+      "startup": "Startup & Affaires",
+      "solidaire": "Solidaire",
+      "crowdfunding": "Crowdfunding",
+      "valeur": "Produit de forte valeur"
+    },
+    "footer": {
+      "tagline": "Plateforme digitale d'investissement multi-actifs régulée au Maroc.",
+      "plateforme": "Plateforme",
+      "plateformeLinks": ["Projets", "Comment ça marche", "Fiscalité MA", "Sécurité"],
+      "societe": "Société",
+      "societeLinks": ["À propos", "Carrières", "Presse", "Contact"],
+      "legal": "Légal",
+      "legalLinks": ["Mentions légales", "Conformité AMMC", "Confidentialité", "Cookies"]
+    }
+  },
+  "projets": {
+    "title": "Projets disponibles",
+    "filter": "Filtrer votre recherche",
+    "ville": "Ville",
+    "typologie": "Typologie",
+    "statut": "Statut",
+    "tous": "Tous",
+    "count": "{{count}} projets disponibles à l'investissement.",
+    "sectionCount": "{{count}} projet(s) disponible(s) à l'investissement."
+  },
+  "projectCard": {
+    "coupDeCoeur": "Coup de cœur",
+    "addFav": "Ajouter aux favoris",
+    "ticketMin": "Ticket min.",
+    "rendement": "Rendement cible"
+  },
+  "riskScore": {
+    "risque": "Risque {{label}}"
+  },
+  "projectDetail": {
+    "backCatalogue": "Retour au catalogue",
+    "tousProjets": "Tous les projets",
+    "loginInvest": "Se connecter pour investir",
+    "aPropos": "À propos du projet",
+    "localisation": "Localisation",
+    "duree": "Durée",
+    "investisseurs": "Investisseurs",
+    "rendementCible": "Rendement cible",
+    "budgetTotal": "Budget total",
+    "ticketMin": "Ticket min.",
+    "analyseIa": "Synthèse de l'analyse IA",
+    "analyseIaSub": "Pipeline multi-agents · score global {{score}}/100",
+    "pointsForts": "Points forts",
+    "pointsVigilance": "Points de vigilance",
+    "documents": "Documents du projet",
+    "mois": "{{count}} mois",
+    "joursRestants": "Jours restants",
+    "download": "Télécharger",
+    "sidebarText": "Pour investir dans ce projet, connectez-vous à votre espace investisseur.",
+    "sidebarLogin": "Se connecter",
+    "docs": [
+      "Notice d'information AMMC",
+      "Titre foncier",
+      "Permis de construire",
+      "Business plan détaillé",
+      "Étude de sol",
+      "Plans architecturaux"
+    ]
+  },
+  "projectsIndex": {
+    "title": "Sections d'investissement",
+    "subtitle": "Explorez chaque classe d'actifs sur sa page dédiée.",
+    "voirSection": "Voir la section",
+    "count": "{{count}} projet(s)"
+  },
+  "projectsSection": {
+    "section": "Section · {{index}}/{{total}}",
+    "backAll": "Tous les projets",
+    "count": "{{count}} projet(s) disponible(s) à l'investissement."
+  },
+  "sections": {
+    "immobilier": {
+      "titre": "Immobilier",
+      "description": "Investissez dans des programmes résidentiels, tertiaires et fonciers analysés par notre pipeline IA."
+    },
+    "crypto": {
+      "titre": "Monnaie virtuelle & Crypto",
+      "description": "Exposition aux crypto-actifs via des fonds structurés, staking et actifs tokenisés."
+    },
+    "startup": {
+      "titre": "Startup & Affaires",
+      "description": "Accompagnez des startups marocaines à fort potentiel dans la tech, la fintech et l'agritech."
+    },
+    "solidaire": {
+      "titre": "Solidaire",
+      "description": "Des investissements à impact social et environnemental au service de l'économie sociale et solidaire."
+    },
+    "crowdfunding": {
+      "titre": "Crowdfunding",
+      "description": "Participez au financement participatif de films, festivals, albums et produits locaux."
+    },
+    "valeur": {
+      "titre": "Produit de forte valeur",
+      "description": "Investissez dans des actifs tangibles : art, horlogerie, diamants, or et voitures de collection."
+    }
+  },
+  "login": {
+    "decouvrir": "Découvrir les projets",
+    "connexion": "Connexion",
+    "choisissez": "Choisissez votre espace",
+    "description": "Sélectionnez le rôle qui correspond à votre activité sur la plateforme. Les comptes de démonstration sont préremplis.",
+    "seConnecter": "Se connecter →",
+    "espaces": {
+      "investisseur": {
+        "label": "Espace Investisseur",
+        "titre": "Diversifiez votre patrimoine",
+        "description": "Accédez à des opportunités d'investissement qualifiées."
+      },
+      "porteur": {
+        "label": "Espace Porteur de Projet",
+        "titre": "Levez les fonds de votre opération",
+        "description": "Présentez votre projet et levez des capitaux."
+      },
+      "conformite": {
+        "label": "Espace Conformité",
+        "titre": "Supervision et conformité AMMC",
+        "description": "Supervisez et validez les dossiers d'investissement."
+      }
+    }
+  },
+  "kpi": {
+    "vsTrimestre": "vs trimestre précédent"
+  },
+  "investor": {
+    "nav": {
+      "dashboard": "Tableau de bord",
+      "simulateur": "Simulateur ROI",
+      "portefeuille": "Mon portefeuille",
+      "verification": "Vérification Réglementaire",
+      "projets": "Projets"
+    },
+    "loading": "Chargement…",
+    "loadingSub": "Veuillez patienter.",
+    "fetching": "Récupération des données…",
+    "bonjour": "Bonjour {{name}} 👋",
+    "helloDesc": "Voici l'état consolidé de votre portefeuille immobilier au 18/06/2026.",
+    "kpi": {
+      "valeurPortefeuille": "Valeur du portefeuille",
+      "capitalInvesti": "Capital investi : {{value}}",
+      "cashflowMensuel": "Cash-flow mensuel net",
+      "moyenne6Mois": "Moyenne des 6 derniers mois",
+      "dividendes": "Dividendes cumulés",
+      "depuisPremier": "Depuis le premier investissement",
+      "rendementMoyen": "Rendement moyen pondéré",
+      "annualise": "Annualisé sur ticket investi"
+    },
+    "evolution": {
+      "label": "Évolution du portefeuille",
+      "title": "6 derniers mois"
+    },
+    "repartition": {
+      "label": "Répartition par typologie",
+      "title": "Diversification"
+    },
+    "distributions": {
+      "title": "Prochaines distributions",
+      "count": "{{count}} événements",
+      "versé": "Versé",
+      "enCours": "En cours"
+    },
+    "activite": {
+      "title": "Activité récente",
+      "voirTout": "Voir tout"
+    },
+    "suggestions": {
+      "label": "Sélection pour vous",
+      "title": "Projets correspondant à votre profil",
+      "catalogue": "Catalogue complet",
+      "cible": "cible"
+    },
+    "projets": {
+      "title": "Catalogue de projets",
+      "subtitle": "Tous les projets disponibles",
+      "count": "{{count}} projets",
+      "search": "Rechercher un projet…",
+      "statut": "Statut",
+      "avancement": "Avancement",
+      "montantInvesti": "Montant investi",
+      "rendement": "Rendement",
+      "voirDetails": "Voir le détail",
+      "fetching": "Récupération du projet…"
+    },
+    "invest": {
+      "step1Label": "Étape 1 — Sélection",
+      "step2Label": "Étape 2 — Vérification KYC",
+      "step3Label": "Étape 3 — Paiement",
+      "unites": "Nombre d'unités",
+      "montantInvesti": "Montant investi",
+      "rendementAnnuel": "Rendement annuel estimé",
+      "surDuree": "Sur la durée totale",
+      "ekycValidated": "Votre dossier eKYC est validé",
+      "ekycDetail": "CIN vérifié · RIB confirmé · Vivacité contrôlée (Bank Al-Maghrib).",
+      "virement": "Virement sécurisé depuis le RIB enregistré.",
+      "montantDebiter": "Montant à débiter :",
+      "confirme": "Investissement confirmé",
+      "reference": "Référence INV-{{id}}",
+      "continuer": "Continuer",
+      "allerPaiement": "Aller au paiement",
+      "confirmer": "Confirmer"
+    },
+    "portefeuille": {
+      "title": "Mon portefeuille",
+      "subtitle": "Vue consolidée de vos participations",
+      "desc": "Vue détaillée de vos participations, historique sécurisé et coffre-fort documentaire.",
+      "rib": "RIB de référence",
+      "masquer": "Masquer",
+      "reveler": "Révéler",
+      "valeurTotale": "Valeur totale",
+      "totalInvesti": "Total investi",
+      "plusValue": "Plus-value latente",
+      "participations": "Participations",
+      "tableTitle": "Mes participations",
+      "project": "Projet",
+      "unites": "Unités",
+      "prixMoyen": "Prix moyen",
+      "valeur": "Valeur actuelle",
+      "plusValueCol": "Plus-value",
+      "acquisition": "Acquisition",
+      "historique": "Historique des transactions",
+      "date": "Date",
+      "type": "Type",
+      "reference": "Référence",
+      "montant": "Montant",
+      "statut": "Statut",
+      "confirme": "Confirmé",
+      "enAttente": "En attente",
+      "coffre": "Coffre-fort documentaire",
+      "distributions": "Distributions",
+      "actions": "Actions"
+    }
+  },
+  "auth": {
+    "connexion": "Connexion",
+    "bienvenue": "Bienvenue {{name}}",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "seConnecter": "Se connecter",
+    "retour": "Retour au choix de l'espace",
+    "demo": "Compte de démonstration — champs préremplis.",
+    "invalid": "Identifiants invalides.",
+    "invalidRole": "Rôle invalide ou utilisateur introuvable.",
+    "backToLogin": "Retour à la connexion",
+    "enter6": "Veuillez saisir les 6 derniers caractères.",
+    "invalidCode": "Code invalide. Vérifiez vos 6 derniers chiffres RIB ou CIN.",
+    "enterSms": "Veuillez saisir le code reçu par SMS.",
+    "incorrectCode": "Code incorrect.",
+    "success": "Connexion réussie",
+    "redirecting": "Redirection vers votre espace…",
+    "verifyIdentity": "Vérification Identité",
+    "role": "Rôle : {{role}}",
+    "enterLast6": "Saisissez les 6 derniers caractères de votre RIB ou CIN",
+    "verifyIdentityBtn": "Vérifier mon identité",
+    "verifyCode": "Code de vérification",
+    "smsSent": "Un code a été envoyé par SMS au numéro enregistré.",
+    "endingWith": "Numéro se terminant par ••{{last}}",
+    "enter6Digit": "Code de vérification à 6 chiffres",
+    "smsCode": "Code SMS",
+    "validateCode": "Valider le code",
+    "previousStep": "Revenir à l'étape précédente"
+  },
+  "simulator": {
+    "title": "Simulateur de ROI",
+    "subtitle": "Estimez vos rendements nets selon le mode d'exploitation et la fiscalité marocaine.",
+    "disclaimer": "Les taux fiscaux utilisés (IR revenus fonciers, retenue dividendes, TPI, TVA) sont indicatifs et doivent être validés par un expert-comptable agréé avant toute décision d'investissement réelle. Cadre de référence : Code Général des Impôts du Maroc.",
+    "parametres": "Paramètres",
+    "projetCible": "Projet cible",
+    "montant": "Montant à investir : {{value}}",
+    "duree": "Durée de détention : {{value}} ans",
+    "modeLabel": "Mode d'exploitation",
+    "modes": {
+      "locationNue": "Location nue",
+      "locationMeublee": "Location meublée",
+      "courteDuree": "Courte durée",
+      "revente": "Revente à terme"
+    },
+    "annee": "An",
+    "rendementNet": "Rendement net",
+    "annualise": "Annualisé",
+    "cashflowNet": "Cash-flow net annuel",
+    "apresFiscalite": "Après fiscalité",
+    "gainTotal": "Gain total estimé",
+    "surDuree": "Sur {{value}} ans",
+    "projectionTitle": "Projection de votre capital",
+    "projectionSub": "Comparaison rendement brut vs net (après prélèvements fiscaux marocains).",
+    "comparatifTitle": "Comparatif des modes d'exploitation",
+    "fiscaliteTitle": "Détail de la fiscalité appliquée",
+    "mode": "Mode",
+    "rendementBrut": "Rendement brut cible",
+    "irFonciers": "IR revenus fonciers",
+    "abattement": "Abattement forfaitaire",
+    "retenueDividendes": "Retenue dividendes",
+    "tpi": "Taxe Profit Immobilier (TPI)"
+  },
+  "verif": {
+    "title": "Vérification Réglementaire",
+    "subtitle": "Décrivez un terrain pour obtenir des plans conformes à la réglementation marocaine.",
+    "placeholder": "Décrivez votre terrain librement (ex: Terrain de 60 m2 en ville au Maroc, budget 1.2M DH, 2 étages max)",
+    "analysing": "Analyse en cours...",
+    "submit": "Confirmé",
+    "serverError": "Erreur serveur",
+    "connError": "Erreur de connexion",
+    "plansRecommandes": "Plans recommandés ({{count}})",
+    "score": "score",
+    "etages": "{{count}} étage(s)",
+    "mois": "{{count}} mois",
+    "risque": "Risque {{label}}",
+    "reglementations": "Réglementations applicables"
+  },
+  "appShell": {
+    "sitePublic": "Site public",
+    "utilisateur": "Utilisateur",
+    "investisseur": "Investisseur",
+    "porteur": "Porteur de Projet",
+    "conformite": "Agent Conformité"
+  },
+  "porteur": {
+    "nav": {
+      "overview": "Vue d'ensemble",
+      "submit": "Soumettre un projet",
+      "collecte": "Suivi de collecte",
+      "chantier": "Suivi de chantier",
+      "verification": "Vérification Réglementaire"
+    },
+    "bonjour": "Bonjour {{name}} 👋",
+    "helloDesc": "Vue consolidée de vos opérations en cours sur la plateforme.",
+    "submitProject": "Soumettre un projet",
+    "kpi": {
+      "projetsActifs": "Projets actifs",
+      "capitalLeve": "Capital levé",
+      "toutesOperations": "Toutes opérations",
+      "dossiers": "Dossiers en cours",
+      "soumissions": "Soumissions / brouillons"
+    },
+    "mesProjets": "Mes projets en collecte / chantier",
+    "collecte": "Collecte",
+    "chantier": "Chantier",
+    "mesSoumissions": "Mes soumissions",
+    "table": {
+      "projet": "Projet",
+      "statut": "Statut",
+      "avancement": "Avancement",
+      "misAJour": "Mis à jour",
+      "ouvrir": "Ouvrir"
+    },
+    "collectePage": {
+      "title": "Suivi de collecte",
+      "subtitle": "État de la levée de fonds en temps réel",
+      "investisseurs": "Investisseurs",
+      "jourRestant": "Jours restants",
+      "objectif": "Objectif",
+      "collecte": "Collecté",
+      "rendementCible": "Rendement cible",
+      "progress": "Progression",
+      "derniersInvestisseurs": "Derniers investisseurs",
+      "montant": "Montant",
+      "date": "Date",
+      "historique": "Historique de la collecte",
+      "souscripteurs": "Souscripteurs uniques",
+      "ticketMoyen": "Ticket moyen",
+      "joursRestants": "Jours restants",
+      "avantCloture": "Avant clôture de l'offre",
+      "resteCollecter": "Reste à collecter",
+      "evolution": "Évolution de la collecte",
+      "dernieresSemaines": "12 dernières semaines",
+      "paliers": "Paliers de financement",
+      "paliersDesc": "Déblocage progressif des fonds par tranche.",
+      "palier1": "Démarrage études",
+      "palier2": "Terrassement & fondations",
+      "palier3": "Gros œuvre lot 1",
+      "palier4": "Gros œuvre complet",
+      "seuil": "Seuil"
+    },
+    "chantierPage": {
+      "title": "Suivi de chantier",
+      "subtitle": "Avancement des travaux et jalons",
+      "avancement": "Avancement global",
+      "jalons": "Jalons du projet",
+      "jalon": "Jalon",
+      "datePrevue": "Date prévue",
+      "statut": "Statut",
+      "misesAJour": "Mises à jour récentes",
+      "publier": "Publier une mise à jour",
+      "message": "Votre message…",
+      "envoyer": "Publier",
+      "chantierEnCours": "Chantier en cours",
+      "livre": "Livré",
+      "description": "Mettez à jour l'avancement et publiez des actualités visibles par vos investisseurs.",
+      "nouvellePublication": "Nouvelle publication",
+      "titreMiseAJour": "Titre de la mise à jour",
+      "decrivez": "Décrivez l'avancement, les points marquants…",
+      "ajouterMedia": "Ajouter une photo ou vidéo",
+      "annuler": "Annuler",
+      "publicationEnCours": "Publication...",
+      "historiquePublications": "Historique des publications",
+      "livraisonPrevue": "Livraison prévue",
+      "phasesConstruction": "Phases de construction",
+      "du": "Du",
+      "au": "au"
+    },
+    "soumissionPage": {
+      "title": "Soumettre un projet",
+      "subtitle": "Constituez votre dossier étape par étape. Vous pouvez enregistrer en brouillon à tout moment.",
+      "infosProjet": "Informations du projet",
+      "nom": "Nom du projet",
+      "ville": "Ville",
+      "description": "Description",
+      "budget": "Budget total (MAD)",
+      "objectif": "Objectif de collecte (MAD)",
+      "ticketMin": "Ticket minimum (MAD)",
+      "rendement": "Rendement cible (%)",
+      "duree": "Durée (mois)",
+      "documents": "Documents (optionnel)",
+      "upload": "Glissez vos fichiers ici ou cliquez pour ajouter",
+      "preview": "Aperçu IA",
+      "envoyerAnalyse": "Envoyer à l'analyse IA",
+      "soumettre": "Soumettre",
+      "brouillonSauvegarde": "Brouillon sauvegardé",
+      "step1Title": "Informations générales",
+      "step1Desc": "Identité du projet et budget",
+      "step2Title": "Documents techniques",
+      "step2Desc": "Plans, permis, études",
+      "step3Title": "Documents juridiques",
+      "step3Desc": "Titre, statuts SPV, autorisations",
+      "step4Title": "Données financières",
+      "step4Desc": "Business plan, échéancier",
+      "etape": "Étape",
+      "etapePrecedente": "Étape précédente",
+      "etapeSuivante": "Étape suivante",
+      "enregistrerBrouillon": "Enregistrer en brouillon",
+      "enregistrement": "Enregistrement…",
+      "soumettreAnalyse": "Soumettre à l'analyse IA",
+      "soumissionEnCours": "Soumission…",
+      "titreProjet": "Titre du projet",
+      "titrePlaceholder": "Ex. Résidence Anfa Park",
+      "typologieLabel": "Typologie",
+      "adresseComplete": "Adresse complète",
+      "adressePlaceholder": "Quartier, rue, n°",
+      "budgetTotal": "Budget total (MAD)",
+      "budgetPlaceholder": "50 000 000",
+      "montantRecherche": "Montant recherché (MAD)",
+      "montantPlaceholder": "30 000 000",
+      "descriptionProjet": "Description du projet",
+      "descriptionPlaceholder": "Décrivez votre opération : programme, marché cible, calendrier, partenaires…",
+      "villePlaceholder": "Casablanca, Rabat, Marrakech…",
+      "erreurChamps": "Veuillez remplir les champs obligatoires (titre, ville, budget, montant).",
+      "succesBrouillon": "Brouillon enregistré avec succès dans la base de données.",
+      "erreurBrouillon": "Erreur lors de l'enregistrement du brouillon.",
+      "erreurDraftManquant": "Veuillez d'abord enregistrer le brouillon.",
+      "succesSoumission": "Projet soumis à l'analyse IA avec succès. Il apparaîtra dans la file d'attente admin.",
+      "erreurSoumission": "Erreur lors de la soumission du projet.",
+      "brouillonsExistants": "Brouillons existants",
+      "brouillonCharge": "Brouillon « {{nom}} » chargé.",
+      "upload1": "Plans architecturaux",
+      "upload1Desc": "DWG, PDF — max 50 Mo",
+      "upload2": "Permis de construire",
+      "upload2Desc": "PDF",
+      "upload3": "Étude de sol",
+      "upload3Desc": "PDF — datée < 24 mois",
+      "upload4": "Étude d'impact environnemental",
+      "upload4Desc": "PDF (si applicable)",
+      "upload5": "Titre foncier purgé",
+      "upload6": "Statuts de la SPV",
+      "upload7": "Autorisation de lotir / construire",
+      "upload8": "Quitus fiscal",
+      "upload9": "Business plan détaillé",
+      "upload9Desc": "PDF, Excel",
+      "upload10": "Budget prévisionnel",
+      "upload10Desc": "Excel",
+      "upload11": "Échéancier de construction",
+      "upload11Desc": "PDF, MS Project",
+      "upload12": "Garanties et assurances",
+      "glisserDeposer": "Glisser-déposer ou cliquer"
+    }
+  },
+  "roles": {
+    "Investisseur": "Investisseur",
+    "Porteur de Projet": "Porteur de Projet",
+    "Agent Conformité": "Agent Conformité",
+    "Super Admin": "Super Admin"
+  },
+  "admin": {
+    "zone": "Conformité",
+    "navValidation": "Validation IA & conformité",
+    "navUtilisateurs": "Gestion des utilisateurs",
+    "navAudit": "Audit & eKYC",
+    "validationIA": {
+      "title": "Validation IA & conformité",
+      "loading": "Chargement…",
+      "loadingDossiers": "Chargement des dossiers…",
+      "enAttente": "{{count}} dossiers en attente de revue.",
+      "aucunDossier": "Aucun dossier en attente.",
+      "porteur": "Porteur : {{nom}}",
+      "alerte": "{{count}} alerte",
+      "alertes": "{{count}} alertes",
+      "scoreRisque": "Score de risque",
+      "indiceFraude": "Indice de fraude",
+      "authenticiteDocs": "Authenticité documents",
+      "syntheseAgents": "Synthèse des agents IA",
+      "alertesTitle": "Alertes",
+      "decision": "Décision",
+      "decisionEnregistree": "Décision enregistrée en base",
+      "commentaire": "Commentaire",
+      "commentaireObligatoire": "Commentaire (obligatoire et journalisé)",
+      "justifiez": "Justifiez votre décision…",
+      "approuver": "Approuver",
+      "demanderModifications": "Demander modifications",
+      "rejeter": "Rejeter",
+      "annulerDecision": "Annuler la décision",
+      "decisionApproved": "Approuvé",
+      "decisionChanges": "Modifications demandées",
+      "decisionRejected": "Rejeté",
+      "echellePositive": "0 = critique · 100 = excellent",
+      "echelleInverse": "0 = sain · 100 = critique"
+    },
+    "utilisateurs": {
+      "title": "Gestion des utilisateurs",
+      "subtitle": "Matrice de rôles RBAC et liste des comptes.",
+      "matriceRoles": "Matrice des rôles",
+      "reinitialiser": "Réinitialiser",
+      "permission": "Permission",
+      "comptes": "Comptes utilisateurs ({{count}})",
+      "rechercher": "Rechercher…",
+      "tousRoles": "Tous les rôles",
+      "ajouter": "Ajouter",
+      "nomComplet": "Nom complet",
+      "annuler": "Annuler",
+      "creation": "Création…",
+      "creer": "Créer",
+      "colUtilisateur": "Utilisateur",
+      "colRole": "Rôle",
+      "colStatut": "Statut",
+      "colInscrit": "Inscrit",
+      "colActions": "Actions",
+      "chargement": "Chargement…",
+      "revealSensibles": "Révéler données sensibles",
+      "reactiver": "Réactiver",
+      "suspendre": "Suspendre",
+      "supprimer": "Supprimer",
+      "confirmerSuppression": "Supprimer {{nom}} ?",
+      "retirerPermission": "Retirer {{perm}} pour {{role}}",
+      "ajouterPermission": "Ajouter {{perm}} pour {{role}}",
+      "permConsulterProjets": "Consulter projets",
+      "permInvestir": "Investir",
+      "permConsulterPortefeuille": "Consulter portefeuille",
+      "permSoumettreProjet": "Soumettre projet",
+      "permSuiviCollecte": "Suivi collecte",
+      "permSuiviChantier": "Suivi chantier",
+      "permValiderDossiers": "Valider dossiers",
+      "permConsulterEkyc": "Consulter eKYC",
+      "permVoirSensibles": "Voir données sensibles (CIN/RIB)",
+      "permSuspendreComptes": "Suspendre comptes",
+      "permGererRoles": "Gérer rôles",
+      "permConfigurer": "Configurer plateforme",
+      "statusActif": "Actif",
+      "statusSuspendu": "Suspendu"
+    },
+    "auditEkyc": {
+      "title": "Audit & eKYC",
+      "subtitle": "Conformité Bank Al-Maghrib · vérification d'identité et traçabilité complète.",
+      "exporter": "Exporter",
+      "journalAudit": "Journal d'audit",
+      "verifsEkyc": "Vérifications eKYC",
+      "rechercher": "Rechercher utilisateur, action, entité…",
+      "filtresAvances": "Filtres avancés",
+      "colHorodatage": "Horodatage",
+      "colUtilisateur": "Utilisateur",
+      "colRole": "Rôle",
+      "colAction": "Action",
+      "colEntite": "Entité",
+      "colIP": "IP",
+      "colID": "ID",
+      "dossiersEkyc": "Dossiers eKYC",
+      "colCIN": "CIN",
+      "colVivacite": "Vivacité",
+      "colRIB": "RIB",
+      "colBanque": "Banque",
+      "colDate": "Date",
+      "moduleEkyc": "Module eKYC",
+      "conformeBAM": "Conforme aux exigences Bank Al-Maghrib pour l'identification à distance.",
+      "cinRecto": "CIN recto",
+      "cinVerso": "CIN verso",
+      "lancerVivacite": "Lancer la vérification de vivacité",
+      "statsEkyc": "Statistiques eKYC",
+      "valides": "Validés",
+      "enRevue": "En revue",
+      "rejetes": "Rejetés",
+      "ekycValide": "validé",
+      "ekycRejete": "rejeté",
+      "ekycEnRevue": "en revue",
+      "ekycAEffectuer": "à effectuer",
+      "ekycEnAttente": "en attente"
+    }
+  },
+  "statuses": {
+    "En collecte": "En collecte",
+    "Financé": "Financé",
+    "En construction": "En construction",
+    "Livré": "Livré",
+    "Approuvé": "Approuvé",
+    "Rejeté": "Rejeté",
+    "En analyse IA": "En analyse IA",
+    "Brouillon": "Brouillon"
+  },
+  "categories": {
+    "Immobilier": "Immobilier",
+    "Crypto": "Crypto",
+    "Startup & Affaires": "Startup & Affaires",
+    "Solidaire": "Solidaire",
+    "Crowdfunding": "Crowdfunding",
+    "Produit de forte valeur": "Produit de forte valeur"
+  },
+  "typologies": {
+    "Résidentiel": "Résidentiel",
+    "Commercial & Bureaux": "Commercial & Bureaux",
+    "Terrains & Lotissements": "Terrains & Lotissements",
+    "Projets neufs en collecte": "Projets neufs en collecte",
+    "Fonds Crypto": "Fonds Crypto",
+    "Staking": "Staking",
+    "Mining": "Mining",
+    "NFT": "NFT",
+    "Tokenisation": "Tokenisation",
+    "Startup Tech": "Startup Tech",
+    "Fintech": "Fintech",
+    "AgriTech": "AgriTech",
+    "MedTech": "MedTech",
+    "SaaS": "SaaS",
+    "Logistique": "Logistique",
+    "Coopérative": "Coopérative",
+    "Économie sociale": "Économie sociale",
+    "Impact social": "Impact social",
+    "Micro-crédit": "Micro-crédit",
+    "Énergie verte": "Énergie verte",
+    "Film": "Film",
+    "Événement": "Événement",
+    "Album": "Album",
+    "Produit local": "Produit local",
+    "Artisanat": "Artisanat",
+    "Horlogerie": "Horlogerie",
+    "Vins & Spiritueux": "Vins & Spiritueux",
+    "Art": "Art",
+    "Or & Métaux précieux": "Or & Métaux précieux",
+    "Voitures de collection": "Voitures de collection"
+  },
+  "shared": {
+    "categories": {
+      "Immobilier": "Immobilier",
+      "Crypto": "Crypto",
+      "Startup & Affaires": "Startup & Affaires",
+      "Solidaire": "Solidaire",
+      "Crowdfunding": "Crowdfunding",
+      "Produit de forte valeur": "Produit de forte valeur"
+    },
+    "typologies": {
+      "Résidentiel": "Résidentiel",
+      "Commercial & Bureaux": "Commercial & Bureaux",
+      "Terrains & Lotissements": "Terrains & Lotissements",
+      "Projets neufs en collecte": "Projets neufs en collecte",
+      "Fonds Crypto": "Fonds Crypto",
+      "Staking": "Staking",
+      "Mining": "Mining",
+      "NFT": "NFT",
+      "Tokenisation": "Tokenisation",
+      "Startup Tech": "Startup Tech",
+      "Fintech": "Fintech",
+      "AgriTech": "AgriTech",
+      "MedTech": "MedTech",
+      "SaaS": "SaaS",
+      "Logistique": "Logistique",
+      "Coopérative": "Coopérative",
+      "Économie sociale": "Économie sociale",
+      "Impact social": "Impact social",
+      "Micro-crédit": "Micro-crédit",
+      "Énergie verte": "Énergie verte",
+      "Film": "Film",
+      "Événement": "Événement",
+      "Album": "Album",
+      "Produit local": "Produit local",
+      "Artisanat": "Artisanat",
+      "Horlogerie": "Horlogerie",
+      "Vins & Spiritueux": "Vins & Spiritueux",
+      "Art": "Art",
+      "Or & Métaux précieux": "Or & Métaux précieux",
+      "Voitures de collection": "Voitures de collection"
+    },
+    "statuses": {
+      "En collecte": "En collecte",
+      "Financé": "Financé",
+      "En construction": "En construction",
+      "Livré": "Livré"
+    }
+  },
+  "projectData": {
+    "casa-anfa-residences": {
+      "nom": "Anfa Park Résidences",
+      "description": "Programme résidentiel de standing au cœur du quartier Anfa, 48 appartements haut de gamme avec vue dégagée.",
+      "pointsForts": [
+        "Promoteur reconnu, 14 livraisons antérieures conformes.",
+        "Permis de construire délivré et titre foncier purgé.",
+        "Pré-commercialisation à 38 % avant lancement."
+      ],
+      "pointsVigilance": ["Sensibilité au calendrier des livraisons publiques voisines."]
+    },
+    "rabat-hay-riad-bureaux": {
+      "nom": "Hay Riad Business Center",
+      "description": "Immeuble tertiaire de 6 200 m² certifié HQE, déjà pré-loué à 62 % par deux administrations.",
+      "pointsForts": [
+        "Locataires institutionnels avec baux fermes de 9 ans.",
+        "Localisation prime, taux de vacance du secteur < 4 %."
+      ],
+      "pointsVigilance": ["Échéancier de chantier serré sur le lot CVC."]
+    },
+    "marrakech-palmeraie-villas": {
+      "nom": "Palmeraie Heritage Villas",
+      "description": "12 villas d'architecte avec piscine privative dans la Palmeraie, marché locatif touristique premium.",
+      "pointsForts": [
+        "Rendement locatif courte durée estimé à 8,5 % net.",
+        "Étude de marché Knight Frank fournie."
+      ],
+      "pointsVigilance": ["Saisonnalité touristique forte.", "Dépendance à la demande internationale."]
+    },
+    "tanger-med-logistique": {
+      "nom": "Tanger Med Logistique Phase II",
+      "description": "Plateforme logistique de 24 000 m² adossée à la zone franche de Tanger Med, locataire industriel signé.",
+      "pointsForts": [
+        "Bail ferme 12 ans avec indexation annuelle.",
+        "Zone franche : avantages fiscaux pour le locataire."
+      ],
+      "pointsVigilance": ["Concentration sur un locataire unique."]
+    },
+    "agadir-marina-lots": {
+      "nom": "Agadir Marina — Lots viabilisés",
+      "description": "Opération de viabilisation de 36 lots résidentiels en front de marina, revente progressive sur 24 mois.",
+      "pointsForts": [
+        "Carnet de réservations à 41 %.",
+        "Sortie progressive : liquidité partielle dès 12 mois."
+      ],
+      "pointsVigilance": ["Cycle court, sensible à la conjoncture locale."]
+    },
+    "btc-yield-atlas": {
+      "nom": "Atlas Yield Fund BTC",
+      "description": "Fonds indiciel passif adossé au Bitcoin avec rendement de prêt sécurisé, géré par une société agréée crypto-assets au Maroc.",
+      "pointsForts": [
+        "Custodie chez un dépositaire réglementé.",
+        "Stratégie de prêt garantie à 100 %."
+      ],
+      "pointsVigilance": ["Volatilité du cours du Bitcoin."]
+    },
+    "stablecoin-renta": {
+      "nom": "Stable Yield USDT",
+      "description": "Portefeuille de staking en stablecoins sur protocoles audités, avec garde de fonds en vault multi-signatures.",
+      "pointsForts": [
+        "Audit de sécurité annuel indépendant.",
+        "Revenus quotidiens automatisés."
+      ],
+      "pointsVigilance": ["Dépendance aux taux DeFi."]
+    },
+    "hash-mining-ouzoud": {
+      "nom": "Ouzoud Hash Power",
+      "description": "Ferme de minage alimentée par l'hydroélectricité du barrage d'Ouzoud, capacité cible de 8 MW.",
+      "pointsForts": [
+        "Coût d'énergie parmi les plus bas d'Afrique.",
+        "Contrats de maintenance signés."
+      ],
+      "pointsVigilance": ["Sensibilité au prix de l'électricité."]
+    },
+    "nft-art-medina": {
+      "nom": "Medina Art Collection NFT",
+      "description": "Collection NFT de 10 000 œuvres génératives d'artistes marocains, royalties reversées aux créateurs.",
+      "pointsForts": [
+        "Marché secondaire actif dès le lancement.",
+        "Fonds documentaire et certificats numériques."
+      ],
+      "pointsVigilance": ["Marché NFT très volatil."]
+    },
+    "token-art-essaouira": {
+      "nom": "Essaouira Tokenisation",
+      "description": "Tokenisation d'un riad patrimonial à Essaouira : chaque token représente une fraction de propriété locative.",
+      "pointsForts": [
+        "Rendement locatif touristique confirmé.",
+        "Transparence on-chain des revenus."
+      ],
+      "pointsVigilance": ["Cadre réglementaire tokenisation en évolution."]
+    },
+    "digital-gold-ref": {
+      "nom": "Digital Gold Refinery",
+      "description": "Or numérique adossé à des réserves physiques certifiées, rachat garanti au cours de référence international.",
+      "pointsForts": [
+        "Réserves auditées chaque trimestre.",
+        "Valeur refuge décorrélée des actions."
+      ],
+      "pointsVigilance": ["Frais de garde annuels."]
+    },
+    "fintech-simplex-pay": {
+      "nom": "Simplex Pay — Fintech",
+      "description": "Application marocaine de paiement fractionné et de cagnottes familiales, déjà 80 000 utilisateurs actifs.",
+      "pointsForts": [
+        "Agrément crypto-paiement en cours.",
+        "Croissance de 32 % par trimestre."
+      ],
+      "pointsVigilance": ["Concurrence des géants du paiement."]
+    },
+    "agritech-gharb-hub": {
+      "nom": "AgriHub Gharb",
+      "description": "Plateforme d'irrigation intelligente et de pilotage des serres du Gharb via capteurs IoT et IA.",
+      "pointsForts": [
+        "Économies d'eau démontrées de 28 %.",
+        "Contrats pilotes avec 3 coopératives."
+      ],
+      "pointsVigilance": ["Dépendance à l'équipement importé."]
+    },
+    "medtech-tabib-care": {
+      "nom": "Tabib Care — MedTech",
+      "description": "Télémédecine et dossier médical partagé pour les cliniques privées marocaines, 45 cliniques partenaires.",
+      "pointsForts": [
+        "Revenu récurrent annuel stable.",
+        "Partenariat avec l'ordre des médecins."
+      ],
+      "pointsVigilance": ["Sujette à la réglementation santé."]
+    },
+    "saas-erp-atin": {
+      "nom": "Atin ERP Pro",
+      "description": "ERP cloud pour les PME et TPE marocaines : comptabilité, facturation et paie conformes à la réglementation locale.",
+      "pointsForts": [
+        "Churn quasi nul sur 12 mois.",
+        "Migration facile des concurrents locaux."
+      ],
+      "pointsVigilance": ["Taille du marché adressable limitée."]
+    },
+    "logi-marketplace-souss": {
+      "nom": "Souss Express — Logistique",
+      "description": "Marketplace de livraison du dernier kilomètre dans le Souss, reliant coopératives et détaillants.",
+      "pointsForts": [
+        "Réseau de 120 livreurs indépendants.",
+        "Contrats avec 4 coopératives agricoles."
+      ],
+      "pointsVigilance": ["Marge unitaire faible."]
+    },
+    "edtech-tamazight-learn": {
+      "nom": "Tamazight Learn",
+      "description": "EdTech d'apprentissage des langues berbères et arabes par IA, ciblant les diasporas et écoles marocaines.",
+      "pointsForts": [
+        "Niche peu concurrentielle et à forte identité.",
+        "Soutien de fondations culturelles."
+      ],
+      "pointsVigilance": ["Monétisation encore à prouver."]
+    },
+    "coop-zaffran-taliouine": {
+      "nom": "Coopérative Safran de Taliouine",
+      "description": "Modernisation de la coopérative de safran de Taliouine : séchoirs solaires et labellisation AOP.",
+      "pointsForts": [
+        "Impact social direct sur 320 familles.",
+        "Certification bio en cours."
+      ],
+      "pointsVigilance": ["Dépendance aux conditions climatiques."]
+    },
+    "ecole-ingenierie-atlas": {
+      "nom": "École d'Ingénierie de l'Atlas",
+      "description": "Campus d'ingénierie à bourses pour les zones rurales du Haut Atlas, première promotion de 120 étudiants.",
+      "pointsForts": [
+        "Convention avec des entreprises recruteuses.",
+        "Taux de réussite cible de 90 %."
+      ],
+      "pointsVigilance": ["Horizon de rendement long."]
+    },
+    "microcredit-tiznit": {
+      "nom": "Micro-crédit Tiznit Femmes",
+      "description": "Fonds de micro-crédit dédié aux femmes entrepreneures de Tiznit, avec accompagnement et garantie solidaire.",
+      "pointsForts": [
+        "Taux de remboursement de 96 %.",
+        "Partenariat avec une ONG locale."
+      ],
+      "pointsVigilance": ["Rendement financier modeste."]
+    },
+    "sante-rurale-taghazout": {
+      "nom": "Santé Rurale du Haouz",
+      "description": "Unité médicale mobile connectée pour les douars isolés du Haouz : téléconsultations et pharmacie de proximité.",
+      "pointsForts": [
+        "Prise en charge de 18 000 consultations/an.",
+        "Co-financement par le ministère de la Santé."
+      ],
+      "pointsVigilance": ["Logistique en zone accidentée."]
+    },
+    "eau-potable-figuiq": {
+      "nom": "Eau Potable pour Figuig",
+      "description": "Réseau d'adduction et de dessalement solaire pour l'oasis de Figuig, sécurité hydrique pour 12 000 habitants.",
+      "pointsForts": [
+        "Subvention publique de 40 %.",
+        "Impact environnemental mesurable."
+      ],
+      "pointsVigilance": ["Maintenance à distance complexe."]
+    },
+    "solaire-villages-ouzoud": {
+      "nom": "Solaire pour 12 Villages",
+      "description": "Micro-réseaux solaires pour 12 villages non raccordés au réseau national autour d'Azilal.",
+      "pointsForts": [
+        "Électrification de 2 400 foyers.",
+        "Crédits carbone vendables."
+      ],
+      "pointsVigilance": ["Durée longue avant retour."]
+    },
+    "film-atlas-festival": {
+      "nom": "Film « Lueurs de l'Atlas »",
+      "description": "Long-métrage de fiction tourné à Ouarzazate, présélectionné pour le Festival International du Film de Marrakech.",
+      "pointsForts": [
+        "Distribution internationale prévue.",
+        "Cash-flow via droits de diffusion et festivals."
+      ],
+      "pointsVigilance": ["Résultat artistique incertain."]
+    },
+    "festival-gnaoua-remix": {
+      "nom": "Festival Gnaoua Remix",
+      "description": "Édition augmentée du festival de musique gnaoua à Essaouira : scène internationale et retransmission en ligne.",
+      "pointsForts": [
+        "Billetterie prévente record.",
+        "Sponsors nationaux confirmés."
+      ],
+      "pointsVigilance": ["Aléas météo et organisationnels."]
+    },
+    "album-berber-fusion": {
+      "nom": "Album « Fusion Berbère »",
+      "description": "Album de fusion berbère-rock enregistré à Agadir, sortie vinyle et streaming, tournée dans 6 villes.",
+      "pointsForts": [
+        "Base de fans active de 40 000 abonnés.",
+        "Revenus streaming et concerts."
+      ],
+      "pointsVigilance": ["Marge par unité faible."]
+    },
+    "produit-local-argan": {
+      "nom": "Série Argan & Co",
+      "description": "Lancement d'une gamme cosmétique à l'huile d'argan équitable, produite et conditionnée localement.",
+      "pointsForts": [
+        "Précommandes déjà à 40 % de l'objectif.",
+        "Circuit de distribution export prêt."
+      ],
+      "pointsVigilance": ["Pression concurrentielle élevée."]
+    },
+    "artisanat-zellige-fes": {
+      "nom": "Atelier Zellige de Fès",
+      "description": "Agrandissement d'un atelier de zellige à Fès et formation de 30 jeunes apprentis aux techniques traditionnelles.",
+      "pointsForts": [
+        "Commandes export en hausse de 55 %.",
+        "Certification artisanale en cours."
+      ],
+      "pointsVigilance": ["Capacité de production limitée."]
+    },
+    "marathon-des-sables-hub": {
+      "nom": "Marathon Sables Hub",
+      "description": "Base de ravitaillement et d'hébergement pour les épreuves d'endurance du désert de Merzouga.",
+      "pointsForts": [
+        "Contrats multi-annuels avec 3 organisateurs.",
+        "Activité toute l'année (tourisme sportif)."
+      ],
+      "pointsVigilance": ["Saisonnalité forte."]
+    },
+    "montre-luxe-casa": {
+      "nom": "Collection Horlogère Atelier",
+      "description": "Fonds d'acquisition de montres de luxe (Rolex, Patek, Audemars) avec expertise et stockage sécurisé au Maroc.",
+      "pointsForts": [
+        "Marché de l'occasion en forte croissance.",
+        "Appréciation historique moyenne de 8 %/an."
+      ],
+      "pointsVigilance": ["Marché cyclique et spéculatif."]
+    },
+    "whisky-single-malt-reserve": {
+      "nom": "Réserve Single Malt Écossais",
+      "description": "Fonds de spiritueux rares : fûts de single malt et éditions limitées, entreposés en cave sécurisée.",
+      "pointsForts": [
+        "Offre mondiale limitée structurellement.",
+        "Revente via maisons d'enchères."
+      ],
+      "pointsVigilance": ["Marché de niche à liquidité réduite."]
+    },
+    "diamant-certifie-ref": {
+      "nom": "Diamants Certifiés Atlas",
+      "description": "Panier de diamants certifiés GIA (>1 carat), achetés sous le marché retail et revendus aux joailliers.",
+      "pointsForts": [
+        "Certification indépendante systématique.",
+        "Résistance historique à l'inflation."
+      ],
+      "pointsVigilance": ["Spread d'achat/vente élevé."]
+    },
+    "art-contemporain-maroc": {
+      "nom": "Fonds Art Contemporain Marocain",
+      "description": "Collection d'œuvres d'artistes marocains émergents, exposée puis revendue via maisons de ventes internationales.",
+      "pointsForts": [
+        "Scène artistique marocaine en plein essor.",
+        "Expositions à l'étranger programmées."
+      ],
+      "pointsVigilance": ["Valorisation très subjective."]
+    },
+    "voiture-collection-motor": {
+      "nom": "Motor Heritage Collection",
+      "description": "Garage de voitures classiques et youngtimers en parfait état, avec rénovation et revente sur le marché international.",
+      "pointsForts": [
+        "Rareté croissante des modèles emblématiques.",
+        "Atelier de restauration intégré."
+      ],
+      "pointsVigilance": ["Coûts de stockage et d'assurance élevés."]
+    },
+    "or-physique-bullion": {
+      "nom": "Bullion Or — Réserves Physiques",
+      "description": "Lingots et pièces d'or physiques stockés en coffre bancaire, frappés par des établissements certifiés LBMA.",
+      "pointsForts": [
+        "Actif tangible à liquidité mondiale.",
+        "Certificat de propriété nominatif."
+      ],
+      "pointsVigilance": ["Coût de garde et prime de frappe."]
+    }
+  }
+}

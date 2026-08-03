@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { Calculator, Info } from "lucide-react";
 import {
   LineChart,
@@ -43,7 +44,15 @@ type Mode = "Location nue" | "Location meublée" | "Courte durée" | "Revente à
 
 const modes: Mode[] = ["Location nue", "Location meublée", "Courte durée", "Revente à terme"];
 
+const modeKeys: Record<Mode, string> = {
+  "Location nue": "locationNue",
+  "Location meublée": "locationMeublee",
+  "Courte durée": "courteDuree",
+  "Revente à terme": "revente",
+};
+
 function SimulateurPage() {
+  const { t } = useTranslation();
   const { data: projects = [], isLoading } = useProjects();
   const [montant, setMontant] = useState(50_000);
   const [duree, setDuree] = useState(5);
@@ -55,8 +64,8 @@ function SimulateurPage() {
   if (isLoading || !projet) {
     return (
       <>
-        <PageHeader title="Simulateur de ROI" description="Chargement des projets..." />
-        <p className="text-sm text-on-surface-variant">Veuillez patienter.</p>
+        <PageHeader title={t("simulator.title")} description={t("common.loading")} />
+        <p className="text-sm text-on-surface-variant">{t("investor.loadingSub")}</p>
       </>
     );
   }
@@ -70,7 +79,7 @@ function SimulateurPage() {
 
   // Projection sur N années
   const projection = Array.from({ length: duree + 1 }, (_, i) => ({
-    annee: `An ${i}`,
+    annee: `${t("simulator.annee")} ${i}`,
     "Capital net": Math.round(montant * Math.pow(1 + calcul.rendementNet / 100, i)),
     "Capital brut": Math.round(montant * Math.pow(1 + projet.rendementCible / 100, i)),
   }));
@@ -79,7 +88,7 @@ function SimulateurPage() {
   const comparatif = modes.map((m) => {
     const c = calculerROI(montant, duree, m, projet.rendementCible);
     return {
-      mode: m,
+      mode: t(`simulator.modes.${modeKeys[m]}`),
       "Cash-flow net annuel": Math.round(c.cashFlowNetAnnuel),
       "Rendement net %": Number(c.rendementNet.toFixed(2)),
     };
@@ -88,17 +97,13 @@ function SimulateurPage() {
   return (
     <>
       <PageHeader
-        title="Simulateur de ROI"
-        description="Estimez vos rendements nets selon le mode d'exploitation et la fiscalité marocaine."
+        title={t("simulator.title")}
+        description={t("simulator.subtitle")}
       />
 
       <div className="mb-4 flex items-start gap-2 rounded-lg border border-warning/30 bg-warning/5 p-3 text-xs text-on-surface">
         <Info className="mt-0.5 h-4 w-4 shrink-0 text-warning" />
-        <p>
-          Les taux fiscaux utilisés (IR revenus fonciers, retenue dividendes, TPI, TVA)
-          sont indicatifs et doivent être validés par un expert-comptable agréé avant toute
-          décision d'investissement réelle. Cadre de référence : Code Général des Impôts du Maroc.
-        </p>
+        <p>{t("simulator.disclaimer")}</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[360px_1fr]">
@@ -106,12 +111,12 @@ function SimulateurPage() {
         <aside className="card-elevated h-fit p-6">
           <div className="mb-4 flex items-center gap-2">
             <Calculator className="h-4 w-4 text-primary" />
-            <h2 className="headline-md text-on-surface">Paramètres</h2>
+            <h2 className="headline-md text-on-surface">{t("simulator.parametres")}</h2>
           </div>
 
           <div className="space-y-5">
             <div>
-              <label className="label-sm text-on-surface-variant">Projet cible</label>
+              <label className="label-sm text-on-surface-variant">{t("simulator.projetCible")}</label>
               <select
                 value={projet.id}
                 onChange={(e) => setProjetId(e.target.value)}
@@ -127,7 +132,7 @@ function SimulateurPage() {
 
             <div>
               <label className="label-sm text-on-surface-variant">
-                Montant à investir : {formatMAD(montant)}
+                {t("simulator.montant", { value: formatMAD(montant) })}
               </label>
               <input
                 type="range"
@@ -142,7 +147,7 @@ function SimulateurPage() {
 
             <div>
               <label className="label-sm text-on-surface-variant">
-                Durée de détention : {duree} ans
+                {t("simulator.duree", { value: duree })}
               </label>
               <input
                 type="range"
@@ -155,7 +160,7 @@ function SimulateurPage() {
             </div>
 
             <div>
-              <label className="label-sm text-on-surface-variant">Mode d'exploitation</label>
+              <label className="label-sm text-on-surface-variant">{t("simulator.modeLabel")}</label>
               <div className="mt-2 grid grid-cols-2 gap-1.5">
                 {modes.map((m) => (
                   <button
@@ -167,7 +172,7 @@ function SimulateurPage() {
                         : "border-outline-variant text-on-surface hover:bg-surface-container"
                     }`}
                   >
-                    {m}
+                    {t(`simulator.modes.${modeKeys[m]}`)}
                   </button>
                 ))}
               </div>
@@ -178,15 +183,15 @@ function SimulateurPage() {
         {/* Résultats */}
         <div className="space-y-6">
           <div className="grid gap-4 sm:grid-cols-3">
-            <ResultCard label="Rendement net" value={`${calcul.rendementNet.toFixed(2)} %`} hint="Annualisé" highlight />
-            <ResultCard label="Cash-flow net annuel" value={formatMAD(calcul.cashFlowNetAnnuel)} hint="Après fiscalité" />
-            <ResultCard label="Gain total estimé" value={formatMAD(calcul.gainTotal)} hint={`Sur ${duree} ans`} />
+            <ResultCard label={t("simulator.rendementNet")} value={`${calcul.rendementNet.toFixed(2)} %`} hint={t("simulator.annualise")} highlight />
+            <ResultCard label={t("simulator.cashflowNet")} value={formatMAD(calcul.cashFlowNetAnnuel)} hint={t("simulator.apresFiscalite")} />
+            <ResultCard label={t("simulator.gainTotal")} value={formatMAD(calcul.gainTotal)} hint={t("simulator.surDuree", { value: duree })} />
           </div>
 
           <div className="card-elevated p-6">
-            <h3 className="headline-md text-on-surface">Projection de votre capital</h3>
+            <h3 className="headline-md text-on-surface">{t("simulator.projectionTitle")}</h3>
             <p className="mt-1 text-xs text-on-surface-variant">
-              Comparaison rendement brut vs net (après prélèvements fiscaux marocains).
+              {t("simulator.projectionSub")}
             </p>
             <div className="mt-4 h-72">
               <ResponsiveContainer>
@@ -211,7 +216,7 @@ function SimulateurPage() {
           </div>
 
           <div className="card-elevated p-6">
-            <h3 className="headline-md text-on-surface">Comparatif des modes d'exploitation</h3>
+            <h3 className="headline-md text-on-surface">{t("simulator.comparatifTitle")}</h3>
             <div className="mt-4 h-72">
               <ResponsiveContainer>
                 <BarChart data={comparatif}>
@@ -226,14 +231,14 @@ function SimulateurPage() {
           </div>
 
           <div className="card-elevated p-6">
-            <h3 className="headline-md text-on-surface">Détail de la fiscalité appliquée</h3>
+            <h3 className="headline-md text-on-surface">{t("simulator.fiscaliteTitle")}</h3>
             <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
-              <Row dt="Mode" dd={mode} />
-              <Row dt="Rendement brut cible" dd={formatPercent(projet.rendementCible)} />
-              <Row dt="IR revenus fonciers" dd={formatPercent(FISCALITE.tauxIRRevenusFonciers * 100)} />
-              <Row dt="Abattement forfaitaire" dd={formatPercent(FISCALITE.abattementRevenusFonciers * 100)} />
-              <Row dt="Retenue dividendes" dd={formatPercent(FISCALITE.tauxRetenueDividendes * 100)} />
-              <Row dt="Taxe Profit Immobilier (TPI)" dd={formatPercent(FISCALITE.tauxTPI * 100)} />
+              <Row dt={t("simulator.mode")} dd={t(`simulator.modes.${modeKeys[mode]}`)} />
+              <Row dt={t("simulator.rendementBrut")} dd={formatPercent(projet.rendementCible)} />
+              <Row dt={t("simulator.irFonciers")} dd={formatPercent(FISCALITE.tauxIRRevenusFonciers * 100)} />
+              <Row dt={t("simulator.abattement")} dd={formatPercent(FISCALITE.abattementRevenusFonciers * 100)} />
+              <Row dt={t("simulator.retenueDividendes")} dd={formatPercent(FISCALITE.tauxRetenueDividendes * 100)} />
+              <Row dt={t("simulator.tpi")} dd={formatPercent(FISCALITE.tauxTPI * 100)} />
             </dl>
           </div>
         </div>

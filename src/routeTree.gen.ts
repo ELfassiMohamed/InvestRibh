@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PorteurDeProjetRouteImport } from './routes/porteur-de-projet'
+import { Route as OuInvestirRouteImport } from './routes/ou-investir'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as InvestisseurRouteImport } from './routes/investisseur'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -37,6 +38,11 @@ import { Route as InvestisseurProjetsIdRouteImport } from './routes/investisseur
 const PorteurDeProjetRoute = PorteurDeProjetRouteImport.update({
   id: '/porteur-de-projet',
   path: '/porteur-de-projet',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OuInvestirRoute = OuInvestirRouteImport.update({
+  id: '/ou-investir',
+  path: '/ou-investir',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/investisseur': typeof InvestisseurRouteWithChildren
   '/login': typeof LoginRoute
+  '/ou-investir': typeof OuInvestirRoute
   '/porteur-de-projet': typeof PorteurDeProjetRouteWithChildren
   '/admin/audit-ekyc': typeof AdminAuditEkycRoute
   '/admin/utilisateurs': typeof AdminUtilisateursRoute
@@ -194,6 +201,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRouteWithChildren
   '/auth': typeof AuthRoute
   '/login': typeof LoginRoute
+  '/ou-investir': typeof OuInvestirRoute
   '/admin/audit-ekyc': typeof AdminAuditEkycRoute
   '/admin/utilisateurs': typeof AdminUtilisateursRoute
   '/admin/validation-ia': typeof AdminValidationIaRoute
@@ -220,6 +228,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/investisseur': typeof InvestisseurRouteWithChildren
   '/login': typeof LoginRoute
+  '/ou-investir': typeof OuInvestirRoute
   '/porteur-de-projet': typeof PorteurDeProjetRouteWithChildren
   '/admin/audit-ekyc': typeof AdminAuditEkycRoute
   '/admin/utilisateurs': typeof AdminUtilisateursRoute
@@ -248,6 +257,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/investisseur'
     | '/login'
+    | '/ou-investir'
     | '/porteur-de-projet'
     | '/admin/audit-ekyc'
     | '/admin/utilisateurs'
@@ -273,6 +283,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/login'
+    | '/ou-investir'
     | '/admin/audit-ekyc'
     | '/admin/utilisateurs'
     | '/admin/validation-ia'
@@ -298,6 +309,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/investisseur'
     | '/login'
+    | '/ou-investir'
     | '/porteur-de-projet'
     | '/admin/audit-ekyc'
     | '/admin/utilisateurs'
@@ -325,6 +337,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   InvestisseurRoute: typeof InvestisseurRouteWithChildren
   LoginRoute: typeof LoginRoute
+  OuInvestirRoute: typeof OuInvestirRoute
   PorteurDeProjetRoute: typeof PorteurDeProjetRouteWithChildren
   ProjectsCategorieRoute: typeof ProjectsCategorieRoute
   ProjetsIdRoute: typeof ProjetsIdRoute
@@ -339,6 +352,13 @@ declare module '@tanstack/react-router' {
       path: '/porteur-de-projet'
       fullPath: '/porteur-de-projet'
       preLoaderRoute: typeof PorteurDeProjetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ou-investir': {
+      id: '/ou-investir'
+      path: '/ou-investir'
+      fullPath: '/ou-investir'
+      preLoaderRoute: typeof OuInvestirRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -569,6 +589,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   InvestisseurRoute: InvestisseurRouteWithChildren,
   LoginRoute: LoginRoute,
+  OuInvestirRoute: OuInvestirRoute,
   PorteurDeProjetRoute: PorteurDeProjetRouteWithChildren,
   ProjectsCategorieRoute: ProjectsCategorieRoute,
   ProjetsIdRoute: ProjetsIdRoute,

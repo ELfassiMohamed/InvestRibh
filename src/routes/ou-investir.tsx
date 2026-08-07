@@ -1,18 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import {
-  ArrowLeft,
-  Compass,
-  Flame,
-  Globe2,
-  MapPin,
-  TrendingUp,
-} from "lucide-react";
+import { ArrowLeft, Compass, MapPin, TrendingUp } from "lucide-react";
 import {
   Bar,
   BarChart,
   CartesianGrid,
-  Legend,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -59,39 +51,103 @@ type Region = {
 };
 
 const regions: Region[] = [
-  { id: "tanger", nom: "Tanger-Tétouan-Al Hoceïma", roi: 9.4, croissance: 11.2, tension: "Forte", secteur: "Logistique & industrie", x: 40, y: 8 },
-  { id: "rabat", nom: "Rabat-Salé-Kénitra", roi: 7.8, croissance: 6.4, tension: "Modérée", secteur: "Résidentiel & services", x: 33, y: 26 },
-  { id: "casablanca", nom: "Casablanca-Settat", roi: 8.6, croissance: 7.9, tension: "Forte", secteur: "Bureaux & fintech", x: 28, y: 36 },
-  { id: "marrakech", nom: "Marrakech-Safi", roi: 10.1, croissance: 12.6, tension: "Forte", secteur: "Tourisme & hôtellerie", x: 32, y: 52 },
-  { id: "agadir", nom: "Souss-Massa", roi: 8.9, croissance: 9.1, tension: "Émergente", secteur: "Agro & balnéaire", x: 22, y: 66 },
-  { id: "fes", nom: "Fès-Meknès", roi: 6.7, croissance: 4.8, tension: "Modérée", secteur: "Résidentiel abordable", x: 45, y: 30 },
-  { id: "oriental", nom: "Oriental", roi: 6.2, croissance: 3.9, tension: "Émergente", secteur: "Commerce frontalier", x: 60, y: 22 },
-  { id: "dakhla", nom: "Dakhla-Oued Ed-Dahab", roi: 11.3, croissance: 15.4, tension: "Émergente", secteur: "Énergies & pêche", x: 12, y: 88 },
+  {
+    id: "tanger",
+    nom: "Tanger-Tétouan-Al Hoceïma",
+    roi: 9.4,
+    croissance: 11.2,
+    tension: "Forte",
+    secteur: "Logistique & industrie",
+    x: 40,
+    y: 8,
+  },
+  {
+    id: "rabat",
+    nom: "Rabat-Salé-Kénitra",
+    roi: 7.8,
+    croissance: 6.4,
+    tension: "Modérée",
+    secteur: "Résidentiel & services",
+    x: 33,
+    y: 26,
+  },
+  {
+    id: "casablanca",
+    nom: "Casablanca-Settat",
+    roi: 8.6,
+    croissance: 7.9,
+    tension: "Forte",
+    secteur: "Bureaux & fintech",
+    x: 28,
+    y: 36,
+  },
+  {
+    id: "marrakech",
+    nom: "Marrakech-Safi",
+    roi: 10.1,
+    croissance: 12.6,
+    tension: "Forte",
+    secteur: "Tourisme & hôtellerie",
+    x: 32,
+    y: 52,
+  },
+  {
+    id: "agadir",
+    nom: "Souss-Massa",
+    roi: 8.9,
+    croissance: 9.1,
+    tension: "Émergente",
+    secteur: "Agro & balnéaire",
+    x: 22,
+    y: 66,
+  },
+  {
+    id: "fes",
+    nom: "Fès-Meknès",
+    roi: 6.7,
+    croissance: 4.8,
+    tension: "Modérée",
+    secteur: "Résidentiel abordable",
+    x: 45,
+    y: 30,
+  },
+  {
+    id: "oriental",
+    nom: "Oriental",
+    roi: 6.2,
+    croissance: 3.9,
+    tension: "Émergente",
+    secteur: "Commerce frontalier",
+    x: 60,
+    y: 22,
+  },
+  {
+    id: "dakhla",
+    nom: "Dakhla-Oued Ed-Dahab",
+    roi: 11.3,
+    croissance: 15.4,
+    tension: "Émergente",
+    secteur: "Énergies & pêche",
+    x: 12,
+    y: 88,
+  },
 ];
 
-const classesActifs = [
-  { classe: "Immobilier MA", roi: 8.4, risque: 3 },
-  { classe: "Crowdfunding", roi: 10.2, risque: 5 },
-  { classe: "Startups", roi: 14.8, risque: 8 },
-  { classe: "Crypto", roi: 18.5, risque: 9 },
-  { classe: "Obligations", roi: 4.1, risque: 2 },
-  { classe: "Solidaire", roi: 5.2, risque: 3 },
-];
+const classesActifs = [{ classe: "Immobilier MA", roi: 8.4, risque: 3 }];
 
 const tendances = [
-  { annee: "2021", immobilier: 5.1, startups: 12.4, crypto: 42.0, solidaire: 3.8 },
-  { annee: "2022", immobilier: 5.8, startups: 8.9, crypto: -28.5, solidaire: 4.1 },
-  { annee: "2023", immobilier: 6.6, startups: 10.2, crypto: 21.7, solidaire: 4.6 },
-  { annee: "2024", immobilier: 7.5, startups: 13.1, crypto: 34.2, solidaire: 4.9 },
-  { annee: "2025", immobilier: 8.1, startups: 14.0, crypto: 12.6, solidaire: 5.1 },
-  { annee: "2026", immobilier: 8.4, startups: 14.8, crypto: 18.5, solidaire: 5.2 },
+  { annee: "2021", immobilier: 5.1 },
+  { annee: "2022", immobilier: 5.8 },
+  { annee: "2023", immobilier: 6.6 },
+  { annee: "2024", immobilier: 7.5 },
+  { annee: "2025", immobilier: 8.1 },
+  { annee: "2026", immobilier: 8.4 },
 ];
 
 const marchesMondiaux = [
   { zone: "Maroc", roi: 8.4, note: "Hub africain, incitations fiscales ZAI" },
   { zone: "Afrique de l'Ouest", roi: 11.2, note: "Forte croissance démographique" },
   { zone: "Golfe (GCC)", roi: 9.6, note: "Capitaux abondants, immobilier premium" },
-  { zone: "Europe du Sud", roi: 5.4, note: "Marchés matures, faible volatilité" },
   { zone: "Asie du Sud-Est", roi: 10.8, note: "Industrialisation & tech" },
 ];
 
@@ -108,10 +164,7 @@ function OuInvestirPage() {
     () => regions.find((r) => r.id === activeRegion) ?? regions[0],
     [activeRegion],
   );
-  const best = useMemo(
-    () => [...regions].sort((a, b) => b.roi - a.roi)[0],
-    [],
-  );
+  const best = useMemo(() => [...regions].sort((a, b) => b.roi - a.roi)[0], []);
   const maxRoi = Math.max(...regions.map((r) => r.roi));
 
   return (
@@ -131,10 +184,9 @@ function OuInvestirPage() {
           <p className="label-sm mt-6 text-primary">Cartographie des marchés</p>
           <h1 className="display-lg mt-2 max-w-3xl text-on-surface">Où investir&nbsp;?</h1>
           <p className="body-md mt-4 max-w-2xl text-on-surface-variant">
-            Une lecture à grande échelle des tendances d'investissement : rendements par
-            région du Maroc, comparaison des classes d'actifs, dynamiques mondiales et
-            secteurs porteurs. Données de marché indicatives, indépendantes des projets
-            listés sur la plateforme.
+            Une lecture à grande échelle des tendances d'investissement : rendements par région du
+            Maroc, comparaison des classes d'actifs, dynamiques mondiales et secteurs porteurs.
+            Données de marché indicatives, indépendantes des projets listés sur la plateforme.
           </p>
         </div>
       </header>
@@ -145,7 +197,7 @@ function OuInvestirPage() {
           <KpiCard
             label="ROI moyen marché (Maroc)"
             value={formatPercent(8.4)}
-            hint="Toutes classes d'actifs confondues"
+            hint="Immobilier — toutes zones confondues"
             trend={0.9}
             icon={<TrendingUp className="h-5 w-5" />}
           />
@@ -157,17 +209,9 @@ function OuInvestirPage() {
           />
           <KpiCard
             label="Classe d'actifs la plus dynamique"
-            value="Crypto"
-            hint="18,5 % — volatilité élevée"
-            trend={5.9}
-            icon={<Flame className="h-5 w-5" />}
-          />
-          <KpiCard
-            label="Zone mondiale en tête"
-            value="Afrique de l'Ouest"
-            hint="11,2 % de rendement moyen"
-            trend={1.4}
-            icon={<Globe2 className="h-5 w-5" />}
+            value="Immobilier"
+            hint="8,4 % — volatilité faible"
+            icon={<TrendingUp className="h-5 w-5" />}
           />
         </div>
       </section>
@@ -226,22 +270,29 @@ function OuInvestirPage() {
                   <p className="label-sm text-on-surface-variant">Région sélectionnée</p>
                   <h3 className="headline-md mt-1 text-on-surface">{region.nom}</h3>
                 </div>
-                <span className={`rounded-full px-3 py-1 text-xs font-semibold ${tensionColor[region.tension]}`}>
+                <span
+                  className={`rounded-full px-3 py-1 text-xs font-semibold ${tensionColor[region.tension]}`}
+                >
                   Demande {region.tension.toLowerCase()}
                 </span>
               </div>
               <dl className="mt-5 grid grid-cols-2 gap-4">
                 <div>
                   <dt className="text-xs text-on-surface-variant">Rendement estimé</dt>
-                  <dd className="mt-1 text-2xl font-bold text-on-surface">{formatPercent(region.roi)}</dd>
+                  <dd className="mt-1 text-2xl font-bold text-on-surface">
+                    {formatPercent(region.roi)}
+                  </dd>
                 </div>
                 <div>
                   <dt className="text-xs text-on-surface-variant">Prix / 12 mois</dt>
-                  <dd className="mt-1 text-2xl font-bold text-success">+{region.croissance.toFixed(1)} %</dd>
+                  <dd className="mt-1 text-2xl font-bold text-success">
+                    +{region.croissance.toFixed(1)} %
+                  </dd>
                 </div>
               </dl>
               <p className="mt-4 text-sm text-on-surface-variant">
-                Secteur porteur : <span className="font-semibold text-on-surface">{region.secteur}</span>
+                Secteur porteur :{" "}
+                <span className="font-semibold text-on-surface">{region.secteur}</span>
               </p>
             </div>
 
@@ -256,10 +307,14 @@ function OuInvestirPage() {
                       <button
                         onClick={() => setActiveRegion(r.id)}
                         className={`flex w-full items-center gap-3 rounded-lg px-3 py-2 text-left text-sm transition-colors ${
-                          r.id === activeRegion ? "bg-primary-container/20 text-primary" : "hover:bg-surface-low"
+                          r.id === activeRegion
+                            ? "bg-primary-container/20 text-primary"
+                            : "hover:bg-surface-low"
                         }`}
                       >
-                        <span className="w-4 shrink-0 text-xs font-bold text-on-surface-variant">{i + 1}</span>
+                        <span className="w-4 shrink-0 text-xs font-bold text-on-surface-variant">
+                          {i + 1}
+                        </span>
                         <span className="min-w-0 flex-1 truncate text-on-surface">{r.nom}</span>
                         <span className="shrink-0 font-semibold">{formatPercent(r.roi)}</span>
                       </button>
@@ -278,19 +333,31 @@ function OuInvestirPage() {
             <p className="label-sm text-primary">Comparatif</p>
             <h2 className="headline-lg mt-2 text-on-surface">Meilleurs ROI par classe d'actifs</h2>
             <p className="mt-2 text-on-surface-variant">
-              Rendement annuel moyen observé sur le marché en 2026, à mettre en regard du
-              niveau de risque (1 = faible, 10 = élevé).
+              Rendement annuel moyen observé sur le marché en 2026, à mettre en regard du niveau de
+              risque (1 = faible, 10 = élevé).
             </p>
           </div>
           <div className="card-elevated bg-surface-lowest p-5">
             <div className="h-[320px] w-full">
               <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={classesActifs} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--outline-variant))" vertical={false} />
+                <BarChart
+                  data={classesActifs}
+                  margin={{ top: 10, right: 10, left: -10, bottom: 0 }}
+                >
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="hsl(var(--outline-variant))"
+                    vertical={false}
+                  />
                   <XAxis dataKey="classe" tick={{ fontSize: 11 }} stroke="currentColor" />
                   <YAxis tick={{ fontSize: 11 }} stroke="currentColor" unit="%" />
                   <Tooltip formatter={(v: number) => `${v} %`} />
-                  <Bar dataKey="roi" name="ROI moyen" fill="hsl(var(--primary))" radius={[6, 6, 0, 0]} />
+                  <Bar
+                    dataKey="roi"
+                    name="ROI moyen"
+                    fill="hsl(var(--primary))"
+                    radius={[6, 6, 0, 0]}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -325,11 +392,14 @@ function OuInvestirPage() {
                 <XAxis dataKey="annee" tick={{ fontSize: 11 }} stroke="currentColor" />
                 <YAxis tick={{ fontSize: 11 }} stroke="currentColor" unit="%" />
                 <Tooltip formatter={(v: number) => `${v} %`} />
-                <Legend />
-                <Line type="monotone" dataKey="immobilier" name="Immobilier" stroke="hsl(var(--primary))" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="startups" name="Startups" stroke="hsl(var(--tertiary))" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="crypto" name="Crypto" stroke="hsl(var(--secondary))" strokeWidth={2} dot={false} />
-                <Line type="monotone" dataKey="solidaire" name="Solidaire" stroke="hsl(var(--success))" strokeWidth={2} dot={false} />
+                <Line
+                  type="monotone"
+                  dataKey="immobilier"
+                  name="Immobilier"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth={2}
+                  dot={false}
+                />
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -354,7 +424,10 @@ function OuInvestirPage() {
                 </div>
                 <p className="mt-3 text-sm text-on-surface-variant">{m.note}</p>
                 <div className="mt-4 h-1.5 w-full overflow-hidden rounded-full bg-surface-low">
-                  <div className="h-full rounded-full bg-primary" style={{ width: `${(m.roi / 12) * 100}%` }} />
+                  <div
+                    className="h-full rounded-full bg-primary"
+                    style={{ width: `${(m.roi / 12) * 100}%` }}
+                  />
                 </div>
               </div>
             ))}

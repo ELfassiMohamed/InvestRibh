@@ -4,14 +4,7 @@ import { useTranslation } from "react-i18next";
 
 export function HeroSearch() {
   const { t } = useTranslation();
-  const types = [
-    t("hero.types.tous"),
-    t("hero.types.immobilier"),
-    t("hero.types.crypto"),
-    t("hero.types.startup"),
-    t("hero.types.talent"),
-    t("hero.types.objets"),
-  ];
+  const types = [t("hero.types.tous"), t("hero.types.immobilier")];
   const [type, setType] = useState(types[0]);
   const [open, setOpen] = useState(false);
 

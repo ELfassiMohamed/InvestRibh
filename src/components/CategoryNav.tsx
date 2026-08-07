@@ -11,7 +11,11 @@ export function CategoryNav() {
   const items: NavItem[] = [
     { label: t("categoryNav.pagePrincipale"), to: "/" },
     { label: t("categoryNav.biens"), to: "/investisseur/projets" },
-    { label: t("categoryNav.investissementsCollectifs"), to: "/investisseur/projets", hasMenu: true },
+    {
+      label: t("categoryNav.investissementsCollectifs"),
+      to: "/investisseur/projets",
+      hasMenu: true,
+    },
     { label: t("categoryNav.investissementSolidaire"), to: "/investisseur/projets" },
     { label: t("categoryNav.annuaire"), to: "/" },
     { label: t("categoryNav.pratique"), to: "/" },
@@ -29,16 +33,12 @@ export function CategoryNav() {
               key={item.label}
               to={item.to}
               className={`group relative flex shrink-0 items-center gap-1 px-4 py-4 text-sm font-medium transition-colors ${
-                active
-                  ? "text-primary"
-                  : "text-on-surface hover:text-primary"
+                active ? "text-primary" : "text-on-surface hover:text-primary"
               }`}
             >
               {item.label}
               {item.hasMenu && <ChevronDown className="h-3.5 w-3.5 opacity-60" />}
-              {active && (
-                <span className="absolute inset-x-4 -bottom-px h-0.5 bg-primary" />
-              )}
+              {active && <span className="absolute inset-x-4 -bottom-px h-0.5 bg-primary" />}
             </Link>
           );
         })}

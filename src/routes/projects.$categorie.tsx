@@ -5,13 +5,10 @@ import { Filter, ArrowLeft, User } from "lucide-react";
 
 import { FilterSelect } from "@/components/FilterSelect";
 import { ProjectCard } from "@/components/ProjectCard";
+import { ExploitationAssurance } from "@/components/ExploitationAssurance";
 import logoImage from "@/assets/place2invest_logo.png";
 import { useProjects } from "@/hooks/use-queries";
-import {
-  getCategorieForSlug,
-  sectionOrder,
-  type Project,
-} from "@/lib/mock-data";
+import { getCategorieForSlug, sectionOrder, sectionSlugs, type Project } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/projects/$categorie")({
   component: SectionProjectsPage,
@@ -60,8 +57,7 @@ function SectionProjectsPage() {
     throw notFound();
   }
 
-  const sectionKey =
-    { Immobilier: "immobilier", Crypto: "crypto", "Startup & Affaires": "startup", Solidaire: "solidaire", Crowdfunding: "crowdfunding", "Produit de forte valeur": "valeur" }[categorie] ?? "immobilier";
+  const sectionKey = sectionSlugs[categorie] ?? "immobilier";
 
   return (
     <div className="min-h-screen bg-surface">
@@ -93,10 +89,15 @@ function SectionProjectsPage() {
       <div className="mx-auto max-w-[1280px] px-4 py-8 sm:px-8">
         <div className="mb-8">
           <p className="label-sm text-primary">
-            {t("projectsSection.section", { index: sectionOrder.indexOf(categorie) + 1, total: sectionOrder.length })}
+            {t("projectsSection.section", {
+              index: sectionOrder.indexOf(categorie) + 1,
+              total: sectionOrder.length,
+            })}
           </p>
           <h1 className="headline-lg text-on-surface">{t(`sections.${sectionKey}.titre`)}</h1>
-          <p className="mt-1.5 max-w-2xl text-on-surface-variant">{t(`sections.${sectionKey}.description`)}</p>
+          <p className="mt-1.5 max-w-2xl text-on-surface-variant">
+            {t(`sections.${sectionKey}.description`)}
+          </p>
           <p className="mt-1.5 text-on-surface-variant">
             {isLoading
               ? t("common.loading")
@@ -112,9 +113,24 @@ function SectionProjectsPage() {
               <p className="label-sm text-on-surface">{t("projets.filter")}</p>
             </div>
 
-            <FilterSelect label={t("projets.ville")} value={ville} options={villes} onChange={setVille} />
-            <FilterSelect label={t("projets.typologie")} value={typologie} options={typologies} onChange={setTypologie} />
-            <FilterSelect label={t("projets.statut")} value={statut} options={statuts} onChange={setStatut} />
+            <FilterSelect
+              label={t("projets.ville")}
+              value={ville}
+              options={villes}
+              onChange={setVille}
+            />
+            <FilterSelect
+              label={t("projets.typologie")}
+              value={typologie}
+              options={typologies}
+              onChange={setTypologie}
+            />
+            <FilterSelect
+              label={t("projets.statut")}
+              value={statut}
+              options={statuts}
+              onChange={setStatut}
+            />
 
             <div className="mt-5">
               <label className="label-sm text-on-surface-variant">
@@ -174,6 +190,10 @@ function SectionProjectsPage() {
             )}
           </div>
         </div>
+      </div>
+
+      <div className="mx-auto max-w-[1280px] px-4 py-12 sm:px-8">
+        {categorie === "Immobilier" && <ExploitationAssurance />}
       </div>
 
       {/* Footer */}

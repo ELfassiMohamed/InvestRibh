@@ -1,20 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { ArrowRight, ArrowLeft, User, Building2, Bitcoin, Rocket, HeartHandshake, Users, Gem } from "lucide-react";
+import { ArrowRight, ArrowLeft, User, Building2 } from "lucide-react";
 
 import logoImage from "@/assets/place2invest_logo.png";
 import catImmobilier from "@/assets/cat-immobilier.jpg";
-import catCrypto from "@/assets/cat-crypto.jpg";
-import catStartup from "@/assets/cat-startup.jpg";
-import catSolidaire from "@/assets/cat-solidaire.jpg";
-import catCrowdfunding from "@/assets/cat-crowdfunding.jpg";
-import catValeur from "@/assets/cat-valeur.jpg";
 import { useProjects } from "@/hooks/use-queries";
-import {
-  getSlugForCategorie,
-  sectionOrder,
-  type ProjectCategorie,
-} from "@/lib/mock-data";
+import { sectionOrder, type Project, type ProjectCategorie } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/projects/")({
   component: ProjectsSectionsPage,
@@ -27,11 +18,6 @@ const sectionCards: {
   image: string;
 }[] = [
   { categorie: "Immobilier", sectionKey: "immobilier", icon: Building2, image: catImmobilier },
-  { categorie: "Crypto", sectionKey: "crypto", icon: Bitcoin, image: catCrypto },
-  { categorie: "Startup & Affaires", sectionKey: "startup", icon: Rocket, image: catStartup },
-  { categorie: "Solidaire", sectionKey: "solidaire", icon: HeartHandshake, image: catSolidaire },
-  { categorie: "Crowdfunding", sectionKey: "crowdfunding", icon: Users, image: catCrowdfunding },
-  { categorie: "Produit de forte valeur", sectionKey: "valeur", icon: Gem, image: catValeur },
 ];
 
 function ProjectsSectionsPage() {
@@ -39,7 +25,7 @@ function ProjectsSectionsPage() {
   const { data: projects = [] } = useProjects();
 
   const countByCategorie = (categorie: ProjectCategorie) =>
-    projects.filter((p: any) => p.categorie === categorie).length;
+    projects.filter((p: Project) => p.categorie === categorie).length;
 
   return (
     <div className="min-h-screen bg-surface">
@@ -71,9 +57,7 @@ function ProjectsSectionsPage() {
       <div className="mx-auto max-w-[1280px] px-4 py-8 sm:px-8">
         <div className="mb-8">
           <h1 className="headline-lg text-on-surface">{t("projectsIndex.title")}</h1>
-          <p className="mt-1.5 text-on-surface-variant">
-            {t("projectsIndex.subtitle")}
-          </p>
+          <p className="mt-1.5 text-on-surface-variant">{t("projectsIndex.subtitle")}</p>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -83,7 +67,7 @@ function ProjectsSectionsPage() {
               <Link
                 key={categorie}
                 to="/projects/$categorie"
-                params={{ categorie: getSlugForCategorie(categorie) }}
+                params={{ categorie: "immobilier" }}
                 className="card-elevated group flex flex-col overflow-hidden bg-surface-lowest transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
               >
                 <div className="relative aspect-[16/9] w-full overflow-hidden">
@@ -101,9 +85,13 @@ function ProjectsSectionsPage() {
                 <div className="flex flex-1 flex-col gap-2 p-5">
                   <div className="flex items-center gap-2">
                     <Icon className="h-4 w-4 shrink-0 text-primary" />
-                    <h2 className="headline-md text-on-surface">{t(`sections.${sectionKey}.titre`)}</h2>
+                    <h2 className="headline-md text-on-surface">
+                      {t(`sections.${sectionKey}.titre`)}
+                    </h2>
                   </div>
-                  <p className="text-sm text-on-surface-variant">{t(`sections.${sectionKey}.description`)}</p>
+                  <p className="text-sm text-on-surface-variant">
+                    {t(`sections.${sectionKey}.description`)}
+                  </p>
                   <span className="mt-auto inline-flex items-center gap-1.5 pt-2 text-sm font-semibold text-primary">
                     {t("projectsIndex.voirSection")}
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

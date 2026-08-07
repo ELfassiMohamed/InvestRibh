@@ -48,16 +48,12 @@
   "hero": {
     "headline1": "Investissez dans le futur,",
     "headline2": "aujourd'hui.",
-    "subtitle": "Place2Invest est votre plateforme digitale pour diversifier vos investissements dans l'immobilier, les startups, l'art, la crypto et le talent, tout en soutenant l'économie sociale et solidaire.",
+    "subtitle": "Place2Invest est votre plateforme digitale pour diversifier vos investissements dans l'immobilier, avec une couverture assurance stricte sur chaque méthode d'exploitation.",
     "searchPlaceholder": "Que cherchez-vous ?",
     "search": "Rechercher",
     "types": {
       "tous": "Tous",
-      "immobilier": "Immobilier",
-      "crypto": "Crypto",
-      "startup": "Startup & Affaires",
-      "talent": "Talent",
-      "objets": "Objets de valeur"
+      "immobilier": "Immobilier"
     }
   },
   "home": {
@@ -96,23 +92,13 @@
     },
     "interets": {
       "label": "Vos centres d'intérêt",
-      "immobilier": "Immobilier",
-      "crypto": "Monnaie virtuelle & Crypto",
-      "startup": "Startup & Affaires",
-      "solidaire": "Solidaire",
-      "crowdfunding": "Crowdfunding",
-      "valeur": "Produit de forte valeur"
+      "immobilier": "Immobilier"
     },
     "categories": {
-      "immobilier": "Immobilier",
-      "crypto": "Monnaie virtuelle & Crypto",
-      "startup": "Startup & Affaires",
-      "solidaire": "Solidaire",
-      "crowdfunding": "Crowdfunding",
-      "valeur": "Produit de forte valeur"
+      "immobilier": "Immobilier"
     },
     "footer": {
-      "tagline": "Plateforme digitale d'investissement multi-actifs régulée au Maroc.",
+      "tagline": "Plateforme digitale d'investissement en immobilier régulée au Maroc.",
       "plateforme": "Plateforme",
       "plateformeLinks": ["Projets", "Comment ça marche", "Fiscalité MA", "Sécurité"],
       "societe": "Société",
@@ -170,6 +156,22 @@
       "Plans architecturaux"
     ]
   },
+  "assurance": {
+    "badge": "Protection des futurs risques",
+    "title": "Assurance par méthode d'exploitation",
+    "subtitle": "Chaque voie d'exploitation est couverte par un produit d'assurance aux critères stricts, conçu pour sécuriser votre placement immobilier du point de vigilance initial jusqu'à la liquidation.",
+    "methods": {
+      "investir": "Investir dans un bien",
+      "location": "Location",
+      "revente": "Revente",
+      "vente": "Vente du bien"
+    },
+    "risqueCouvert": "Risque couvert",
+    "criteresStricts": "Critères stricts d'acceptation",
+    "primeAnnuelle": "Prime annuelle",
+    "franchise": "Franchise",
+    "partenaire": "Partenaire"
+  },
   "projectsIndex": {
     "title": "Sections d'investissement",
     "subtitle": "Explorez chaque classe d'actifs sur sa page dédiée.",
@@ -185,26 +187,6 @@
     "immobilier": {
       "titre": "Immobilier",
       "description": "Investissez dans des programmes résidentiels, tertiaires et fonciers analysés par notre pipeline IA."
-    },
-    "crypto": {
-      "titre": "Monnaie virtuelle & Crypto",
-      "description": "Exposition aux crypto-actifs via des fonds structurés, staking et actifs tokenisés."
-    },
-    "startup": {
-      "titre": "Startup & Affaires",
-      "description": "Accompagnez des startups marocaines à fort potentiel dans la tech, la fintech et l'agritech."
-    },
-    "solidaire": {
-      "titre": "Solidaire",
-      "description": "Des investissements à impact social et environnemental au service de l'économie sociale et solidaire."
-    },
-    "crowdfunding": {
-      "titre": "Crowdfunding",
-      "description": "Participez au financement participatif de films, festivals, albums et produits locaux."
-    },
-    "valeur": {
-      "titre": "Produit de forte valeur",
-      "description": "Investissez dans des actifs tangibles : art, horlogerie, diamants, or et voitures de collection."
     }
   },
   "login": {
@@ -715,85 +697,23 @@
     "Brouillon": "Brouillon"
   },
   "categories": {
-    "Immobilier": "Immobilier",
-    "Crypto": "Crypto",
-    "Startup & Affaires": "Startup & Affaires",
-    "Solidaire": "Solidaire",
-    "Crowdfunding": "Crowdfunding",
-    "Produit de forte valeur": "Produit de forte valeur"
+    "Immobilier": "Immobilier"
   },
   "typologies": {
     "Résidentiel": "Résidentiel",
     "Commercial & Bureaux": "Commercial & Bureaux",
     "Terrains & Lotissements": "Terrains & Lotissements",
-    "Projets neufs en collecte": "Projets neufs en collecte",
-    "Fonds Crypto": "Fonds Crypto",
-    "Staking": "Staking",
-    "Mining": "Mining",
-    "NFT": "NFT",
-    "Tokenisation": "Tokenisation",
-    "Startup Tech": "Startup Tech",
-    "Fintech": "Fintech",
-    "AgriTech": "AgriTech",
-    "MedTech": "MedTech",
-    "SaaS": "SaaS",
-    "Logistique": "Logistique",
-    "Coopérative": "Coopérative",
-    "Économie sociale": "Économie sociale",
-    "Impact social": "Impact social",
-    "Micro-crédit": "Micro-crédit",
-    "Énergie verte": "Énergie verte",
-    "Film": "Film",
-    "Événement": "Événement",
-    "Album": "Album",
-    "Produit local": "Produit local",
-    "Artisanat": "Artisanat",
-    "Horlogerie": "Horlogerie",
-    "Vins & Spiritueux": "Vins & Spiritueux",
-    "Art": "Art",
-    "Or & Métaux précieux": "Or & Métaux précieux",
-    "Voitures de collection": "Voitures de collection"
+    "Projets neufs en collecte": "Projets neufs en collecte"
   },
   "shared": {
     "categories": {
-      "Immobilier": "Immobilier",
-      "Crypto": "Crypto",
-      "Startup & Affaires": "Startup & Affaires",
-      "Solidaire": "Solidaire",
-      "Crowdfunding": "Crowdfunding",
-      "Produit de forte valeur": "Produit de forte valeur"
+      "Immobilier": "Immobilier"
     },
     "typologies": {
       "Résidentiel": "Résidentiel",
       "Commercial & Bureaux": "Commercial & Bureaux",
       "Terrains & Lotissements": "Terrains & Lotissements",
-      "Projets neufs en collecte": "Projets neufs en collecte",
-      "Fonds Crypto": "Fonds Crypto",
-      "Staking": "Staking",
-      "Mining": "Mining",
-      "NFT": "NFT",
-      "Tokenisation": "Tokenisation",
-      "Startup Tech": "Startup Tech",
-      "Fintech": "Fintech",
-      "AgriTech": "AgriTech",
-      "MedTech": "MedTech",
-      "SaaS": "SaaS",
-      "Logistique": "Logistique",
-      "Coopérative": "Coopérative",
-      "Économie sociale": "Économie sociale",
-      "Impact social": "Impact social",
-      "Micro-crédit": "Micro-crédit",
-      "Énergie verte": "Énergie verte",
-      "Film": "Film",
-      "Événement": "Événement",
-      "Album": "Album",
-      "Produit local": "Produit local",
-      "Artisanat": "Artisanat",
-      "Horlogerie": "Horlogerie",
-      "Vins & Spiritueux": "Vins & Spiritueux",
-      "Art": "Art",
-      "Or & Métaux précieux": "Or & Métaux précieux",
-      "Voitures de collection": "Voitures de collection"
+      "Projets neufs en collecte": "Projets neufs en collecte"
     },
     "statuses": {
       "En collecte": "En collecte",
@@ -848,276 +768,6 @@
         "Sortie progressive : liquidité partielle dès 12 mois."
       ],
       "pointsVigilance": ["Cycle court, sensible à la conjoncture locale."]
-    },
-    "btc-yield-atlas": {
-      "nom": "Atlas Yield Fund BTC",
-      "description": "Fonds indiciel passif adossé au Bitcoin avec rendement de prêt sécurisé, géré par une société agréée crypto-assets au Maroc.",
-      "pointsForts": [
-        "Custodie chez un dépositaire réglementé.",
-        "Stratégie de prêt garantie à 100 %."
-      ],
-      "pointsVigilance": ["Volatilité du cours du Bitcoin."]
-    },
-    "stablecoin-renta": {
-      "nom": "Stable Yield USDT",
-      "description": "Portefeuille de staking en stablecoins sur protocoles audités, avec garde de fonds en vault multi-signatures.",
-      "pointsForts": [
-        "Audit de sécurité annuel indépendant.",
-        "Revenus quotidiens automatisés."
-      ],
-      "pointsVigilance": ["Dépendance aux taux DeFi."]
-    },
-    "hash-mining-ouzoud": {
-      "nom": "Ouzoud Hash Power",
-      "description": "Ferme de minage alimentée par l'hydroélectricité du barrage d'Ouzoud, capacité cible de 8 MW.",
-      "pointsForts": [
-        "Coût d'énergie parmi les plus bas d'Afrique.",
-        "Contrats de maintenance signés."
-      ],
-      "pointsVigilance": ["Sensibilité au prix de l'électricité."]
-    },
-    "nft-art-medina": {
-      "nom": "Medina Art Collection NFT",
-      "description": "Collection NFT de 10 000 œuvres génératives d'artistes marocains, royalties reversées aux créateurs.",
-      "pointsForts": [
-        "Marché secondaire actif dès le lancement.",
-        "Fonds documentaire et certificats numériques."
-      ],
-      "pointsVigilance": ["Marché NFT très volatil."]
-    },
-    "token-art-essaouira": {
-      "nom": "Essaouira Tokenisation",
-      "description": "Tokenisation d'un riad patrimonial à Essaouira : chaque token représente une fraction de propriété locative.",
-      "pointsForts": [
-        "Rendement locatif touristique confirmé.",
-        "Transparence on-chain des revenus."
-      ],
-      "pointsVigilance": ["Cadre réglementaire tokenisation en évolution."]
-    },
-    "digital-gold-ref": {
-      "nom": "Digital Gold Refinery",
-      "description": "Or numérique adossé à des réserves physiques certifiées, rachat garanti au cours de référence international.",
-      "pointsForts": [
-        "Réserves auditées chaque trimestre.",
-        "Valeur refuge décorrélée des actions."
-      ],
-      "pointsVigilance": ["Frais de garde annuels."]
-    },
-    "fintech-simplex-pay": {
-      "nom": "Simplex Pay — Fintech",
-      "description": "Application marocaine de paiement fractionné et de cagnottes familiales, déjà 80 000 utilisateurs actifs.",
-      "pointsForts": [
-        "Agrément crypto-paiement en cours.",
-        "Croissance de 32 % par trimestre."
-      ],
-      "pointsVigilance": ["Concurrence des géants du paiement."]
-    },
-    "agritech-gharb-hub": {
-      "nom": "AgriHub Gharb",
-      "description": "Plateforme d'irrigation intelligente et de pilotage des serres du Gharb via capteurs IoT et IA.",
-      "pointsForts": [
-        "Économies d'eau démontrées de 28 %.",
-        "Contrats pilotes avec 3 coopératives."
-      ],
-      "pointsVigilance": ["Dépendance à l'équipement importé."]
-    },
-    "medtech-tabib-care": {
-      "nom": "Tabib Care — MedTech",
-      "description": "Télémédecine et dossier médical partagé pour les cliniques privées marocaines, 45 cliniques partenaires.",
-      "pointsForts": [
-        "Revenu récurrent annuel stable.",
-        "Partenariat avec l'ordre des médecins."
-      ],
-      "pointsVigilance": ["Sujette à la réglementation santé."]
-    },
-    "saas-erp-atin": {
-      "nom": "Atin ERP Pro",
-      "description": "ERP cloud pour les PME et TPE marocaines : comptabilité, facturation et paie conformes à la réglementation locale.",
-      "pointsForts": [
-        "Churn quasi nul sur 12 mois.",
-        "Migration facile des concurrents locaux."
-      ],
-      "pointsVigilance": ["Taille du marché adressable limitée."]
-    },
-    "logi-marketplace-souss": {
-      "nom": "Souss Express — Logistique",
-      "description": "Marketplace de livraison du dernier kilomètre dans le Souss, reliant coopératives et détaillants.",
-      "pointsForts": [
-        "Réseau de 120 livreurs indépendants.",
-        "Contrats avec 4 coopératives agricoles."
-      ],
-      "pointsVigilance": ["Marge unitaire faible."]
-    },
-    "edtech-tamazight-learn": {
-      "nom": "Tamazight Learn",
-      "description": "EdTech d'apprentissage des langues berbères et arabes par IA, ciblant les diasporas et écoles marocaines.",
-      "pointsForts": [
-        "Niche peu concurrentielle et à forte identité.",
-        "Soutien de fondations culturelles."
-      ],
-      "pointsVigilance": ["Monétisation encore à prouver."]
-    },
-    "coop-zaffran-taliouine": {
-      "nom": "Coopérative Safran de Taliouine",
-      "description": "Modernisation de la coopérative de safran de Taliouine : séchoirs solaires et labellisation AOP.",
-      "pointsForts": [
-        "Impact social direct sur 320 familles.",
-        "Certification bio en cours."
-      ],
-      "pointsVigilance": ["Dépendance aux conditions climatiques."]
-    },
-    "ecole-ingenierie-atlas": {
-      "nom": "École d'Ingénierie de l'Atlas",
-      "description": "Campus d'ingénierie à bourses pour les zones rurales du Haut Atlas, première promotion de 120 étudiants.",
-      "pointsForts": [
-        "Convention avec des entreprises recruteuses.",
-        "Taux de réussite cible de 90 %."
-      ],
-      "pointsVigilance": ["Horizon de rendement long."]
-    },
-    "microcredit-tiznit": {
-      "nom": "Micro-crédit Tiznit Femmes",
-      "description": "Fonds de micro-crédit dédié aux femmes entrepreneures de Tiznit, avec accompagnement et garantie solidaire.",
-      "pointsForts": [
-        "Taux de remboursement de 96 %.",
-        "Partenariat avec une ONG locale."
-      ],
-      "pointsVigilance": ["Rendement financier modeste."]
-    },
-    "sante-rurale-taghazout": {
-      "nom": "Santé Rurale du Haouz",
-      "description": "Unité médicale mobile connectée pour les douars isolés du Haouz : téléconsultations et pharmacie de proximité.",
-      "pointsForts": [
-        "Prise en charge de 18 000 consultations/an.",
-        "Co-financement par le ministère de la Santé."
-      ],
-      "pointsVigilance": ["Logistique en zone accidentée."]
-    },
-    "eau-potable-figuiq": {
-      "nom": "Eau Potable pour Figuig",
-      "description": "Réseau d'adduction et de dessalement solaire pour l'oasis de Figuig, sécurité hydrique pour 12 000 habitants.",
-      "pointsForts": [
-        "Subvention publique de 40 %.",
-        "Impact environnemental mesurable."
-      ],
-      "pointsVigilance": ["Maintenance à distance complexe."]
-    },
-    "solaire-villages-ouzoud": {
-      "nom": "Solaire pour 12 Villages",
-      "description": "Micro-réseaux solaires pour 12 villages non raccordés au réseau national autour d'Azilal.",
-      "pointsForts": [
-        "Électrification de 2 400 foyers.",
-        "Crédits carbone vendables."
-      ],
-      "pointsVigilance": ["Durée longue avant retour."]
-    },
-    "film-atlas-festival": {
-      "nom": "Film « Lueurs de l'Atlas »",
-      "description": "Long-métrage de fiction tourné à Ouarzazate, présélectionné pour le Festival International du Film de Marrakech.",
-      "pointsForts": [
-        "Distribution internationale prévue.",
-        "Cash-flow via droits de diffusion et festivals."
-      ],
-      "pointsVigilance": ["Résultat artistique incertain."]
-    },
-    "festival-gnaoua-remix": {
-      "nom": "Festival Gnaoua Remix",
-      "description": "Édition augmentée du festival de musique gnaoua à Essaouira : scène internationale et retransmission en ligne.",
-      "pointsForts": [
-        "Billetterie prévente record.",
-        "Sponsors nationaux confirmés."
-      ],
-      "pointsVigilance": ["Aléas météo et organisationnels."]
-    },
-    "album-berber-fusion": {
-      "nom": "Album « Fusion Berbère »",
-      "description": "Album de fusion berbère-rock enregistré à Agadir, sortie vinyle et streaming, tournée dans 6 villes.",
-      "pointsForts": [
-        "Base de fans active de 40 000 abonnés.",
-        "Revenus streaming et concerts."
-      ],
-      "pointsVigilance": ["Marge par unité faible."]
-    },
-    "produit-local-argan": {
-      "nom": "Série Argan & Co",
-      "description": "Lancement d'une gamme cosmétique à l'huile d'argan équitable, produite et conditionnée localement.",
-      "pointsForts": [
-        "Précommandes déjà à 40 % de l'objectif.",
-        "Circuit de distribution export prêt."
-      ],
-      "pointsVigilance": ["Pression concurrentielle élevée."]
-    },
-    "artisanat-zellige-fes": {
-      "nom": "Atelier Zellige de Fès",
-      "description": "Agrandissement d'un atelier de zellige à Fès et formation de 30 jeunes apprentis aux techniques traditionnelles.",
-      "pointsForts": [
-        "Commandes export en hausse de 55 %.",
-        "Certification artisanale en cours."
-      ],
-      "pointsVigilance": ["Capacité de production limitée."]
-    },
-    "marathon-des-sables-hub": {
-      "nom": "Marathon Sables Hub",
-      "description": "Base de ravitaillement et d'hébergement pour les épreuves d'endurance du désert de Merzouga.",
-      "pointsForts": [
-        "Contrats multi-annuels avec 3 organisateurs.",
-        "Activité toute l'année (tourisme sportif)."
-      ],
-      "pointsVigilance": ["Saisonnalité forte."]
-    },
-    "montre-luxe-casa": {
-      "nom": "Collection Horlogère Atelier",
-      "description": "Fonds d'acquisition de montres de luxe (Rolex, Patek, Audemars) avec expertise et stockage sécurisé au Maroc.",
-      "pointsForts": [
-        "Marché de l'occasion en forte croissance.",
-        "Appréciation historique moyenne de 8 %/an."
-      ],
-      "pointsVigilance": ["Marché cyclique et spéculatif."]
-    },
-    "whisky-single-malt-reserve": {
-      "nom": "Réserve Single Malt Écossais",
-      "description": "Fonds de spiritueux rares : fûts de single malt et éditions limitées, entreposés en cave sécurisée.",
-      "pointsForts": [
-        "Offre mondiale limitée structurellement.",
-        "Revente via maisons d'enchères."
-      ],
-      "pointsVigilance": ["Marché de niche à liquidité réduite."]
-    },
-    "diamant-certifie-ref": {
-      "nom": "Diamants Certifiés Atlas",
-      "description": "Panier de diamants certifiés GIA (>1 carat), achetés sous le marché retail et revendus aux joailliers.",
-      "pointsForts": [
-        "Certification indépendante systématique.",
-        "Résistance historique à l'inflation."
-      ],
-      "pointsVigilance": ["Spread d'achat/vente élevé."]
-    },
-    "art-contemporain-maroc": {
-      "nom": "Fonds Art Contemporain Marocain",
-      "description": "Collection d'œuvres d'artistes marocains émergents, exposée puis revendue via maisons de ventes internationales.",
-      "pointsForts": [
-        "Scène artistique marocaine en plein essor.",
-        "Expositions à l'étranger programmées."
-      ],
-      "pointsVigilance": ["Valorisation très subjective."]
-    },
-    "voiture-collection-motor": {
-      "nom": "Motor Heritage Collection",
-      "description": "Garage de voitures classiques et youngtimers en parfait état, avec rénovation et revente sur le marché international.",
-      "pointsForts": [
-        "Rareté croissante des modèles emblématiques.",
-        "Atelier de restauration intégré."
-      ],
-      "pointsVigilance": ["Coûts de stockage et d'assurance élevés."]
-    },
-    "or-physique-bullion": {
-      "nom": "Bullion Or — Réserves Physiques",
-      "description": "Lingots et pièces d'or physiques stockés en coffre bancaire, frappés par des établissements certifiés LBMA.",
-      "pointsForts": [
-        "Actif tangible à liquidité mondiale.",
-        "Certificat de propriété nominatif."
-      ],
-      "pointsVigilance": ["Coût de garde et prime de frappe."]
     }
   }
 }

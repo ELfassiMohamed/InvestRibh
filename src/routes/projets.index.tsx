@@ -7,12 +7,7 @@ import { FilterSelect } from "@/components/FilterSelect";
 import { ProjectCard } from "@/components/ProjectCard";
 import logoImage from "@/assets/place2invest_logo.png";
 import { useProjects } from "@/hooks/use-queries";
-import {
-  getSlugForCategorie,
-  sectionOrder,
-  type Project,
-  type ProjectCategorie,
-} from "@/lib/mock-data";
+import { sectionOrder, type Project, type ProjectCategorie } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/projets/")({
   component: PublicProjetsPage,
@@ -31,13 +26,13 @@ function PublicProjetsPage() {
 
   const statuts = statutValues.map((s) => (s === "Tous" ? t("projets.tous") : t(`statuses.${s}`)));
 
-  const villes = ["Toutes", ...Array.from(new Set(projects.map((p: any) => p.ville)))];
-  const typologies = ["Toutes", ...Array.from(new Set(projects.map((p: any) => p.typologie)))];
+  const villes = ["Toutes", ...Array.from(new Set(projects.map((p: Project) => p.ville)))];
+  const typologies = ["Toutes", ...Array.from(new Set(projects.map((p: Project) => p.typologie)))];
 
   const filtered = useMemo(
     () =>
       projects.filter(
-        (p: any) =>
+        (p: Project) =>
           (ville === "Toutes" || p.ville === ville) &&
           (typologie === "Toutes" || p.typologie === typologie) &&
           (statut === t("projets.tous") || p.statut === statut) &&
@@ -64,10 +59,7 @@ function PublicProjetsPage() {
       {/* Top bar */}
       <div className="border-b border-outline-variant bg-surface-lowest">
         <div className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-3 sm:px-8">
-          <Link
-            to="/"
-            className="flex items-center gap-2"
-          >
+          <Link to="/" className="flex items-center gap-2">
             <img src={logoImage} alt="Place2Invest" className="h-9 rounded-lg object-contain" />
           </Link>
           <div className="flex items-center gap-3">
@@ -91,9 +83,7 @@ function PublicProjetsPage() {
 
       <div className="mx-auto max-w-[1280px] px-4 py-8 sm:px-8">
         <div className="mb-8">
-          <h1 className="headline-lg text-on-surface">
-            {t("projets.title")}
-          </h1>
+          <h1 className="headline-lg text-on-surface">{t("projets.title")}</h1>
           <p className="mt-1.5 text-on-surface-variant">
             {isLoading ? t("common.loading") : t("projets.count", { count: filtered.length })}
           </p>
@@ -106,10 +96,25 @@ function PublicProjetsPage() {
               <Filter className="h-4 w-4 text-primary" />
               <p className="label-sm text-on-surface">{t("projets.filter")}</p>
             </div>
-
-            <FilterSelect label={t("projets.ville")} value={ville} options={villes} onChange={setVille} />
-            <FilterSelect label={t("projets.typologie")} value={typologie} options={typologies} onChange={setTypologie} />
-            <FilterSelect label={t("projets.statut")} value={statut} options={statuts} onChange={setStatut} />            <div className="mt-5">
+            <FilterSelect
+              label={t("projets.ville")}
+              value={ville}
+              options={villes}
+              onChange={setVille}
+            />
+            <FilterSelect
+              label={t("projets.typologie")}
+              value={typologie}
+              options={typologies}
+              onChange={setTypologie}
+            />
+            <FilterSelect
+              label={t("projets.statut")}
+              value={statut}
+              options={statuts}
+              onChange={setStatut}
+            />{" "}
+            <div className="mt-5">
               <label className="label-sm text-on-surface-variant">
                 {t("common.ticketMax", { value: ticketMax.toLocaleString("fr-FR") })}
               </label>
@@ -123,7 +128,6 @@ function PublicProjetsPage() {
                 className="mt-2 w-full accent-primary"
               />
             </div>
-
             <div className="mt-5">
               <label className="label-sm text-on-surface-variant">
                 {t("common.rendementMin", { value: rendementMin.toFixed(1) })}
@@ -138,7 +142,6 @@ function PublicProjetsPage() {
                 className="mt-2 w-full accent-primary"
               />
             </div>
-
             <button
               onClick={() => {
                 setVille("Toutes");
@@ -170,7 +173,7 @@ function PublicProjetsPage() {
                     </div>
                     <Link
                       to="/projects/$categorie"
-                      params={{ categorie: getSlugForCategorie(categorie as ProjectCategorie) }}
+                      params={{ categorie: "immobilier" }}
                       className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-sm font-semibold text-primary transition-colors hover:bg-primary/20"
                     >
                       {t("common.voirTout")}
@@ -198,4 +201,3 @@ function PublicProjetsPage() {
     </div>
   );
 }
-

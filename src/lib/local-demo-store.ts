@@ -1,4 +1,7 @@
 import {
+  getInsuranceByMode,
+  insuranceProducts,
+  type InsuranceProduct,
   aiValidationQueue as seedAiValidationQueue,
   auditLogs as seedAuditLogs,
   holdings as seedHoldings,
@@ -49,6 +52,7 @@ export interface ProjectInput {
   dureeMois: number;
   pointsForts?: string[];
   pointsVigilance?: string[];
+  assurance?: InsuranceProduct;
 }
 
 export interface UserInput {
@@ -267,6 +271,10 @@ export async function createProject(input: ProjectInput) {
       investisseurs: 0,
       joursRestants: 60,
       featured: false,
+      assurance:
+        input.assurance ??
+        getInsuranceByMode(input.modes?.[0] ?? "Location longue durée") ??
+        insuranceProducts[0],
       pointsForts: input.pointsForts ?? [],
       pointsVigilance: input.pointsVigilance ?? [],
     };

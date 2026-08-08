@@ -158,6 +158,8 @@
     "insuranceTeaser": "Couverture adaptée",
     "insuranceTeaserDesc": "Chaque mode d'exploitation est couvert par un produit d'assurance aux critères stricts.",
     "viewInsurance": "Découvrir la couverture",
+    "insuranceModalTitle": "Garantie de ce projet",
+    "insuranceModalSub": "Le produit d'assurance attaché à ce projet et ses conditions strictes.",
     "docs": [
       "Notice d'information AMMC",
       "Titre foncier",
@@ -789,7 +791,10 @@
         "Rendement locatif courte durée estimé à 8,5 % net.",
         "Étude de marché Knight Frank fournie."
       ],
-      "pointsVigilance": ["Saisonnalité touristique forte.", "Dépendance à la demande internationale."]
+      "pointsVigilance": [
+        "Saisonnalité touristique forte.",
+        "Dépendance à la demande internationale."
+      ]
     },
     "tanger-med-logistique": {
       "nom": "Tanger Med Logistique Phase II",

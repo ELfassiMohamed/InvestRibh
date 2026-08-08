@@ -62,6 +62,7 @@ function ProjectsModesPage() {
               labelKey={m.labelKey}
               descriptionKey={m.descriptionKey}
               icon={m.icon}
+              image={m.image}
               count={countByMode(m.mode)}
             />
           ))}

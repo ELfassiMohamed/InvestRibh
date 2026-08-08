@@ -21,6 +21,7 @@ import logoImage from "@/assets/place2invest_logo.png";
 import { useProject } from "@/hooks/use-queries";
 import { modeMeta } from "@/lib/modes";
 import { getInsuranceByMode } from "@/lib/mock-data";
+import { ProjectInsuranceModal } from "@/components/ProjectInsuranceModal";
 
 export const Route = createFileRoute("/projets/$id")({
   component: PublicProjetDetailPage,
@@ -42,6 +43,10 @@ function PublicProjetDetailPage() {
   if (isError || !project) {
     throw notFound();
   }
+
+  const projectAssurance =
+    project.assurance ??
+    (project.modes && project.modes.length > 0 ? getInsuranceByMode(project.modes[0]) : undefined);
 
   return (
     <div className="min-h-screen bg-surface">
@@ -166,12 +171,23 @@ function PublicProjetDetailPage() {
                       {t("projectDetail.insuranceTeaserDesc")}
                     </p>
                   </div>
-                  <Link
-                    to="/projects"
-                    className="shrink-0 text-sm font-semibold text-primary hover:underline"
-                  >
-                    {t("projectDetail.viewInsurance")}
-                  </Link>
+                  {projectAssurance ? (
+                    <ProjectInsuranceModal projectNom={project.nom} assurance={projectAssurance}>
+                      <button
+                        type="button"
+                        className="shrink-0 text-sm font-semibold text-primary hover:underline"
+                      >
+                        {t("projectDetail.viewInsurance")}
+                      </button>
+                    </ProjectInsuranceModal>
+                  ) : (
+                    <Link
+                      to="/projects"
+                      className="shrink-0 text-sm font-semibold text-primary hover:underline"
+                    >
+                      {t("projectDetail.viewInsurance")}
+                    </Link>
+                  )}
                 </div>
               </div>
             )}

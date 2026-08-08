@@ -1,5 +1,5 @@
 import { Building2, CalendarClock, Hammer, Repeat, type LucideIcon } from "lucide-react";
-import { getSlugForMode, type ExploitationMode, type Project } from "./mock-data";
+import { getSlugForMode, img, type ExploitationMode, type Project } from "./mock-data";
 
 /** A project whose `modes` list contains the given mode, or a legacy project with no modes. */
 export function projectHasMode(project: Project, mode: ExploitationMode): boolean {
@@ -12,6 +12,7 @@ export interface ModeMeta {
   labelKey: string;
   descriptionKey: string;
   icon: LucideIcon;
+  image: string;
 }
 
 export const modeMeta: ModeMeta[] = [
@@ -21,6 +22,7 @@ export const modeMeta: ModeMeta[] = [
     labelKey: "modes.locationLongueDuree.label",
     descriptionKey: "modes.locationLongueDuree.description",
     icon: Building2,
+    image: img("photo-1522708323590-d24dbb6b0267"),
   },
   {
     mode: "Location courte durée",
@@ -28,6 +30,7 @@ export const modeMeta: ModeMeta[] = [
     labelKey: "modes.locationCourteDuree.label",
     descriptionKey: "modes.locationCourteDuree.description",
     icon: CalendarClock,
+    image: img("photo-1566073771259-6a8506099945"),
   },
   {
     mode: "Revente",
@@ -35,6 +38,7 @@ export const modeMeta: ModeMeta[] = [
     labelKey: "modes.revente.label",
     descriptionKey: "modes.revente.description",
     icon: Repeat,
+    image: img("photo-1502672260266-1c1ef2d93688"),
   },
   {
     mode: "Promotion immobilière (chantier)",
@@ -42,6 +46,7 @@ export const modeMeta: ModeMeta[] = [
     labelKey: "modes.promotionImmobiliere.label",
     descriptionKey: "modes.promotionImmobiliere.description",
     icon: Hammer,
+    image: img("photo-1541888946425-d81bb19240f5"),
   },
 ];
 

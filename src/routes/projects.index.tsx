@@ -1,31 +1,24 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { ArrowRight, ArrowLeft, User, Building2 } from "lucide-react";
+import { ArrowLeft, User } from "lucide-react";
 
 import logoImage from "@/assets/place2invest_logo.png";
-import catImmobilier from "@/assets/cat-immobilier.jpg";
+import { ModeCard } from "@/components/ModeCard";
+import { ExploitationAssurance } from "@/components/ExploitationAssurance";
 import { useProjects } from "@/hooks/use-queries";
-import { sectionOrder, type Project, type ProjectCategorie } from "@/lib/mock-data";
+import { modeMeta, projectHasMode } from "@/lib/modes";
+import type { Project } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/projects/")({
-  component: ProjectsSectionsPage,
+  component: ProjectsModesPage,
 });
 
-const sectionCards: {
-  categorie: ProjectCategorie;
-  sectionKey: string;
-  icon: typeof Building2;
-  image: string;
-}[] = [
-  { categorie: "Immobilier", sectionKey: "immobilier", icon: Building2, image: catImmobilier },
-];
-
-function ProjectsSectionsPage() {
+function ProjectsModesPage() {
   const { t } = useTranslation();
   const { data: projects = [] } = useProjects();
 
-  const countByCategorie = (categorie: ProjectCategorie) =>
-    projects.filter((p: Project) => p.categorie === categorie).length;
+  const countByMode = (mode: Project["modes"][number]) =>
+    projects.filter((p: Project) => projectHasMode(p, mode)).length;
 
   return (
     <div className="min-h-screen bg-surface">
@@ -55,52 +48,26 @@ function ProjectsSectionsPage() {
       </div>
 
       <div className="mx-auto max-w-[1280px] px-4 py-8 sm:px-8">
-        <div className="mb-8">
-          <h1 className="headline-lg text-on-surface">{t("projectsIndex.title")}</h1>
-          <p className="mt-1.5 text-on-surface-variant">{t("projectsIndex.subtitle")}</p>
+        <div className="mb-8 max-w-2xl">
+          <p className="label-sm text-primary">{t("modes.sectionLabel")}</p>
+          <h1 className="headline-lg text-on-surface">{t("modes.title")}</h1>
+          <p className="mt-1.5 text-on-surface-variant">{t("modes.subtitle")}</p>
         </div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {sectionCards.map(({ categorie, sectionKey, icon: Icon, image }) => {
-            const count = countByCategorie(categorie);
-            return (
-              <Link
-                key={categorie}
-                to="/projects/$categorie"
-                params={{ categorie: "immobilier" }}
-                className="card-elevated group flex flex-col overflow-hidden bg-surface-lowest transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
-              >
-                <div className="relative aspect-[16/9] w-full overflow-hidden">
-                  <img
-                    src={image}
-                    alt={t(`sections.${sectionKey}.titre`)}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                  <span className="absolute bottom-3 left-4 rounded-md bg-on-surface/70 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-inverse-on-surface backdrop-blur-md">
-                    {t("projectsIndex.count", { count })}
-                  </span>
-                </div>
-                <div className="flex flex-1 flex-col gap-2 p-5">
-                  <div className="flex items-center gap-2">
-                    <Icon className="h-4 w-4 shrink-0 text-primary" />
-                    <h2 className="headline-md text-on-surface">
-                      {t(`sections.${sectionKey}.titre`)}
-                    </h2>
-                  </div>
-                  <p className="text-sm text-on-surface-variant">
-                    {t(`sections.${sectionKey}.description`)}
-                  </p>
-                  <span className="mt-auto inline-flex items-center gap-1.5 pt-2 text-sm font-semibold text-primary">
-                    {t("projectsIndex.voirSection")}
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {modeMeta.map((m) => (
+            <ModeCard
+              key={m.slug}
+              slug={m.slug}
+              labelKey={m.labelKey}
+              descriptionKey={m.descriptionKey}
+              icon={m.icon}
+              count={countByMode(m.mode)}
+            />
+          ))}
         </div>
+
+        <ExploitationAssurance />
       </div>
 
       {/* Footer */}

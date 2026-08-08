@@ -10,13 +10,13 @@ export function CategoryNav() {
 
   const items: NavItem[] = [
     { label: t("categoryNav.pagePrincipale"), to: "/" },
-    { label: t("categoryNav.biens"), to: "/investisseur/projets" },
+    { label: t("categoryNav.biens"), to: "/projets" },
     {
       label: t("categoryNav.investissementsCollectifs"),
-      to: "/investisseur/projets",
+      to: "/projets",
       hasMenu: true,
     },
-    { label: t("categoryNav.investissementSolidaire"), to: "/investisseur/projets" },
+    { label: t("categoryNav.investissementSolidaire"), to: "/projets" },
     { label: t("categoryNav.annuaire"), to: "/" },
     { label: t("categoryNav.pratique"), to: "/" },
     { label: t("categoryNav.espaceCommunautaire"), to: "/" },

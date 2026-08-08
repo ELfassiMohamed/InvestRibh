@@ -1,25 +1,25 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Filter, ArrowLeft, User } from "lucide-react";
+import { Filter, ArrowLeft, User, Shield, CheckCircle2 } from "lucide-react";
 
 import { FilterSelect } from "@/components/FilterSelect";
 import { ProjectCard } from "@/components/ProjectCard";
-import { ExploitationAssurance } from "@/components/ExploitationAssurance";
+import { getModeMetaBySlug, projectHasMode } from "@/lib/modes";
+import { getInsuranceByMode, type Project } from "@/lib/mock-data";
 import logoImage from "@/assets/place2invest_logo.png";
 import { useProjects } from "@/hooks/use-queries";
-import { getCategorieForSlug, sectionOrder, sectionSlugs, type Project } from "@/lib/mock-data";
 
-export const Route = createFileRoute("/projects/$categorie")({
-  component: SectionProjectsPage,
+export const Route = createFileRoute("/projects/$mode")({
+  component: ModeProjectsPage,
 });
 
 const statutValues = ["Tous", "En collecte", "Financé", "En construction", "Livré"];
 
-function SectionProjectsPage() {
+function ModeProjectsPage() {
   const { t } = useTranslation();
-  const { categorie: slug } = Route.useParams();
-  const categorie = getCategorieForSlug(slug);
+  const { mode: slug } = Route.useParams();
+  const meta = getModeMetaBySlug(slug);
 
   const { data: projects = [], isLoading } = useProjects();
   const [ville, setVille] = useState("Toutes");
@@ -30,11 +30,11 @@ function SectionProjectsPage() {
 
   const statuts = statutValues.map((s) => (s === "Tous" ? t("projets.tous") : t(`statuses.${s}`)));
 
-  const translatedCategorie = categorie ? t(`categories.${categorie}`) : categorie;
+  const modeLabel = meta?.mode;
 
   const sectionProjects = useMemo(
-    () => (translatedCategorie ? projects.filter((p) => p.categorie === translatedCategorie) : []),
-    [translatedCategorie, projects],
+    () => (modeLabel ? projects.filter((p: Project) => projectHasMode(p, modeLabel)) : []),
+    [modeLabel, projects],
   );
 
   const villes = ["Toutes", ...Array.from(new Set(sectionProjects.map((p) => p.ville)))];
@@ -53,11 +53,11 @@ function SectionProjectsPage() {
     [ville, typologie, statut, ticketMax, rendementMin, sectionProjects, t],
   );
 
-  if (!categorie) {
+  const insurance = modeLabel ? getInsuranceByMode(modeLabel) : undefined;
+
+  if (!meta) {
     throw notFound();
   }
-
-  const sectionKey = sectionSlugs[categorie] ?? "immobilier";
 
   return (
     <div className="min-h-screen bg-surface">
@@ -69,7 +69,7 @@ function SectionProjectsPage() {
           </Link>
           <div className="flex items-center gap-3">
             <Link
-              to="/projets"
+              to="/projects"
               className="hidden items-center gap-1.5 text-sm text-on-surface-variant hover:text-on-surface sm:flex"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -88,16 +88,9 @@ function SectionProjectsPage() {
 
       <div className="mx-auto max-w-[1280px] px-4 py-8 sm:px-8">
         <div className="mb-8">
-          <p className="label-sm text-primary">
-            {t("projectsSection.section", {
-              index: sectionOrder.indexOf(categorie) + 1,
-              total: sectionOrder.length,
-            })}
-          </p>
-          <h1 className="headline-lg text-on-surface">{t(`sections.${sectionKey}.titre`)}</h1>
-          <p className="mt-1.5 max-w-2xl text-on-surface-variant">
-            {t(`sections.${sectionKey}.description`)}
-          </p>
+          <p className="label-sm text-primary">{t("modes.sectionLabel")}</p>
+          <h1 className="headline-lg text-on-surface">{t(meta.labelKey)}</h1>
+          <p className="mt-1.5 max-w-2xl text-on-surface-variant">{t(meta.descriptionKey)}</p>
           <p className="mt-1.5 text-on-surface-variant">
             {isLoading
               ? t("common.loading")
@@ -190,10 +183,38 @@ function SectionProjectsPage() {
             )}
           </div>
         </div>
-      </div>
 
-      <div className="mx-auto max-w-[1280px] px-4 py-12 sm:px-8">
-        {categorie === "Immobilier" && <ExploitationAssurance />}
+        {insurance && (
+          <section className="mt-14">
+            <div className="mb-6 max-w-2xl">
+              <p className="label-sm text-primary">{t("assurance.badge")}</p>
+              <h2 className="headline-lg mt-2 text-on-surface">{t("assurance.title")}</h2>
+              <p className="mt-2 max-w-xl text-on-surface-variant">{t("assurance.subtitle")}</p>
+            </div>
+            <div className="card-elevated flex flex-col gap-4 bg-surface-lowest p-6 md:flex-row md:items-start">
+              <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary text-on-primary">
+                <Shield className="h-5 w-5" />
+              </div>
+              <div className="flex-1">
+                <h3 className="headline-md text-on-surface">{insurance.nom}</h3>
+                <p className="mt-1 text-sm text-on-surface-variant">{insurance.description}</p>
+                <p className="mt-2 text-xs text-on-surface-variant">{insurance.risqueCouvert}</p>
+                <ul className="mt-3 space-y-1.5">
+                  {insurance.criteresStricts.map((c) => (
+                    <li key={c.id} className="flex items-start gap-2 text-xs text-on-surface">
+                      <CheckCircle2 className="mt-0.5 h-3 w-3 shrink-0 text-success" />
+                      <span>{c.libelle}</span>
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-3 text-xs text-on-surface-variant">
+                  {t("assurance.partenaire")} :{" "}
+                  <span className="font-medium text-on-surface">{insurance.partenaire}</span>
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
       </div>
 
       {/* Footer */}

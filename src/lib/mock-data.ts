@@ -5,27 +5,6 @@
 
 export type ProjectCategorie = "Immobilier";
 
-export const sectionSlugs: Record<ProjectCategorie, string> = {
-  Immobilier: "immobilier",
-};
-
-export const sectionBySlug: Record<string, ProjectCategorie> = Object.fromEntries(
-  Object.entries(sectionSlugs).map(([cat, slug]) => [slug, cat as ProjectCategorie]),
-);
-
-export const sectionOrder: ProjectCategorie[] = ["Immobilier"];
-
-export const sectionMeta: Record<ProjectCategorie, { titre: string; description: string }> = {
-  Immobilier: {
-    titre: "Immobilier",
-    description:
-      "Investissez dans des programmes résidentiels, tertiaires et fonciers analysés par notre pipeline IA.",
-  },
-};
-
-export const getSlugForCategorie = (categorie: ProjectCategorie) => sectionSlugs[categorie];
-export const getCategorieForSlug = (slug: string) => sectionBySlug[slug];
-
 export type ProjectType =
   | "Résidentiel"
   | "Commercial & Bureaux"
@@ -34,12 +13,40 @@ export type ProjectType =
 
 export type ProjectStatus = "En collecte" | "Financé" | "En construction" | "Livré";
 
+export type ExploitationMode =
+  | "Location longue durée"
+  | "Location courte durée"
+  | "Revente"
+  | "Promotion immobilière (chantier)";
+
+export const modeOrder: ExploitationMode[] = [
+  "Location longue durée",
+  "Location courte durée",
+  "Revente",
+  "Promotion immobilière (chantier)",
+];
+
+export const modeSlugs: Record<ExploitationMode, string> = {
+  "Location longue durée": "location-longue-duree",
+  "Location courte durée": "location-courte-duree",
+  Revente: "revente",
+  "Promotion immobilière (chantier)": "promotion-immobiliere",
+};
+
+export const modeBySlug: Record<string, ExploitationMode> = Object.fromEntries(
+  Object.entries(modeSlugs).map(([mode, slug]) => [slug, mode as ExploitationMode]),
+);
+
+export const getSlugForMode = (mode: ExploitationMode) => modeSlugs[mode];
+export const getModeForSlug = (slug: string) => modeBySlug[slug];
+
 export interface Project {
   id: string;
   nom: string;
   ville: string;
   categorie: ProjectCategorie;
   typologie: ProjectType;
+  modes: ExploitationMode[];
   image: string;
   description: string;
   budgetTotal: number;
@@ -62,14 +69,9 @@ export interface Project {
 /*  Méthodes d'exploitation & assurances         */
 /* ───────────────────────────────────────────── */
 
-export type ExploitationMethod = "Investir dans un bien" | "Location" | "Revente" | "Vente du bien";
+export type ExploitationMethod = ExploitationMode;
 
-export const exploitationMethods: ExploitationMethod[] = [
-  "Investir dans un bien",
-  "Location",
-  "Revente",
-  "Vente du bien",
-];
+export const exploitationMethods: ExploitationMode[] = modeOrder;
 
 export interface InsuranceCritere {
   id: string;
@@ -78,7 +80,7 @@ export interface InsuranceCritere {
 
 export interface InsuranceProduct {
   id: string;
-  method: ExploitationMethod;
+  method: ExploitationMode;
   nom: string;
   description: string;
   risqueCouvert: string;
@@ -99,15 +101,15 @@ export interface InsuranceProduct {
 
 export const insuranceProducts: InsuranceProduct[] = [
   {
-    id: "assurance-achat-travaux",
-    method: "Investir dans un bien",
-    nom: "Garantie Travaux & Défaut de Titre",
+    id: "assurance-chantier",
+    method: "Promotion immobilière (chantier)",
+    nom: "Garantie Chantier & Achèvement",
     description:
-      "Couvre les pertes liées à un défaut d'achèvement des travaux, aux vices de conformité et aux risques de titre de propriété.",
+      "Sécurise votre investissement dans un programme neuf : achèvement des travaux, conformité d'exécution et validité du titre de propriété.",
     risqueCouvert:
-      "Défaut d'achèvement des travaux, vices de conformité, inscription hypothécaire non purgée.",
+      "Défaut d'achèvement des travaux, vices de conformité, inscription hypothécaire non purgée, retard de livraison.",
     criteresStricts: [
-      { id: "c1", libelle: "Titre de propriété purgé et inscrit au nom du vendeur." },
+      { id: "c1", libelle: "Titre de propriété purgé et inscrit au nom du promoteur." },
       { id: "c2", libelle: "Permis de construire valide et en cours de validité." },
       { id: "c3", libelle: "Caution bancaire ou garantie financière couvrant 100% des travaux." },
       { id: "c4", libelle: "Score de risque IA du projet ≥ 75/100." },
@@ -118,8 +120,8 @@ export const insuranceProducts: InsuranceProduct[] = [
     partenaire: "AXA Art — Garantie construction",
   },
   {
-    id: "assurance-location",
-    method: "Location",
+    id: "assurance-location-longue",
+    method: "Location longue durée",
     nom: "Protection Loyers & Dommages Locatifs",
     description:
       "Protège contre les impayés de loyer, les dommages locatifs et la responsabilité civile du locataire.",
@@ -143,6 +145,30 @@ export const insuranceProducts: InsuranceProduct[] = [
     },
     franchise: { type: "fixe", valeur: 500, unite: "MAD par sinistre" },
     partenaire: "Wafacar Assurance — Location",
+  },
+  {
+    id: "assurance-location-courte",
+    method: "Location courte durée",
+    nom: "Garantie Revenus & Dégâts Touristiques",
+    description:
+      "Couvre l'exploitation saisonnière : annulations, dégradations par occupants de passage et garantie de revenus touristiques.",
+    risqueCouvert:
+      "Pertes de revenus locatifs courts, dégradations causées par les occupants, risques d'annulation haute saison.",
+    criteresStricts: [
+      { id: "c1", libelle: "Logement meublé et équipé conformément aux normes en vigueur." },
+      { id: "c2", libelle: "Conditions de location courte durée autorisées par la commune." },
+      { id: "c3", libelle: "Assurance multirisque habitation professionnelle à jour." },
+      { id: "c4", libelle: "Score de risque IA du bien ≥ 65/100." },
+      { id: "c5", libelle: "Contrat de location types standardisés pour chaque mise en location." },
+    ],
+    primeAnnuelle: {
+      type: "pourcentage",
+      valeur: 4.2,
+      base: "revenu locatif annuel estimé",
+      periode: "an",
+    },
+    franchise: { type: "fixe", valeur: 750, unite: "MAD par sinistre" },
+    partenaire: "Sanad Assurance — Location courte durée",
   },
   {
     id: "assurance-revente",
@@ -171,31 +197,14 @@ export const insuranceProducts: InsuranceProduct[] = [
     franchise: { type: "pourcentage", valeur: 3, unite: "du montant de la garantie" },
     partenaire: "Groupama — Garantie revente immobilier",
   },
-  {
-    id: "assurance-vente",
-    method: "Vente du bien",
-    nom: "Offre Ferme Garantie",
-    description:
-      "Protège contre la rétractation de l'acquéreur, les litiges contractuels et la perte de la clause de résiliation.",
-    risqueCouvert:
-      "Retractation de l'acquéreur, litiges post-signature, perte de la clause de résiliation, défaut de paiement.",
-    criteresStricts: [
-      { id: "c1", libelle: "Vérification d'identité complète du acquéreur (KYC conforme)." },
-      { id: "c2", libelle: "Attestation bancaire de solvabilité du acquéreur (banque à cheval)." },
-      { id: "c3", libelle: "Dépôt de garantie ≥ 10% du prix de vente total." },
-      { id: "c4", libelle: "Compromis de vente signé par un notaire ou agent immobilier agréé." },
-      { id: "c5", libelle: "Assurance responsabilité civile du vendeur en cours de validité." },
-    ],
-    primeAnnuelle: { type: "pourcentage", valeur: 0.8, base: "prix de vente final", periode: "an" },
-    franchise: { type: "fixe", valeur: 1000, unite: "MAD forfaitaire" },
-    partenaire: "MA Assurance — Offre ferme",
-  },
 ];
 
-export const getExploitationMethods = (): ExploitationMethod[] => exploitationMethods;
+export const getExploitationMethods = (): ExploitationMode[] => exploitationMethods;
 
-export const getInsuranceByMethod = (method: ExploitationMethod): InsuranceProduct | undefined =>
+export const getInsuranceByMethod = (method: ExploitationMode): InsuranceProduct | undefined =>
   insuranceProducts.find((i) => i.method === method);
+
+export const getInsuranceByMode = getInsuranceByMethod;
 
 const img = (seed: string) =>
   `https://images.unsplash.com/${seed}?auto=format&fit=crop&w=1200&q=80`;
@@ -207,6 +216,7 @@ export const projects: Project[] = [
     ville: "Casablanca",
     categorie: "Immobilier",
     typologie: "Résidentiel",
+    modes: ["Location longue durée", "Revente"],
     image: img("photo-1568605114967-8130f3a36994"),
     description:
       "Programme résidentiel de standing au cœur du quartier Anfa, 48 appartements haut de gamme avec vue dégagée.",
@@ -235,6 +245,7 @@ export const projects: Project[] = [
     ville: "Rabat",
     categorie: "Immobilier",
     typologie: "Commercial & Bureaux",
+    modes: ["Location longue durée"],
     image: img("photo-1497366216548-37526070297c"),
     description:
       "Immeuble tertiaire de 6 200 m² certifié HQE, déjà pré-loué à 62 % par deux administrations.",
@@ -261,6 +272,7 @@ export const projects: Project[] = [
     ville: "Marrakech",
     categorie: "Immobilier",
     typologie: "Résidentiel",
+    modes: ["Location courte durée", "Revente"],
     image: img("photo-1613490493576-7fde63acd811"),
     description:
       "12 villas d'architecte avec piscine privative dans la Palmeraie, marché locatif touristique premium.",
@@ -288,6 +300,7 @@ export const projects: Project[] = [
     ville: "Tanger",
     categorie: "Immobilier",
     typologie: "Commercial & Bureaux",
+    modes: ["Location longue durée"],
     image: img("photo-1565008447742-97f6f38c985c"),
     description:
       "Plateforme logistique de 24 000 m² adossée à la zone franche de Tanger Med, locataire industriel signé.",
@@ -314,6 +327,7 @@ export const projects: Project[] = [
     ville: "Agadir",
     categorie: "Immobilier",
     typologie: "Terrains & Lotissements",
+    modes: ["Revente"],
     image: img("photo-1502672260266-1c1ef2d93688"),
     description:
       "Opération de viabilisation de 36 lots résidentiels en front de marina, revente progressive sur 24 mois.",
@@ -334,6 +348,37 @@ export const projects: Project[] = [
       "Sortie progressive : liquidité partielle dès 12 mois.",
     ],
     pointsVigilance: ["Cycle court, sensible à la conjoncture locale."],
+  },
+  {
+    id: "bouskoura-garden-construction",
+    nom: "Résidence Bouskoura Garden",
+    ville: "Casablanca",
+    categorie: "Immobilier",
+    typologie: "Résidentiel",
+    modes: ["Promotion immobilière (chantier)"],
+    image: img("photo-1580587771525-78b9dba3b914"),
+    description:
+      "Promotion immobilière en chantier : 90 appartements à Bouskoura, gros œuvre engagé et livraison programmée à 18 mois.",
+    budgetTotal: 64_000_000,
+    montantCollecte: 22_400_000,
+    objectifCollecte: 38_000_000,
+    ticketMinimum: 7_000,
+    rendementCible: 13.5,
+    dureeMois: 24,
+    scoreRisque: 76,
+    scoreLabel: "Faible",
+    statut: "En construction",
+    investisseurs: 128,
+    joursRestants: 15,
+    pointsForts: [
+      "Promoteur Atlas Promotion, 8 livraisons antérieures conformes.",
+      "Permis de construire délivré et fondations réalisées.",
+      "Pré-commercialisation à 45 % des unités.",
+    ],
+    pointsVigilance: [
+      "Sensibilité aux délais des corps d'état secondaires.",
+      "Dépendance à la conjoncture des matériaux.",
+    ],
   },
 ];
 

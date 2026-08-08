@@ -13,6 +13,7 @@ import {
   type AiValidationItem,
   type AuditLog,
   type DistributionEvent,
+  type ExploitationMode,
   type Holding,
   type PlatformUser,
   type PortfolioPoint,
@@ -39,6 +40,7 @@ export interface ProjectInput {
   ville: string;
   categorie?: ProjectCategorie;
   typologie: ProjectType | string;
+  modes?: ExploitationMode[];
   description?: string;
   budgetTotal: number;
   objectifCollecte: number;
@@ -162,12 +164,8 @@ function normalizeStore(value: Partial<DemoStore> | null): DemoStore {
     projects: Array.isArray(value.projects) ? value.projects : initial.projects,
     users: Array.isArray(value.users) ? value.users : initial.users,
     holdings: Array.isArray(value.holdings) ? value.holdings : initial.holdings,
-    transactions: Array.isArray(value.transactions)
-      ? value.transactions
-      : initial.transactions,
-    distributions: Array.isArray(value.distributions)
-      ? value.distributions
-      : initial.distributions,
+    transactions: Array.isArray(value.transactions) ? value.transactions : initial.transactions,
+    distributions: Array.isArray(value.distributions) ? value.distributions : initial.distributions,
     portfolio: Array.isArray(value.portfolio) ? value.portfolio : initial.portfolio,
     drafts: Array.isArray(value.drafts) ? value.drafts : initial.drafts,
     phases: Array.isArray(value.phases) ? value.phases : initial.phases,
@@ -222,7 +220,9 @@ function generateId(name: string, fallback: string) {
 
 function sortProjects(projects: Project[]) {
   return [...projects].sort(
-    (a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)) || a.joursRestants - b.joursRestants,
+    (a, b) =>
+      Number(Boolean(b.featured)) - Number(Boolean(a.featured)) ||
+      a.joursRestants - b.joursRestants,
   );
 }
 
@@ -252,6 +252,7 @@ export async function createProject(input: ProjectInput) {
       ville: input.ville,
       categorie: input.categorie ?? "Immobilier",
       typologie: input.typologie as ProjectType,
+      modes: input.modes ?? [],
       image: DEFAULT_PROJECT_IMAGE,
       description: input.description ?? "Projet ajoute dans la demonstration locale.",
       budgetTotal: input.budgetTotal,
@@ -288,7 +289,9 @@ export async function deleteProject(id: string) {
   mutateStore((store) => {
     store.projects = store.projects.filter((project) => project.id !== id);
     store.holdings = store.holdings.filter((holding) => holding.projectId !== id);
-    store.distributions = store.distributions.filter((distribution) => distribution.projectId !== id);
+    store.distributions = store.distributions.filter(
+      (distribution) => distribution.projectId !== id,
+    );
     store.phases = store.phases.filter((phase) => phase.projectId !== id);
     store.updates = store.updates.filter((update) => update.projectId !== id);
     return true;
@@ -468,8 +471,8 @@ export async function submitDecision(
         action === "approved"
           ? "Approbation projet"
           : action === "rejected"
-          ? "Rejet document"
-          : "Modifications demandées",
+            ? "Rejet document"
+            : "Modifications demandées",
       entite: submissionId,
       ip: "-",
     });

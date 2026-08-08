@@ -11,6 +11,7 @@ import {
   Sparkles,
   Download,
   User,
+  Shield,
 } from "lucide-react";
 
 import { FundingProgressBar } from "@/components/FundingProgressBar";
@@ -18,6 +19,8 @@ import { RiskScoreBadge } from "@/components/RiskScoreBadge";
 import { formatMAD, formatPercent } from "@/lib/format";
 import logoImage from "@/assets/place2invest_logo.png";
 import { useProject } from "@/hooks/use-queries";
+import { modeMeta } from "@/lib/modes";
+import { getInsuranceByMode } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/projets/$id")({
   component: PublicProjetDetailPage,
@@ -29,7 +32,11 @@ function PublicProjetDetailPage() {
   const { data: project, isLoading, isError } = useProject(id);
 
   if (isLoading) {
-    return <div className="flex min-h-screen items-center justify-center bg-surface"><p className="text-on-surface-variant">{t("common.loading")}</p></div>;
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-surface">
+        <p className="text-on-surface-variant">{t("common.loading")}</p>
+      </div>
+    );
   }
 
   if (isError || !project) {
@@ -41,10 +48,7 @@ function PublicProjetDetailPage() {
       {/* Top bar */}
       <div className="border-b border-outline-variant bg-surface-lowest">
         <div className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-3 sm:px-8">
-          <Link
-            to="/"
-            className="flex items-center gap-2"
-          >
+          <Link to="/" className="flex items-center gap-2">
             <img src={logoImage} alt="Place2Invest" className="h-9 rounded-lg object-contain" />
           </Link>
           <div className="flex items-center gap-3">
@@ -88,7 +92,11 @@ function PublicProjetDetailPage() {
           {/* Galerie + description */}
           <div className="space-y-6">
             <div className="overflow-hidden rounded-2xl shadow-card">
-              <img src={project.image} alt={project.nom} className="aspect-[16/10] w-full object-cover" />
+              <img
+                src={project.image}
+                alt={project.nom}
+                className="aspect-[16/10] w-full object-cover"
+              />
             </div>
 
             <div className="card-elevated p-6">
@@ -96,14 +104,77 @@ function PublicProjetDetailPage() {
               <p className="mt-3 text-on-surface-variant">{project.description}</p>
 
               <div className="mt-6 grid gap-4 sm:grid-cols-3">
-                <Detail icon={<MapPin className="h-4 w-4" />} label={t("projectDetail.localisation")} value={project.ville} />
-                <Detail icon={<Calendar className="h-4 w-4" />} label={t("projectDetail.duree")} value={t("projectDetail.mois", { count: project.dureeMois })} />
-                <Detail icon={<Users className="h-4 w-4" />} label={t("projectDetail.investisseurs")} value={String(project.investisseurs)} />
-                <Detail icon={<TrendingUp className="h-4 w-4" />} label={t("projectDetail.rendementCible")} value={formatPercent(project.rendementCible)} />
-                <Detail label={t("projectDetail.budgetTotal")} value={formatMAD(project.budgetTotal)} />
-                <Detail label={t("projectDetail.ticketMin")} value={formatMAD(project.ticketMinimum)} />
+                <Detail
+                  icon={<MapPin className="h-4 w-4" />}
+                  label={t("projectDetail.localisation")}
+                  value={project.ville}
+                />
+                <Detail
+                  icon={<Calendar className="h-4 w-4" />}
+                  label={t("projectDetail.duree")}
+                  value={t("projectDetail.mois", { count: project.dureeMois })}
+                />
+                <Detail
+                  icon={<Users className="h-4 w-4" />}
+                  label={t("projectDetail.investisseurs")}
+                  value={String(project.investisseurs)}
+                />
+                <Detail
+                  icon={<TrendingUp className="h-4 w-4" />}
+                  label={t("projectDetail.rendementCible")}
+                  value={formatPercent(project.rendementCible)}
+                />
+                <Detail
+                  label={t("projectDetail.budgetTotal")}
+                  value={formatMAD(project.budgetTotal)}
+                />
+                <Detail
+                  label={t("projectDetail.ticketMin")}
+                  value={formatMAD(project.ticketMinimum)}
+                />
               </div>
             </div>
+
+            {/* Modes d'exploitation */}
+            {project.modes && project.modes.length > 0 && (
+              <div className="card-elevated p-6">
+                <h2 className="headline-md text-on-surface">{t("projectDetail.modes")}</h2>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {(project.modes as string[]).map((m) => {
+                    const meta = modeMeta.find((mm) => t(mm.labelKey) === m);
+                    const insurance = meta ? getInsuranceByMode(meta.mode) : undefined;
+                    return (
+                      <Link
+                        key={m}
+                        to="/projects/$mode"
+                        params={{ mode: meta?.slug ?? "revente" }}
+                        className="inline-flex items-center gap-2 rounded-full border border-outline-variant bg-surface-low px-3 py-1.5 text-xs font-semibold text-on-surface transition-colors hover:border-primary hover:text-primary"
+                      >
+                        {m}
+                        {insurance && <Shield className="h-3.5 w-3.5 shrink-0 text-primary" />}
+                      </Link>
+                    );
+                  })}
+                </div>
+                <div className="mt-5 flex flex-wrap items-center gap-3 rounded-lg bg-surface-low p-4">
+                  <Shield className="h-5 w-5 shrink-0 text-primary" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-semibold text-on-surface">
+                      {t("projectDetail.insuranceTeaser")}
+                    </p>
+                    <p className="text-xs text-on-surface-variant">
+                      {t("projectDetail.insuranceTeaserDesc")}
+                    </p>
+                  </div>
+                  <Link
+                    to="/projects"
+                    className="shrink-0 text-sm font-semibold text-primary hover:underline"
+                  >
+                    {t("projectDetail.viewInsurance")}
+                  </Link>
+                </div>
+              </div>
+            )}
 
             {/* Analyse IA */}
             <div className="card-elevated overflow-hidden">
@@ -148,14 +219,16 @@ function PublicProjetDetailPage() {
             <div className="card-elevated p-6">
               <h2 className="headline-md text-on-surface">{t("projectDetail.documents")}</h2>
               <ul className="mt-4 divide-y divide-outline-variant/50">
-                {(t("projectDetail.docs", { returnObjects: true }) as string[]).map((doc: string) => (
-                  <li key={doc} className="flex items-center justify-between py-3 text-sm">
-                    <span className="text-on-surface">{doc}</span>
-                    <button className="flex items-center gap-1.5 font-semibold text-primary hover:underline">
-                      <Download className="h-4 w-4" /> {t("projectDetail.download")}
-                    </button>
-                  </li>
-                ))}
+                {(t("projectDetail.docs", { returnObjects: true }) as string[]).map(
+                  (doc: string) => (
+                    <li key={doc} className="flex items-center justify-between py-3 text-sm">
+                      <span className="text-on-surface">{doc}</span>
+                      <button className="flex items-center gap-1.5 font-semibold text-primary hover:underline">
+                        <Download className="h-4 w-4" /> {t("projectDetail.download")}
+                      </button>
+                    </li>
+                  ),
+                )}
               </ul>
             </div>
           </div>
@@ -181,9 +254,7 @@ function PublicProjetDetailPage() {
               </div>
 
               <div className="p-6 text-center">
-                <p className="text-sm text-on-surface-variant">
-                  {t("projectDetail.sidebarText")}
-                </p>
+                <p className="text-sm text-on-surface-variant">{t("projectDetail.sidebarText")}</p>
                 <Link
                   to="/login"
                   className="mt-4 inline-flex w-full items-center justify-center gap-1.5 rounded-md bg-primary px-4 py-2.5 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-container"

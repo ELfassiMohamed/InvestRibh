@@ -4,12 +4,14 @@ import { useTranslation } from "react-i18next";
 import { ArrowRight, Building2, TrendingUp, CheckCircle2 } from "lucide-react";
 import { TopUtilityBar } from "@/components/TopUtilityBar";
 import { HeroSearch } from "@/components/HeroSearch";
+import { ModeCard } from "@/components/ModeCard";
+import { useProjects } from "@/hooks/use-queries";
+import { modeMeta, projectHasMode } from "@/lib/modes";
+import { type ExploitationMode, type Project } from "@/lib/mock-data";
 
 import heroImage from "@/assets/hero-place2invest.jpg";
-import catImmobilier from "@/assets/cat-immobilier.jpg";
 import espaceInvestisseurImg from "@/assets/espace-investisseur.jpg";
 import espacePorteurImg from "@/assets/espace-porteur.jpg";
-import { type ProjectCategorie } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -18,13 +20,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Place2Invest est votre plateforme digitale pour investir en immobilier au Maroc : programmes résidentiels, commerciaux et terrains, avec couverture assurance stricte.",
+          "Place2Invest est votre plateforme digitale pour investir en immobilier au Maroc : location longue durée, courte durée, revente ou promotion immobilière, avec couverture assurance stricte sur chaque mode d'exploitation.",
       },
       { property: "og:title", content: "Place2Invest — Investissez dans l'immobilier" },
       {
         property: "og:description",
         content:
-          "Investissez en immobilier au Maroc : programmes résidentiels, commerciaux et terrains, analysés par notre pipeline IA.",
+          "Choisissez votre mode d'exploitation : location longue ou courte durée, revente ou promotion immobilière, analysés par notre pipeline IA.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -32,16 +34,6 @@ export const Route = createFileRoute("/")({
   }),
   component: HomePage,
 });
-
-const categories = [
-  {
-    id: "immobilier",
-    labelKey: "home.categories.immobilier",
-    categorie: "Immobilier" as ProjectCategorie,
-    icon: Building2,
-    image: catImmobilier,
-  },
-];
 
 const espaces = [
   {
@@ -74,6 +66,10 @@ const espaces = [
 
 function HomePage() {
   const { t } = useTranslation();
+  const { data: projects = [] } = useProjects();
+
+  const countByMode = (mode: ExploitationMode) =>
+    projects.filter((p: Project) => projectHasMode(p, mode)).length;
 
   return (
     <div className="min-h-screen bg-surface">
@@ -126,12 +122,24 @@ function HomePage() {
           </div>
         </section>
 
-        {/* Category grid — overlapping hero bottom */}
+        {/* Mode chooser — overlapping hero bottom */}
         <div className="relative z-10 -mt-40 sm:-mt-44 lg:-mt-48">
           <div className="mx-auto max-w-[1280px] px-4 sm:px-10">
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-3">
-              {categories.map((c) => (
-                <CategoryCard key={c.id} {...c} />
+            <div className="mb-8 max-w-2xl">
+              <p className="label-sm text-primary">{t("home.modeLabel")}</p>
+              <h2 className="headline-lg mt-2 text-on-surface">{t("home.modeTitle")}</h2>
+              <p className="mt-3 text-on-surface-variant">{t("home.modeDesc")}</p>
+            </div>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {modeMeta.map((m) => (
+                <ModeCard
+                  key={m.slug}
+                  slug={m.slug}
+                  labelKey={m.labelKey}
+                  descriptionKey={m.descriptionKey}
+                  icon={m.icon}
+                  count={countByMode(m.mode)}
+                />
               ))}
             </div>
           </div>
@@ -243,44 +251,7 @@ function HomePage() {
   );
 }
 
-function CategoryCard({
-  labelKey,
-  categorie,
-  icon: Icon,
-  image,
-}: {
-  labelKey: string;
-  categorie: ProjectCategorie;
-  icon: typeof Building2;
-  image: string;
-}) {
-  const { t } = useTranslation();
-  const label = t(labelKey);
-  return (
-    <Link
-      to="/projects/$categorie"
-      params={{ categorie: "immobilier" }}
-      className="card-elevated group flex flex-col overflow-hidden bg-surface-lowest transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
-    >
-      <div className="aspect-[4/3] w-full overflow-hidden">
-        <img
-          src={image}
-          alt={label}
-          loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-      </div>
-      <div className="flex items-center gap-2 px-4 py-3">
-        <Icon className="h-4 w-4 shrink-0 text-primary" />
-        <span className="truncate text-xs font-bold uppercase tracking-wider text-on-surface">
-          {label}
-        </span>
-      </div>
-    </Link>
-  );
-}
-
-const interetsKeys = ["home.categories.immobilier"];
+const interetsKeys = modeMeta.map((m) => m.labelKey);
 
 function InterestForm() {
   const { t } = useTranslation();

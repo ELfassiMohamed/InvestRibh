@@ -73,6 +73,10 @@
       "points": ["Dossier guidé", "Collecte en direct", "Reporting investisseurs"]
     },
     "accederEspace": "Accéder à l'espace",
+    "modeLabel": "Choisissez votre mode de valorisation",
+    "modeTitle": "Comment souhaitez-vous exploiter votre bien immobilier ?",
+    "modeDesc": "Location longue durée, location courte durée, revente ou promotion immobilière : découvrez les projets et les couvertures d'assurance qui correspondent à votre stratégie.",
+    "modeCta": "Explorer les projets",
     "rejoignezLabel": "Rejoignez-nous",
     "interetsTitle": "Dites-nous ce qui vous intéresse",
     "interetsDesc": "Laissez vos coordonnées et vos centres d'intérêt : notre équipe vous envoie en priorité les opportunités correspondant à votre profil.",
@@ -114,6 +118,8 @@
     "typologie": "Typologie",
     "statut": "Statut",
     "tous": "Tous",
+    "modeFilter": "Mode d'exploitation",
+    "allModes": "Tous les modes",
     "count": "{{count}} projets disponibles à l'investissement.",
     "sectionCount": "{{count}} projet(s) disponible(s) à l'investissement."
   },
@@ -121,7 +127,8 @@
     "coupDeCoeur": "Coup de cœur",
     "addFav": "Ajouter aux favoris",
     "ticketMin": "Ticket min.",
-    "rendement": "Rendement cible"
+    "rendement": "Rendement cible",
+    "mode": "Mode"
   },
   "riskScore": {
     "risque": "Risque {{label}}"
@@ -147,6 +154,10 @@
     "download": "Télécharger",
     "sidebarText": "Pour investir dans ce projet, connectez-vous à votre espace investisseur.",
     "sidebarLogin": "Se connecter",
+    "modes": "Modes d'exploitation",
+    "insuranceTeaser": "Couverture adaptée",
+    "insuranceTeaserDesc": "Chaque mode d'exploitation est couvert par un produit d'assurance aux critères stricts.",
+    "viewInsurance": "Découvrir la couverture",
     "docs": [
       "Notice d'information AMMC",
       "Titre foncier",
@@ -161,10 +172,10 @@
     "title": "Assurance par méthode d'exploitation",
     "subtitle": "Chaque voie d'exploitation est couverte par un produit d'assurance aux critères stricts, conçu pour sécuriser votre placement immobilier du point de vigilance initial jusqu'à la liquidation.",
     "methods": {
-      "investir": "Investir dans un bien",
-      "location": "Location",
+      "locationLongueDuree": "Location longue durée",
+      "locationCourteDuree": "Location courte durée",
       "revente": "Revente",
-      "vente": "Vente du bien"
+      "promotionImmobiliere": "Promotion immobilière (chantier)"
     },
     "risqueCouvert": "Risque couvert",
     "criteresStricts": "Critères stricts d'acceptation",
@@ -173,15 +184,38 @@
     "partenaire": "Partenaire"
   },
   "projectsIndex": {
-    "title": "Sections d'investissement",
-    "subtitle": "Explorez chaque classe d'actifs sur sa page dédiée.",
-    "voirSection": "Voir la section",
+    "title": "Choisissez votre mode d'exploitation",
+    "subtitle": "Comment comptez-vous valoriser votre bien immobilier ? Explorez chaque mode sur son espace dédié.",
+    "voirSection": "Explorer ce mode",
     "count": "{{count}} projet(s)"
   },
   "projectsSection": {
     "section": "Section · {{index}}/{{total}}",
     "backAll": "Tous les projets",
     "count": "{{count}} projet(s) disponible(s) à l'investissement."
+  },
+  "modes": {
+    "all": "Tous",
+    "title": "Comment exploiter votre bien ?",
+    "sectionLabel": "Modes d'exploitation",
+    "subtitle": "Choisissez la façon dont vous souhaitez valoriser votre patrimoine immobilier : notre catalogue, nos analyses IA et nos assurances s'adaptent à votre choix.",
+    "voirProjets": "Voir les projets",
+    "locationLongueDuree": {
+      "label": "Location longue durée",
+      "description": "Loyers stables, bails longs et revenus locatifs réguliers sur la durée."
+    },
+    "locationCourteDuree": {
+      "label": "Location courte durée",
+      "description": "Valorisez votre bien sur le marché saisonnier ou touristique."
+    },
+    "revente": {
+      "label": "Revente",
+      "description": "Achetez pour revendre et captez la plus-value au bon moment."
+    },
+    "promotionImmobiliere": {
+      "label": "Promotion immobilière (chantier)",
+      "description": "Financez un programme neuf et partagez la valeur de la promotion."
+    }
   },
   "sections": {
     "immobilier": {
@@ -720,6 +754,12 @@
       "Financé": "Financé",
       "En construction": "En construction",
       "Livré": "Livré"
+    },
+    "modes": {
+      "Location longue durée": "Location longue durée",
+      "Location courte durée": "Location courte durée",
+      "Revente": "Revente",
+      "Promotion immobilière (chantier)": "Promotion immobilière (chantier)"
     }
   },
   "projectData": {

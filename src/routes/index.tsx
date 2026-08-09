@@ -125,11 +125,6 @@ function HomePage() {
         {/* Mode chooser — overlapping hero bottom */}
         <div className="relative z-10 -mt-40 sm:-mt-44 lg:-mt-48">
           <div className="mx-auto max-w-[1280px] px-4 sm:px-10">
-            <div className="mb-8 max-w-2xl">
-              <p className="label-sm text-primary">{t("home.modeLabel")}</p>
-              <h2 className="headline-lg mt-2 text-on-surface">{t("home.modeTitle")}</h2>
-              <p className="mt-3 text-on-surface-variant">{t("home.modeDesc")}</p>
-            </div>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {modeMeta.map((m) => (
                 <ModeCard

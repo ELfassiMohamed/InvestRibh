@@ -40,19 +40,19 @@ interface ProjectTranslation {
 }
 
 const getProjectOverlay = (lang: LanguageCode, id: string): ProjectTranslation => {
-  const section = (i18n.getResourceBundle(lang, "translation") as {
+  const section = i18n.getResourceBundle(lang, "translation") as {
     projectData?: Record<string, ProjectTranslation>;
-  });
+  };
   return section?.projectData?.[id] ?? {};
 };
 
 const getSharedMap = (
   lang: LanguageCode,
-  kind: "categories" | "typologies" | "statuses",
+  kind: "categories" | "typologies" | "statuses" | "modes",
 ): Record<string, string> => {
-  const section = (i18n.getResourceBundle(lang, "translation") as {
+  const section = i18n.getResourceBundle(lang, "translation") as {
     shared?: Record<string, Record<string, string>>;
-  });
+  };
   return section?.shared?.[kind] ?? {};
 };
 
@@ -64,6 +64,7 @@ export function translateProject(project: Project): Project {
   const categories = getSharedMap(lang, "categories");
   const typologies = getSharedMap(lang, "typologies");
   const statuses = getSharedMap(lang, "statuses");
+  const modes = getSharedMap(lang, "modes");
 
   return {
     ...project,
@@ -73,6 +74,7 @@ export function translateProject(project: Project): Project {
     categorie: (categories[project.categorie] as Project["categorie"]) ?? project.categorie,
     typologie: (typologies[project.typologie] as Project["typologie"]) ?? project.typologie,
     statut: (statuses[project.statut] as Project["statut"]) ?? project.statut,
+    modes: (project.modes ?? []).map((m) => (modes[m] as Project["modes"][number]) ?? m),
     pointsForts: overlay.pointsForts ?? project.pointsForts,
     pointsVigilance: overlay.pointsVigilance ?? project.pointsVigilance,
   };

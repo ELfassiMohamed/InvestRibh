@@ -1,30 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  ArrowRight,
-  Building2,
-  Bitcoin,
-  Rocket,
-  HeartHandshake,
-  Users,
-  Gem,
-  TrendingUp,
-  CheckCircle2,
-} from "lucide-react";
+import { ArrowRight, Building2, TrendingUp, CheckCircle2 } from "lucide-react";
 import { TopUtilityBar } from "@/components/TopUtilityBar";
 import { HeroSearch } from "@/components/HeroSearch";
+import { ModeCard } from "@/components/ModeCard";
+import { useProjects } from "@/hooks/use-queries";
+import { modeMeta, projectHasMode } from "@/lib/modes";
+import { type ExploitationMode, type Project } from "@/lib/mock-data";
 
 import heroImage from "@/assets/hero-place2invest.jpg";
-import catImmobilier from "@/assets/cat-immobilier.jpg";
-import catCrypto from "@/assets/cat-crypto.jpg";
-import catStartup from "@/assets/cat-startup.jpg";
-import catSolidaire from "@/assets/cat-solidaire.jpg";
-import catCrowdfunding from "@/assets/cat-crowdfunding.jpg";
-import catValeur from "@/assets/cat-valeur.jpg";
 import espaceInvestisseurImg from "@/assets/espace-investisseur.jpg";
 import espacePorteurImg from "@/assets/espace-porteur.jpg";
-import { getSlugForCategorie, type ProjectCategorie } from "@/lib/mock-data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -33,13 +20,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Place2Invest est votre plateforme digitale pour diversifier vos investissements : immobilier, startups, crypto, solidaire, crowdfunding et produits de forte valeur.",
+          "Place2Invest est votre plateforme digitale pour investir en immobilier au Maroc : location longue durée, courte durée, revente ou promotion immobilière, avec couverture assurance stricte sur chaque mode d'exploitation.",
       },
-      { property: "og:title", content: "Place2Invest — Investissez dans le futur" },
+      { property: "og:title", content: "Place2Invest — Investissez dans l'immobilier" },
       {
         property: "og:description",
         content:
-          "Diversifiez vos investissements au Maroc : immobilier, crypto, startups, solidaire, crowdfunding et produits de forte valeur.",
+          "Choisissez votre mode d'exploitation : location longue ou courte durée, revente ou promotion immobilière, analysés par notre pipeline IA.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -48,22 +35,17 @@ export const Route = createFileRoute("/")({
   component: HomePage,
 });
 
-const categories = [
-  { id: "immobilier", labelKey: "home.categories.immobilier", categorie: "Immobilier" as ProjectCategorie, icon: Building2, image: catImmobilier },
-  { id: "crypto", labelKey: "home.categories.crypto", categorie: "Crypto" as ProjectCategorie, icon: Bitcoin, image: catCrypto },
-  { id: "startup", labelKey: "home.categories.startup", categorie: "Startup & Affaires" as ProjectCategorie, icon: Rocket, image: catStartup },
-  { id: "solidaire", labelKey: "home.categories.solidaire", categorie: "Solidaire" as ProjectCategorie, icon: HeartHandshake, image: catSolidaire },
-  { id: "crowdfunding", labelKey: "home.categories.crowdfunding", categorie: "Crowdfunding" as ProjectCategorie, icon: Users, image: catCrowdfunding },
-  { id: "valeur", labelKey: "home.categories.valeur", categorie: "Produit de forte valeur" as ProjectCategorie, icon: Gem, image: catValeur },
-];
-
 const espaces = [
   {
     to: "/investisseur" as const,
     labelKey: "home.espaceInvestisseur.label",
     titreKey: "home.espaceInvestisseur.titre",
     descriptionKey: "home.espaceInvestisseur.description",
-    pointsKeys: ["home.espaceInvestisseur.points.0", "home.espaceInvestisseur.points.1", "home.espaceInvestisseur.points.2"],
+    pointsKeys: [
+      "home.espaceInvestisseur.points.0",
+      "home.espaceInvestisseur.points.1",
+      "home.espaceInvestisseur.points.2",
+    ],
     icon: TrendingUp,
     image: espaceInvestisseurImg,
   },
@@ -72,15 +54,22 @@ const espaces = [
     labelKey: "home.espacePorteur.label",
     titreKey: "home.espacePorteur.titre",
     descriptionKey: "home.espacePorteur.description",
-    pointsKeys: ["home.espacePorteur.points.0", "home.espacePorteur.points.1", "home.espacePorteur.points.2"],
+    pointsKeys: [
+      "home.espacePorteur.points.0",
+      "home.espacePorteur.points.1",
+      "home.espacePorteur.points.2",
+    ],
     icon: Building2,
     image: espacePorteurImg,
   },
 ];
 
-
 function HomePage() {
   const { t } = useTranslation();
+  const { data: projects = [] } = useProjects();
+
+  const countByMode = (mode: ExploitationMode) =>
+    projects.filter((p: Project) => projectHasMode(p, mode)).length;
 
   return (
     <div className="min-h-screen bg-surface">
@@ -133,12 +122,20 @@ function HomePage() {
           </div>
         </section>
 
-        {/* Category grid — overlapping hero bottom */}
+        {/* Mode chooser — overlapping hero bottom */}
         <div className="relative z-10 -mt-40 sm:-mt-44 lg:-mt-48">
           <div className="mx-auto max-w-[1280px] px-4 sm:px-10">
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-3">
-              {categories.map((c) => (
-                <CategoryCard key={c.id} {...c} />
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {modeMeta.map((m) => (
+                <ModeCard
+                  key={m.slug}
+                  slug={m.slug}
+                  labelKey={m.labelKey}
+                  descriptionKey={m.descriptionKey}
+                  icon={m.icon}
+                  image={m.image}
+                  count={countByMode(m.mode)}
+                />
               ))}
             </div>
           </div>
@@ -149,61 +146,58 @@ function HomePage() {
       <section className="mx-auto max-w-[1280px] px-4 py-20 sm:px-10">
         <div className="mb-10 max-w-2xl">
           <p className="label-sm text-primary">{t("home.espacesLabel")}</p>
-          <h2 className="headline-lg mt-2 text-on-surface">
-            {t("home.espacesTitle")}
-          </h2>
-          <p className="mt-3 text-on-surface-variant">
-            {t("home.espacesDesc")}
-          </p>
+          <h2 className="headline-lg mt-2 text-on-surface">{t("home.espacesTitle")}</h2>
+          <p className="mt-3 text-on-surface-variant">{t("home.espacesDesc")}</p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
-          {espaces.map(({ to, labelKey, titreKey, descriptionKey, pointsKeys, icon: Icon, image }) => (
-            <Link
-              key={to}
-              to={to}
-              className="card-elevated group relative flex flex-col overflow-hidden bg-surface-lowest transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
-            >
-              <div className="relative aspect-[16/8] w-full overflow-hidden">
-                <img
-                  src={image}
-                  alt={t(labelKey)}
-                  loading="lazy"
-                  width={1024}
-                  height={640}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-on-surface/50 to-transparent" />
-                <div className="absolute bottom-4 left-6 grid h-12 w-12 place-items-center rounded-2xl bg-primary text-on-primary shadow-elevated">
-                  <Icon className="h-6 w-6" />
+          {espaces.map(
+            ({ to, labelKey, titreKey, descriptionKey, pointsKeys, icon: Icon, image }) => (
+              <Link
+                key={to}
+                to={to}
+                className="card-elevated group relative flex flex-col overflow-hidden bg-surface-lowest transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
+              >
+                <div className="relative aspect-[16/8] w-full overflow-hidden">
+                  <img
+                    src={image}
+                    alt={t(labelKey)}
+                    loading="lazy"
+                    width={1024}
+                    height={640}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-on-surface/50 to-transparent" />
+                  <div className="absolute bottom-4 left-6 grid h-12 w-12 place-items-center rounded-2xl bg-primary text-on-primary shadow-elevated">
+                    <Icon className="h-6 w-6" />
+                  </div>
                 </div>
-              </div>
-              <div className="flex flex-1 flex-col gap-5 p-8">
-                <div>
-                  <p className="label-sm text-on-surface-variant">{t(labelKey)}</p>
-                  <h3 className="headline-md mt-1.5 text-on-surface">{t(titreKey)}</h3>
-                  <p className="mt-2 text-sm text-on-surface-variant">{t(descriptionKey)}</p>
+                <div className="flex flex-1 flex-col gap-5 p-8">
+                  <div>
+                    <p className="label-sm text-on-surface-variant">{t(labelKey)}</p>
+                    <h3 className="headline-md mt-1.5 text-on-surface">{t(titreKey)}</h3>
+                    <p className="mt-2 text-sm text-on-surface-variant">{t(descriptionKey)}</p>
+                  </div>
+                  <ul className="space-y-2">
+                    {pointsKeys.map((pt) => (
+                      <li key={pt} className="flex items-center gap-2 text-sm text-on-surface">
+                        <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
+                        {t(pt)}
+                      </li>
+                    ))}
+                  </ul>
+                  <span className="mt-auto inline-flex w-fit items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary">
+                    {t("home.accederEspace")}
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
                 </div>
-                <ul className="space-y-2">
-                  {pointsKeys.map((pt) => (
-                    <li key={pt} className="flex items-center gap-2 text-sm text-on-surface">
-                      <CheckCircle2 className="h-4 w-4 shrink-0 text-primary" />
-                      {t(pt)}
-                    </li>
-                  ))}
-                </ul>
-                <span className="mt-auto inline-flex w-fit items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary">
-                  {t("home.accederEspace")}
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </span>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ),
+          )}
         </div>
       </section>
 
       {/* Formulaire d'intérêt */}
       <InterestForm />
-
 
       {/* Footer */}
       <footer className="bg-inverse-surface text-inverse-on-surface">
@@ -212,19 +206,33 @@ function HomePage() {
             <p className="text-lg font-bold">
               Place<span className="text-inverse-primary">2</span>invest
             </p>
-            <p className="mt-2 text-sm opacity-70">
-              {t("home.footer.tagline")}
-            </p>
+            <p className="mt-2 text-sm opacity-70">{t("home.footer.tagline")}</p>
           </div>
           {[
-            { id: "plateforme", titre: t("home.footer.plateforme"), liens: t("home.footer.plateformeLinks", { returnObjects: true }) as string[] },
-            { id: "societe", titre: t("home.footer.societe"), liens: t("home.footer.societeLinks", { returnObjects: true }) as string[] },
-            { id: "legal", titre: t("home.footer.legal"), liens: t("home.footer.legalLinks", { returnObjects: true }) as string[] },
+            {
+              id: "plateforme",
+              titre: t("home.footer.plateforme"),
+              liens: t("home.footer.plateformeLinks", { returnObjects: true }) as string[],
+            },
+            {
+              id: "societe",
+              titre: t("home.footer.societe"),
+              liens: t("home.footer.societeLinks", { returnObjects: true }) as string[],
+            },
+            {
+              id: "legal",
+              titre: t("home.footer.legal"),
+              liens: t("home.footer.legalLinks", { returnObjects: true }) as string[],
+            },
           ].map((col) => (
             <div key={col.id}>
               <p className="label-sm">{col.titre}</p>
               <ul className="mt-3 space-y-2 text-sm opacity-80">
-                {col.liens.map((l) => <li key={l} className="hover:opacity-100">{l}</li>)}
+                {col.liens.map((l) => (
+                  <li key={l} className="hover:opacity-100">
+                    {l}
+                  </li>
+                ))}
               </ul>
             </div>
           ))}
@@ -239,51 +247,7 @@ function HomePage() {
   );
 }
 
-function CategoryCard({
-  labelKey,
-  categorie,
-  icon: Icon,
-  image,
-}: {
-  labelKey: string;
-  categorie: ProjectCategorie;
-  icon: typeof Building2;
-  image: string;
-}) {
-  const { t } = useTranslation();
-  const label = t(labelKey);
-  return (
-    <Link
-      to="/projects/$categorie"
-      params={{ categorie: getSlugForCategorie(categorie) }}
-      className="card-elevated group flex flex-col overflow-hidden bg-surface-lowest transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card-hover)]"
-    >
-      <div className="aspect-[4/3] w-full overflow-hidden">
-        <img
-          src={image}
-          alt={label}
-          loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
-      </div>
-      <div className="flex items-center gap-2 px-4 py-3">
-        <Icon className="h-4 w-4 shrink-0 text-primary" />
-        <span className="truncate text-xs font-bold uppercase tracking-wider text-on-surface">
-          {label}
-        </span>
-      </div>
-    </Link>
-  );
-}
-
-const interetsKeys = [
-  "home.categories.immobilier",
-  "home.categories.crypto",
-  "home.categories.startup",
-  "home.categories.solidaire",
-  "home.categories.crowdfunding",
-  "home.categories.valeur",
-];
+const interetsKeys = modeMeta.map((m) => m.labelKey);
 
 function InterestForm() {
   const { t } = useTranslation();
@@ -301,12 +265,8 @@ function InterestForm() {
         <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
           <div>
             <p className="label-sm text-primary">{t("home.rejoignezLabel")}</p>
-            <h2 className="headline-lg mt-2 text-on-surface">
-              {t("home.interetsTitle")}
-            </h2>
-            <p className="mt-3 max-w-md text-on-surface-variant">
-              {t("home.interetsDesc")}
-            </p>
+            <h2 className="headline-lg mt-2 text-on-surface">{t("home.interetsTitle")}</h2>
+            <p className="mt-3 max-w-md text-on-surface-variant">{t("home.interetsDesc")}</p>
           </div>
 
           <div className="card-elevated bg-surface-lowest p-6 sm:p-8">
@@ -314,9 +274,7 @@ function InterestForm() {
               <div className="flex flex-col items-center gap-3 py-10 text-center">
                 <CheckCircle2 className="h-10 w-10 text-primary" />
                 <h3 className="headline-md text-on-surface">{t("home.merci")}</h3>
-                <p className="text-sm text-on-surface-variant">
-                  {t("home.merciDesc")}
-                </p>
+                <p className="text-sm text-on-surface-variant">{t("home.merciDesc")}</p>
               </div>
             ) : (
               <form
@@ -328,8 +286,18 @@ function InterestForm() {
               >
                 <div className="grid gap-4 sm:grid-cols-2">
                   <Field label={t("home.fields.nom")} name="nom" placeholder="Amine El Mansouri" />
-                  <Field label={t("home.fields.email")} name="email" type="email" placeholder="vous@exemple.ma" />
-                  <Field label={t("home.fields.tel")} name="tel" type="tel" placeholder="+212 6 00 00 00 00" />
+                  <Field
+                    label={t("home.fields.email")}
+                    name="email"
+                    type="email"
+                    placeholder="vous@exemple.ma"
+                  />
+                  <Field
+                    label={t("home.fields.tel")}
+                    name="tel"
+                    type="tel"
+                    placeholder="+212 6 00 00 00 00"
+                  />
                   <div>
                     <label className="label-sm text-on-surface-variant" htmlFor="profil">
                       {t("home.fields.jeSuis")}
@@ -425,4 +393,3 @@ function Field({
     </div>
   );
 }
-

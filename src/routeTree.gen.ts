@@ -21,7 +21,7 @@ import { Route as ProjectsIndexRouteImport } from './routes/projects.index'
 import { Route as PorteurDeProjetIndexRouteImport } from './routes/porteur-de-projet.index'
 import { Route as InvestisseurIndexRouteImport } from './routes/investisseur.index'
 import { Route as ProjetsIdRouteImport } from './routes/projets.$id'
-import { Route as ProjectsCategorieRouteImport } from './routes/projects.$categorie'
+import { Route as ProjectsModeRouteImport } from './routes/projects.$mode'
 import { Route as PorteurDeProjetVerificationReglementaireRouteImport } from './routes/porteur-de-projet.verification-reglementaire'
 import { Route as PorteurDeProjetSoumissionRouteImport } from './routes/porteur-de-projet.soumission'
 import { Route as InvestisseurVerificationReglementaireRouteImport } from './routes/investisseur.verification-reglementaire'
@@ -95,9 +95,9 @@ const ProjetsIdRoute = ProjetsIdRouteImport.update({
   path: '/projets/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProjectsCategorieRoute = ProjectsCategorieRouteImport.update({
-  id: '/projects/$categorie',
-  path: '/projects/$categorie',
+const ProjectsModeRoute = ProjectsModeRouteImport.update({
+  id: '/projects/$mode',
+  path: '/projects/$mode',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PorteurDeProjetVerificationReglementaireRoute =
@@ -185,7 +185,7 @@ export interface FileRoutesByFullPath {
   '/investisseur/verification-reglementaire': typeof InvestisseurVerificationReglementaireRoute
   '/porteur-de-projet/soumission': typeof PorteurDeProjetSoumissionRoute
   '/porteur-de-projet/verification-reglementaire': typeof PorteurDeProjetVerificationReglementaireRoute
-  '/projects/$categorie': typeof ProjectsCategorieRoute
+  '/projects/$mode': typeof ProjectsModeRoute
   '/projets/$id': typeof ProjetsIdRoute
   '/investisseur/': typeof InvestisseurIndexRoute
   '/porteur-de-projet/': typeof PorteurDeProjetIndexRoute
@@ -210,7 +210,7 @@ export interface FileRoutesByTo {
   '/investisseur/verification-reglementaire': typeof InvestisseurVerificationReglementaireRoute
   '/porteur-de-projet/soumission': typeof PorteurDeProjetSoumissionRoute
   '/porteur-de-projet/verification-reglementaire': typeof PorteurDeProjetVerificationReglementaireRoute
-  '/projects/$categorie': typeof ProjectsCategorieRoute
+  '/projects/$mode': typeof ProjectsModeRoute
   '/projets/$id': typeof ProjetsIdRoute
   '/investisseur': typeof InvestisseurIndexRoute
   '/porteur-de-projet': typeof PorteurDeProjetIndexRoute
@@ -238,7 +238,7 @@ export interface FileRoutesById {
   '/investisseur/verification-reglementaire': typeof InvestisseurVerificationReglementaireRoute
   '/porteur-de-projet/soumission': typeof PorteurDeProjetSoumissionRoute
   '/porteur-de-projet/verification-reglementaire': typeof PorteurDeProjetVerificationReglementaireRoute
-  '/projects/$categorie': typeof ProjectsCategorieRoute
+  '/projects/$mode': typeof ProjectsModeRoute
   '/projets/$id': typeof ProjetsIdRoute
   '/investisseur/': typeof InvestisseurIndexRoute
   '/porteur-de-projet/': typeof PorteurDeProjetIndexRoute
@@ -267,7 +267,7 @@ export interface FileRouteTypes {
     | '/investisseur/verification-reglementaire'
     | '/porteur-de-projet/soumission'
     | '/porteur-de-projet/verification-reglementaire'
-    | '/projects/$categorie'
+    | '/projects/$mode'
     | '/projets/$id'
     | '/investisseur/'
     | '/porteur-de-projet/'
@@ -292,7 +292,7 @@ export interface FileRouteTypes {
     | '/investisseur/verification-reglementaire'
     | '/porteur-de-projet/soumission'
     | '/porteur-de-projet/verification-reglementaire'
-    | '/projects/$categorie'
+    | '/projects/$mode'
     | '/projets/$id'
     | '/investisseur'
     | '/porteur-de-projet'
@@ -319,7 +319,7 @@ export interface FileRouteTypes {
     | '/investisseur/verification-reglementaire'
     | '/porteur-de-projet/soumission'
     | '/porteur-de-projet/verification-reglementaire'
-    | '/projects/$categorie'
+    | '/projects/$mode'
     | '/projets/$id'
     | '/investisseur/'
     | '/porteur-de-projet/'
@@ -339,7 +339,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   OuInvestirRoute: typeof OuInvestirRoute
   PorteurDeProjetRoute: typeof PorteurDeProjetRouteWithChildren
-  ProjectsCategorieRoute: typeof ProjectsCategorieRoute
+  ProjectsModeRoute: typeof ProjectsModeRoute
   ProjetsIdRoute: typeof ProjetsIdRoute
   ProjectsIndexRoute: typeof ProjectsIndexRoute
   ProjetsIndexRoute: typeof ProjetsIndexRoute
@@ -431,11 +431,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProjetsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/projects/$categorie': {
-      id: '/projects/$categorie'
-      path: '/projects/$categorie'
-      fullPath: '/projects/$categorie'
-      preLoaderRoute: typeof ProjectsCategorieRouteImport
+    '/projects/$mode': {
+      id: '/projects/$mode'
+      path: '/projects/$mode'
+      fullPath: '/projects/$mode'
+      preLoaderRoute: typeof ProjectsModeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/porteur-de-projet/verification-reglementaire': {
@@ -591,7 +591,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   OuInvestirRoute: OuInvestirRoute,
   PorteurDeProjetRoute: PorteurDeProjetRouteWithChildren,
-  ProjectsCategorieRoute: ProjectsCategorieRoute,
+  ProjectsModeRoute: ProjectsModeRoute,
   ProjetsIdRoute: ProjetsIdRoute,
   ProjectsIndexRoute: ProjectsIndexRoute,
   ProjetsIndexRoute: ProjetsIndexRoute,

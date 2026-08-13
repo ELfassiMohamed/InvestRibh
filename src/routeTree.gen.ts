@@ -14,6 +14,7 @@ import { Route as OuInvestirRouteImport } from './routes/ou-investir'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as InvestisseurRouteImport } from './routes/investisseur'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AssuranceRouteImport } from './routes/assurance'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProjetsIndexRouteImport } from './routes/projets.index'
@@ -58,6 +59,11 @@ const InvestisseurRoute = InvestisseurRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AssuranceRoute = AssuranceRouteImport.update({
+  id: '/assurance',
+  path: '/assurance',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -172,6 +178,7 @@ const InvestisseurProjetsIdRoute = InvestisseurProjetsIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/assurance': typeof AssuranceRoute
   '/auth': typeof AuthRoute
   '/investisseur': typeof InvestisseurRouteWithChildren
   '/login': typeof LoginRoute
@@ -199,6 +206,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/assurance': typeof AssuranceRoute
   '/auth': typeof AuthRoute
   '/login': typeof LoginRoute
   '/ou-investir': typeof OuInvestirRoute
@@ -225,6 +233,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/admin': typeof AdminRouteWithChildren
+  '/assurance': typeof AssuranceRoute
   '/auth': typeof AuthRoute
   '/investisseur': typeof InvestisseurRouteWithChildren
   '/login': typeof LoginRoute
@@ -254,6 +263,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/admin'
+    | '/assurance'
     | '/auth'
     | '/investisseur'
     | '/login'
@@ -281,6 +291,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/admin'
+    | '/assurance'
     | '/auth'
     | '/login'
     | '/ou-investir'
@@ -306,6 +317,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/admin'
+    | '/assurance'
     | '/auth'
     | '/investisseur'
     | '/login'
@@ -334,6 +346,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AssuranceRoute: typeof AssuranceRoute
   AuthRoute: typeof AuthRoute
   InvestisseurRoute: typeof InvestisseurRouteWithChildren
   LoginRoute: typeof LoginRoute
@@ -380,6 +393,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/assurance': {
+      id: '/assurance'
+      path: '/assurance'
+      fullPath: '/assurance'
+      preLoaderRoute: typeof AssuranceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -586,6 +606,7 @@ const PorteurDeProjetRouteWithChildren = PorteurDeProjetRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
+  AssuranceRoute: AssuranceRoute,
   AuthRoute: AuthRoute,
   InvestisseurRoute: InvestisseurRouteWithChildren,
   LoginRoute: LoginRoute,

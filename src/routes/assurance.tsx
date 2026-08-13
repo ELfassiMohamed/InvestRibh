@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, ArrowRight, ShieldCheck, User } from "lucide-react";
+import { ArrowLeft, User } from "lucide-react";
 
 import logoImage from "@/assets/place2invest_logo.png";
 import { ExploitationAssurance } from "@/components/ExploitationAssurance";
@@ -58,25 +58,6 @@ function AssurancePage() {
         </div>
 
         <ExploitationAssurance showHeader={false} />
-
-        <div className="card-elevated mt-14 flex flex-col items-start gap-4 bg-surface-lowest p-8 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-start gap-4">
-            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary text-on-primary">
-              <ShieldCheck className="h-5 w-5" />
-            </div>
-            <div>
-              <h2 className="headline-md text-on-surface">{t("assurance.ctaTitle")}</h2>
-              <p className="mt-1 text-sm text-on-surface-variant">{t("assurance.ctaDesc")}</p>
-            </div>
-          </div>
-          <Link
-            to="/projets"
-            className="inline-flex shrink-0 items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-container"
-          >
-            {t("assurance.ctaAction")}
-            <ArrowRight className="h-4 w-4" />
-          </Link>
-        </div>
       </div>
 
       {/* Footer */}

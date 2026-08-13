@@ -19,9 +19,7 @@ export function TopUtilityBar() {
                 key={lang.code}
                 onClick={() => changeLanguage(lang.code)}
                 className={`rounded-md px-2.5 py-1 font-semibold transition-colors ${
-                  active
-                    ? "bg-primary text-on-primary"
-                    : "hover:text-inverse-primary"
+                  active ? "bg-primary text-on-primary" : "hover:text-inverse-primary"
                 }`}
               >
                 {lang.label}
@@ -30,6 +28,12 @@ export function TopUtilityBar() {
           })}
         </div>
         <div className="flex items-center gap-1 sm:gap-3">
+          <Link
+            to="/assurance"
+            className="hidden items-center gap-1.5 rounded-md bg-primary-container/20 px-3 py-1.5 text-xs font-semibold transition-colors hover:bg-primary-container/30 sm:inline-flex"
+          >
+            {t("assurance.navLabel")}
+          </Link>
           <Link
             to="/ou-investir"
             className="hidden items-center gap-1.5 rounded-md bg-primary-container/20 px-3 py-1.5 text-xs font-semibold transition-colors hover:bg-primary-container/30 sm:inline-flex"

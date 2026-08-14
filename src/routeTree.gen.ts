@@ -13,6 +13,7 @@ import { Route as PorteurDeProjetRouteImport } from './routes/porteur-de-projet'
 import { Route as OuInvestirRouteImport } from './routes/ou-investir'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as InvestisseurRouteImport } from './routes/investisseur'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AssuranceRouteImport } from './routes/assurance'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -54,6 +55,11 @@ const LoginRoute = LoginRouteImport.update({
 const InvestisseurRoute = InvestisseurRouteImport.update({
   id: '/investisseur',
   path: '/investisseur',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -180,6 +186,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/assurance': typeof AssuranceRoute
   '/auth': typeof AuthRoute
+  '/faq': typeof FaqRoute
   '/investisseur': typeof InvestisseurRouteWithChildren
   '/login': typeof LoginRoute
   '/ou-investir': typeof OuInvestirRoute
@@ -208,6 +215,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRouteWithChildren
   '/assurance': typeof AssuranceRoute
   '/auth': typeof AuthRoute
+  '/faq': typeof FaqRoute
   '/login': typeof LoginRoute
   '/ou-investir': typeof OuInvestirRoute
   '/admin/audit-ekyc': typeof AdminAuditEkycRoute
@@ -235,6 +243,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/assurance': typeof AssuranceRoute
   '/auth': typeof AuthRoute
+  '/faq': typeof FaqRoute
   '/investisseur': typeof InvestisseurRouteWithChildren
   '/login': typeof LoginRoute
   '/ou-investir': typeof OuInvestirRoute
@@ -265,6 +274,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/assurance'
     | '/auth'
+    | '/faq'
     | '/investisseur'
     | '/login'
     | '/ou-investir'
@@ -293,6 +303,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/assurance'
     | '/auth'
+    | '/faq'
     | '/login'
     | '/ou-investir'
     | '/admin/audit-ekyc'
@@ -319,6 +330,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/assurance'
     | '/auth'
+    | '/faq'
     | '/investisseur'
     | '/login'
     | '/ou-investir'
@@ -348,6 +360,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AssuranceRoute: typeof AssuranceRoute
   AuthRoute: typeof AuthRoute
+  FaqRoute: typeof FaqRoute
   InvestisseurRoute: typeof InvestisseurRouteWithChildren
   LoginRoute: typeof LoginRoute
   OuInvestirRoute: typeof OuInvestirRoute
@@ -386,6 +399,13 @@ declare module '@tanstack/react-router' {
       path: '/investisseur'
       fullPath: '/investisseur'
       preLoaderRoute: typeof InvestisseurRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -608,6 +628,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   AssuranceRoute: AssuranceRoute,
   AuthRoute: AuthRoute,
+  FaqRoute: FaqRoute,
   InvestisseurRoute: InvestisseurRouteWithChildren,
   LoginRoute: LoginRoute,
   OuInvestirRoute: OuInvestirRoute,

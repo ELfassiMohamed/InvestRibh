@@ -35,12 +35,6 @@ export function TopUtilityBar() {
             {t("assurance.navLabel")}
           </Link>
           <Link
-            to="/faq"
-            className="hidden items-center gap-1.5 rounded-md bg-primary-container/20 px-3 py-1.5 text-xs font-semibold transition-colors hover:bg-primary-container/30 sm:inline-flex"
-          >
-            {t("faq.navLabel")}
-          </Link>
-          <Link
             to="/ou-investir"
             className="hidden items-center gap-1.5 rounded-md bg-primary-container/20 px-3 py-1.5 text-xs font-semibold transition-colors hover:bg-primary-container/30 sm:inline-flex"
           >

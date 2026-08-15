@@ -3,6 +3,7 @@ import {
   Outlet,
   createRootRouteWithContext,
   useRouter,
+  useRouterState,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
@@ -13,7 +14,24 @@ import appCss from "../styles.css?url";
 import favicon from "@/assets/favicon.png";
 import { AuthProvider } from "@/hooks/use-auth";
 import { PermissionGate } from "@/components/PermissionGate";
+import { FlowButton } from "@/components/ui/flow-button";
 import i18n from "@/lib/i18n";
+
+function FaqFloatButton() {
+  const { t } = useTranslation();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isFaqPage = pathname === "/faq";
+
+  return (
+    <div className="fixed bottom-6 right-6 z-[100] shadow-elevated">
+      <FlowButton
+        href={isFaqPage ? "/" : "/faq"}
+        text={isFaqPage ? t("common.home") : t("faq.navLabel")}
+        variant="accent"
+      />
+    </div>
+  );
+}
 
 function NotFoundComponent() {
   const { t } = useTranslation();
@@ -22,9 +40,7 @@ function NotFoundComponent() {
       <div className="max-w-md text-center">
         <h1 className="text-7xl font-bold text-primary">404</h1>
         <h2 className="mt-4 text-xl font-semibold text-on-surface">{t("common.notFoundTitle")}</h2>
-        <p className="mt-2 text-sm text-on-surface-variant">
-          {t("common.notFoundDesc")}
-        </p>
+        <p className="mt-2 text-sm text-on-surface-variant">{t("common.notFoundDesc")}</p>
         <div className="mt-6">
           <a
             href="/"
@@ -49,9 +65,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <h1 className="text-xl font-semibold tracking-tight text-on-surface">
           {t("common.errorTitle")}
         </h1>
-        <p className="mt-2 text-sm text-on-surface-variant">
-          {t("common.errorDesc")}
-        </p>
+        <p className="mt-2 text-sm text-on-surface-variant">{t("common.errorDesc")}</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
@@ -128,6 +142,7 @@ function RootComponent() {
         <AuthProvider>
           <PermissionGate>
             <Outlet />
+            <FaqFloatButton />
           </PermissionGate>
         </AuthProvider>
       </QueryClientProvider>

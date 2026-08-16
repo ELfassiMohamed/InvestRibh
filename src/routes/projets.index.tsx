@@ -1,12 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Filter, ArrowLeft, User } from "lucide-react";
+import { Filter, ArrowLeft, User, ShieldCheck, ArrowRight } from "lucide-react";
 
 import { FilterSelect } from "@/components/FilterSelect";
 import { ProjectCard } from "@/components/ProjectCard";
 import { ModeTabs } from "@/components/ModeTabs";
-import { ExploitationAssurance } from "@/components/ExploitationAssurance";
 import logoImage from "@/assets/place2invest_logo.png";
 import { useProjects } from "@/hooks/use-queries";
 import { getModeMetaBySlug, projectHasMode } from "@/lib/modes";
@@ -191,7 +190,24 @@ function PublicProjetsPage() {
       </div>
 
       <div className="mx-auto max-w-[1280px] px-4 py-12 sm:px-8">
-        <ExploitationAssurance />
+        <Link
+          to="/assurance"
+          className="card-elevated group flex flex-col items-start gap-4 bg-surface-lowest p-8 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div className="flex items-start gap-4">
+            <div className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary text-on-primary">
+              <ShieldCheck className="h-5 w-5" />
+            </div>
+            <div>
+              <h2 className="headline-md text-on-surface">{t("assurance.ctaTitle")}</h2>
+              <p className="mt-1 text-sm text-on-surface-variant">{t("assurance.ctaDesc")}</p>
+            </div>
+          </div>
+          <span className="inline-flex shrink-0 items-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-semibold text-on-primary transition-colors group-hover:bg-primary-container">
+            {t("assurance.ctaAction")}
+            <ArrowRight className="h-4 w-4" />
+          </span>
+        </Link>
       </div>
 
       {/* Footer */}

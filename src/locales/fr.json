@@ -180,7 +180,23 @@
     "criteresStricts": "Critères stricts d'acceptation",
     "primeAnnuelle": "Prime annuelle",
     "franchise": "Franchise",
-    "partenaire": "Partenaire"
+    "perYear": "par an",
+    "perMonth": "par mois",
+    "partenaire": "Partenaire",
+    "navLabel": "Notre Assurance",
+    "backToProjects": "Retour aux projets",
+    "ctaTitle": "Assurance par méthode d'exploitation",
+    "ctaDesc": "Comparez les produits d'assurance dédiés à chaque mode d'exploitation : critères stricts, primes annuelles, franchises et partenaires assureurs.",
+    "ctaAction": "Découvrir toutes les couvertures"
+  },
+  "faq": {
+    "badge": "Centre d'aide",
+    "title": "FAQ Immobilier",
+    "subtitle": "Toutes les réponses sur l'investissement immobilier participatif avec Place2Invest : fonctionnement de la plateforme, rendement, sécurité, eKYC, conformité, risques, garanties et gestion du compte.",
+    "searchPlaceholder": "Rechercher une question…",
+    "searchEmpty": "Aucune question ne correspond à votre recherche.",
+    "navLabel": "FAQ",
+    "questions": "{{count}} question(s)"
   },
   "projectsIndex": {
     "title": "Choisissez votre mode d'exploitation",

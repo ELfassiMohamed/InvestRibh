@@ -1,5 +1,6 @@
 "use client";
 import { ArrowRight } from "lucide-react";
+import { useRouter } from "@tanstack/react-router";
 
 export function FlowButton({
   text = "Modern Button",
@@ -10,6 +11,7 @@ export function FlowButton({
   href?: string;
   variant?: "default" | "accent";
 }) {
+  const router = useRouter();
   const isAccent = variant === "accent";
   const arrowStroke = isAccent ? "stroke-on-primary" : "stroke-[#111111]";
 
@@ -44,7 +46,14 @@ export function FlowButton({
 
   if (href) {
     return (
-      <a href={href} className={classes}>
+      <a
+        href={href}
+        className={classes}
+        onClick={(e) => {
+          e.preventDefault();
+          void router.navigate({ href });
+        }}
+      >
         {content}
       </a>
     );

@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
-import { ArrowLeft, User, ShieldCheck, ArrowRight } from "lucide-react";
+import { ShieldCheck, ArrowRight } from "lucide-react";
 
-import logoImage from "@/assets/place2invest_logo.png";
+import { Navbar1 } from "@/components/ui/navbar-1";
 import { ModeCard } from "@/components/ModeCard";
 import { useProjects } from "@/hooks/use-queries";
 import { modeMeta, projectHasMode } from "@/lib/modes";
@@ -21,30 +21,8 @@ function ProjectsModesPage() {
 
   return (
     <div className="min-h-screen bg-surface">
-      {/* Top bar */}
-      <div className="border-b border-outline-variant bg-surface-lowest">
-        <div className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-3 sm:px-8">
-          <Link to="/" className="flex items-center gap-2">
-            <img src={logoImage} alt="Place2Invest" className="h-9 rounded-lg object-contain" />
-          </Link>
-          <div className="flex items-center gap-3">
-            <Link
-              to="/"
-              className="hidden items-center gap-1.5 text-sm text-on-surface-variant hover:text-on-surface sm:flex"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              {t("common.home")}
-            </Link>
-            <Link
-              to="/login"
-              className="flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-container"
-            >
-              <User className="h-4 w-4" />
-              {t("common.login")}
-            </Link>
-          </div>
-        </div>
-      </div>
+      {/* Navbar */}
+      <Navbar1 />
 
       <div className="mx-auto max-w-[1280px] px-4 py-8 sm:px-8">
         <div className="mb-8 max-w-2xl">

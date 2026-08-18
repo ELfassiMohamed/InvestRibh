@@ -5,7 +5,7 @@ import { Shield, Smartphone, CheckCircle2, ArrowLeft, ArrowRight } from "lucide-
 import { useAuth } from "@/hooks/use-auth";
 import type { UserRole } from "@/lib/mock-data";
 import { getAllUsersSync } from "@/lib/local-demo-store";
-import logoImage from "@/assets/place2invest_logo.png";
+import { Navbar1 } from "@/components/ui/navbar-1";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (search: Record<string, string>) => ({
@@ -119,27 +119,31 @@ function AuthPage() {
 
   return (
     <div className="min-h-screen bg-surface">
-      <div className="border-b border-outline-variant bg-surface-lowest">
-        <div className="mx-auto flex max-w-[560px] items-center justify-between px-4 py-3">
-          <Link to="/" className="flex items-center gap-2">
-            <img src={logoImage} alt="Place2Invest" className="h-9 rounded-lg object-contain" />
-          </Link>
-          <Link to="/login" className="text-sm text-on-surface-variant hover:text-on-surface">
-            {t("common.back")}
-          </Link>
-        </div>
-      </div>
+      {/* Navbar */}
+      <Navbar1 />
 
       <div className="mx-auto max-w-[560px] px-4 py-16">
         {/* Steps indicator */}
         <div className="mb-10 flex items-center gap-2">
-          <div className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
-            step >= 1 ? "bg-primary text-on-primary" : "bg-surface-container text-on-surface-variant"
-          }`}>1</div>
+          <div
+            className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
+              step >= 1
+                ? "bg-primary text-on-primary"
+                : "bg-surface-container text-on-surface-variant"
+            }`}
+          >
+            1
+          </div>
           <div className={`h-0.5 flex-1 ${step >= 2 ? "bg-primary" : "bg-surface-container"}`} />
-          <div className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
-            step >= 2 ? "bg-primary text-on-primary" : "bg-surface-container text-on-surface-variant"
-          }`}>2</div>
+          <div
+            className={`flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold ${
+              step >= 2
+                ? "bg-primary text-on-primary"
+                : "bg-surface-container text-on-surface-variant"
+            }`}
+          >
+            2
+          </div>
         </div>
 
         {step === 1 && (
@@ -155,15 +159,16 @@ function AuthPage() {
             </div>
 
             <div className="card-elevated p-6">
-              <label className="label-sm text-on-surface-variant">
-                {t("auth.enterLast6")}
-              </label>
+              <label className="label-sm text-on-surface-variant">{t("auth.enterLast6")}</label>
               <div className="mt-2 flex gap-2">
                 <input
                   type="text"
                   maxLength={6}
                   value={codeInput}
-                  onChange={(e) => { setCodeInput(e.target.value); setError(""); }}
+                  onChange={(e) => {
+                    setCodeInput(e.target.value);
+                    setError("");
+                  }}
                   placeholder="ex: 123456"
                   className="flex-1 rounded-md border border-outline-variant bg-surface-lowest px-4 py-3 text-center font-mono text-lg tracking-[0.25em] focus:border-primary focus:outline-none"
                   autoFocus
@@ -172,8 +177,14 @@ function AuthPage() {
 
               <div className="mt-3 rounded-md border border-dashed border-outline-variant bg-surface-lowest/50 p-2.5 text-xs leading-relaxed text-on-surface-variant">
                 <p className="font-semibold text-on-surface">{t("auth.demo")}</p>
-                {ribLast6 && <p>RIB : <span className="font-mono text-primary">{ribLast6}</span></p>}
-                <p>CIN : <span className="font-mono text-primary">{cinLast6}</span></p>
+                {ribLast6 && (
+                  <p>
+                    RIB : <span className="font-mono text-primary">{ribLast6}</span>
+                  </p>
+                )}
+                <p>
+                  CIN : <span className="font-mono text-primary">{cinLast6}</span>
+                </p>
               </div>
 
               {error && <p className="mt-3 text-sm text-error">{error}</p>}
@@ -186,8 +197,6 @@ function AuthPage() {
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>
-
-            
           </>
         )}
 
@@ -198,9 +207,7 @@ function AuthPage() {
                 <Smartphone className="h-7 w-7" />
               </div>
               <h1 className="headline-lg text-on-surface">{t("auth.verifyCode")}</h1>
-              <p className="mt-2 text-on-surface-variant">
-                {t("auth.smsSent")}
-              </p>
+              <p className="mt-2 text-on-surface-variant">{t("auth.smsSent")}</p>
               {ribLast6 && (
                 <p className="mt-1 text-xs text-on-surface-variant">
                   {t("auth.endingWith", { last: ribLast6.slice(-2) })}
@@ -209,14 +216,15 @@ function AuthPage() {
             </div>
 
             <div className="card-elevated p-6">
-              <label className="label-sm text-on-surface-variant">
-                {t("auth.enter6Digit")}
-              </label>
+              <label className="label-sm text-on-surface-variant">{t("auth.enter6Digit")}</label>
               <input
                 type="text"
                 maxLength={6}
                 value={smsCode}
-                onChange={(e) => { setSmsCode(e.target.value.replace(/\D/g, "")); setError(""); }}
+                onChange={(e) => {
+                  setSmsCode(e.target.value.replace(/\D/g, ""));
+                  setError("");
+                }}
                 placeholder="123456"
                 className="mt-2 w-full rounded-md border border-outline-variant bg-surface-lowest px-4 py-3 text-center font-mono text-lg tracking-[0.25em] focus:border-primary focus:outline-none"
                 autoFocus
@@ -224,7 +232,9 @@ function AuthPage() {
 
               <div className="mt-3 rounded-md border border-dashed border-outline-variant bg-surface-lowest/50 p-2.5 text-xs leading-relaxed text-on-surface-variant">
                 <p className="font-semibold text-on-surface">{t("auth.demo")}</p>
-                <p>{t("auth.smsCode")} : <span className="font-mono text-primary">{MOCK_CODE}</span></p>
+                <p>
+                  {t("auth.smsCode")} : <span className="font-mono text-primary">{MOCK_CODE}</span>
+                </p>
               </div>
 
               {error && <p className="mt-3 text-sm text-error">{error}</p>}
@@ -238,7 +248,11 @@ function AuthPage() {
               </button>
 
               <button
-                onClick={() => { setStep(1); setError(""); setSmsCode(""); }}
+                onClick={() => {
+                  setStep(1);
+                  setError("");
+                  setSmsCode("");
+                }}
                 className="mt-3 flex w-full items-center justify-center gap-1.5 text-sm text-on-surface-variant hover:text-on-surface"
               >
                 <ArrowLeft className="h-4 w-4" />

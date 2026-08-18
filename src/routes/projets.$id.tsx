@@ -17,7 +17,7 @@ import {
 import { FundingProgressBar } from "@/components/FundingProgressBar";
 import { RiskScoreBadge } from "@/components/RiskScoreBadge";
 import { formatMAD, formatPercent } from "@/lib/format";
-import logoImage from "@/assets/place2invest_logo.png";
+import { Navbar1 } from "@/components/ui/navbar-1";
 import { useProject } from "@/hooks/use-queries";
 import { modeMeta } from "@/lib/modes";
 import { getInsuranceByMode } from "@/lib/mock-data";
@@ -50,30 +50,8 @@ function PublicProjetDetailPage() {
 
   return (
     <div className="min-h-screen bg-surface">
-      {/* Top bar */}
-      <div className="border-b border-outline-variant bg-surface-lowest">
-        <div className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-3 sm:px-8">
-          <Link to="/" className="flex items-center gap-2">
-            <img src={logoImage} alt="Place2Invest" className="h-9 rounded-lg object-contain" />
-          </Link>
-          <div className="flex items-center gap-3">
-            <Link
-              to="/projets"
-              className="hidden items-center gap-1.5 text-sm text-on-surface-variant hover:text-on-surface sm:flex"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              {t("projectDetail.tousProjets")}
-            </Link>
-            <Link
-              to="/login"
-              className="flex items-center gap-1.5 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-container"
-            >
-              <User className="h-4 w-4" />
-              {t("projectDetail.loginInvest")}
-            </Link>
-          </div>
-        </div>
-      </div>
+      {/* Navbar */}
+      <Navbar1 />
 
       <div className="mx-auto max-w-[1280px] px-4 py-8 sm:px-8">
         <Link

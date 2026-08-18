@@ -827,5 +827,8 @@
       ],
       "pointsVigilance": ["Cycle court, sensible à la conjoncture locale."]
     }
+  },
+  "navbar": {
+    "projets": "Projets"
   }
 }

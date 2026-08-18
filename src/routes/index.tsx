@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ArrowRight, Building2, TrendingUp, CheckCircle2 } from "lucide-react";
-import { TopUtilityBar } from "@/components/TopUtilityBar";
+import { Navbar1 } from "@/components/ui/navbar-1";
 import { HeroSearch } from "@/components/HeroSearch";
 import { ModeCard } from "@/components/ModeCard";
 import { useProjects } from "@/hooks/use-queries";
@@ -74,8 +74,6 @@ function HomePage() {
   return (
     <div className="min-h-screen bg-surface">
       <div className="relative">
-        <TopUtilityBar />
-
         {/* HERO full-bleed */}
         <section className="relative overflow-hidden">
           <img
@@ -88,20 +86,9 @@ function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60" />
           <div className="absolute inset-0 bg-black/10" />
 
-          <div className="relative mx-auto max-w-[1280px] px-4 pt-12 pb-48 sm:px-10 sm:pt-16 sm:pb-56 lg:pb-64">
-            {/* Logo badge */}
-            <div className="mx-auto w-fit">
-              <Link
-                to="/"
-                className="inline-flex items-center rounded-2xl bg-[#1d4dd8] px-6 py-3 shadow-elevated ring-1 ring-white/20"
-              >
-                <span className="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
-                  Place
-                  <span className="text-[#ff4ea1]">2</span>
-                  invest
-                </span>
-              </Link>
-            </div>
+          <div className="relative mx-auto max-w-[1280px] px-4 pt-2 pb-48 sm:px-10 sm:pt-4 sm:pb-56 lg:pb-64">
+            {/* Navbar */}
+            <Navbar1 />
 
             {/* Search */}
             <div className="mx-auto mt-10 max-w-3xl">

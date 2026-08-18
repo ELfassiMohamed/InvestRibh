@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ArrowRight, Building2, TrendingUp, CheckCircle2 } from "lucide-react";
 import { Navbar1 } from "@/components/ui/navbar-1";
-import { HeroSearch } from "@/components/HeroSearch";
 import { ModeCard } from "@/components/ModeCard";
 import { useProjects } from "@/hooks/use-queries";
 import { modeMeta, projectHasMode } from "@/lib/modes";
@@ -89,11 +88,6 @@ function HomePage() {
           <div className="relative mx-auto max-w-[1280px] px-4 pt-2 pb-48 sm:px-10 sm:pt-4 sm:pb-56 lg:pb-64">
             {/* Navbar */}
             <Navbar1 />
-
-            {/* Search */}
-            <div className="mx-auto mt-10 max-w-3xl">
-              <HeroSearch />
-            </div>
 
             {/* Headline */}
             <div className="mt-16 max-w-2xl sm:mt-24">

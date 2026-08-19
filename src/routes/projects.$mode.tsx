@@ -6,6 +6,7 @@ import { Filter, Shield, CheckCircle2 } from "lucide-react";
 import { FilterSelect } from "@/components/FilterSelect";
 import { ProjectCard } from "@/components/ProjectCard";
 import { Navbar1 } from "@/components/ui/navbar-1";
+import { CinematicFooter } from "@/components/ui/motion-footer";
 import { getModeMetaBySlug, projectHasMode } from "@/lib/modes";
 import { getInsuranceByMode, type Project } from "@/lib/mock-data";
 import { useProjects } from "@/hooks/use-queries";
@@ -196,11 +197,7 @@ function ModeProjectsPage() {
       </div>
 
       {/* Footer */}
-      <footer className="mt-20 bg-inverse-surface text-inverse-on-surface">
-        <div className="mx-auto max-w-[1280px] px-4 py-8 text-center text-xs opacity-60 sm:px-10">
-          © {new Date().getFullYear()} Place2Invest. {t("common.footer")}
-        </div>
-      </footer>
+      <CinematicFooter />
     </div>
   );
 }

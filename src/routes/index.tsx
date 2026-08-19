@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ArrowRight, Building2, TrendingUp, CheckCircle2 } from "lucide-react";
 import { Navbar1 } from "@/components/ui/navbar-1";
+import { CinematicFooter } from "@/components/ui/motion-footer";
 import { ModeCard } from "@/components/ModeCard";
 import { useProjects } from "@/hooks/use-queries";
 import { modeMeta, projectHasMode } from "@/lib/modes";
@@ -181,49 +182,7 @@ function HomePage() {
       <InterestForm />
 
       {/* Footer */}
-      <footer className="bg-inverse-surface text-inverse-on-surface">
-        <div className="mx-auto grid max-w-[1280px] gap-8 px-4 py-12 sm:px-10 md:grid-cols-4">
-          <div>
-            <p className="text-lg font-bold">
-              Place<span className="text-inverse-primary">2</span>invest
-            </p>
-            <p className="mt-2 text-sm opacity-70">{t("home.footer.tagline")}</p>
-          </div>
-          {[
-            {
-              id: "plateforme",
-              titre: t("home.footer.plateforme"),
-              liens: t("home.footer.plateformeLinks", { returnObjects: true }) as string[],
-            },
-            {
-              id: "societe",
-              titre: t("home.footer.societe"),
-              liens: t("home.footer.societeLinks", { returnObjects: true }) as string[],
-            },
-            {
-              id: "legal",
-              titre: t("home.footer.legal"),
-              liens: t("home.footer.legalLinks", { returnObjects: true }) as string[],
-            },
-          ].map((col) => (
-            <div key={col.id}>
-              <p className="label-sm">{col.titre}</p>
-              <ul className="mt-3 space-y-2 text-sm opacity-80">
-                {col.liens.map((l) => (
-                  <li key={l} className="hover:opacity-100">
-                    {l}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <div className="border-t border-inverse-on-surface/10">
-          <p className="mx-auto max-w-[1280px] px-4 py-4 text-xs opacity-60 sm:px-10">
-            © {new Date().getFullYear()} Place2Invest. {t("common.footer")}
-          </p>
-        </div>
-      </footer>
+      <CinematicFooter />
     </div>
   );
 }

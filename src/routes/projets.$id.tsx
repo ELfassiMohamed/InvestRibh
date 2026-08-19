@@ -18,6 +18,7 @@ import { FundingProgressBar } from "@/components/FundingProgressBar";
 import { RiskScoreBadge } from "@/components/RiskScoreBadge";
 import { formatMAD, formatPercent } from "@/lib/format";
 import { Navbar1 } from "@/components/ui/navbar-1";
+import { CinematicFooter } from "@/components/ui/motion-footer";
 import { useProject } from "@/hooks/use-queries";
 import { modeMeta } from "@/lib/modes";
 import { getInsuranceByMode } from "@/lib/mock-data";
@@ -263,11 +264,7 @@ function PublicProjetDetailPage() {
       </div>
 
       {/* Footer */}
-      <footer className="mt-20 bg-inverse-surface text-inverse-on-surface">
-        <div className="mx-auto max-w-[1280px] px-4 py-8 text-center text-xs opacity-60 sm:px-10">
-          © {new Date().getFullYear()} Place2Invest. {t("common.footer")}
-        </div>
-      </footer>
+      <CinematicFooter />
     </div>
   );
 }

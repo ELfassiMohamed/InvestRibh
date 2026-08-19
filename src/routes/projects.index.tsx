@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ShieldCheck, ArrowRight } from "lucide-react";
 
 import { Navbar1 } from "@/components/ui/navbar-1";
+import { CinematicFooter } from "@/components/ui/motion-footer";
 import { ModeCard } from "@/components/ModeCard";
 import { useProjects } from "@/hooks/use-queries";
 import { modeMeta, projectHasMode } from "@/lib/modes";
@@ -66,11 +67,7 @@ function ProjectsModesPage() {
       </div>
 
       {/* Footer */}
-      <footer className="mt-20 bg-inverse-surface text-inverse-on-surface">
-        <div className="mx-auto max-w-[1280px] px-4 py-8 text-center text-xs opacity-60 sm:px-10">
-          © {new Date().getFullYear()} Place2Invest. {t("common.footer")}
-        </div>
-      </footer>
+      <CinematicFooter />
     </div>
   );
 }

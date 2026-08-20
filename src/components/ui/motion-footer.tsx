@@ -368,22 +368,6 @@ export function CinematicFooter() {
               © {new Date().getFullYear()} Place2Invest. {t("common.footer")}
             </div>
 
-            {/* "Made with Love" Badge */}
-            <div className="footer-glass-pill order-1 flex cursor-default items-center gap-2 rounded-full border-border/50 px-6 py-3 md:order-2">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground md:text-xs">
-                {t("footer.crafted")}
-              </span>
-              <span className="animate-footer-heartbeat text-sm text-destructive md:text-base">
-                ❤
-              </span>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground md:text-xs">
-                {t("footer.by")}
-              </span>
-              <span className="ml-1 text-xs font-black tracking-normal text-foreground md:text-sm">
-                Place2Invest
-              </span>
-            </div>
-
             {/* Back to top */}
             <MagneticButton
               as="button"

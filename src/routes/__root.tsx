@@ -148,7 +148,7 @@ function RootComponent() {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <PermissionGate>
-            <div key={pathname} className="animate-page-enter">
+            <div key={pathname} className="animate-page-enter motion-reduce:animate-none">
               <Outlet />
             </div>
             <FaqFloatButton />

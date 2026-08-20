@@ -1,5 +1,6 @@
 import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 import { cn } from "@/lib/utils";
 
@@ -307,31 +308,53 @@ export function CoverflowCarousel({
                 )}
                 style={{ width: "var(--cf-card)" }}
               >
-                <a
-                  href={slide.href}
-                  aria-label={slide.title ?? slide.alt}
-                  className={cn(
-                    "block h-full w-full",
-                    slide.href ? "cursor-pointer" : "pointer-events-none",
-                  )}
-                >
-                  <img
-                    src={slide.src}
-                    alt={slide.alt}
-                    draggable={false}
-                    className="h-full w-full select-none object-cover"
-                  />
-                  {showCardTitle && slide.title && (
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 pt-10 pb-3">
-                      <p className="text-base font-semibold text-white drop-shadow-md">
-                        {slide.title}
-                      </p>
-                      {slide.subtitle && (
-                        <p className="mt-0.5 text-xs font-medium text-white/85">{slide.subtitle}</p>
-                      )}
-                    </div>
-                  )}
-                </a>
+                {slide.href ? (
+                  <Link
+                    to={slide.href}
+                    aria-label={slide.title ?? slide.alt}
+                    className="block h-full w-full cursor-pointer"
+                  >
+                    <img
+                      src={slide.src}
+                      alt={slide.alt}
+                      draggable={false}
+                      className="h-full w-full select-none object-cover"
+                    />
+                    {showCardTitle && slide.title && (
+                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 pt-10 pb-3">
+                        <p className="text-base font-semibold text-white drop-shadow-md">
+                          {slide.title}
+                        </p>
+                        {slide.subtitle && (
+                          <p className="mt-0.5 text-xs font-medium text-white/85">
+                            {slide.subtitle}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </Link>
+                ) : (
+                  <div className="pointer-events-none block h-full w-full">
+                    <img
+                      src={slide.src}
+                      alt={slide.alt}
+                      draggable={false}
+                      className="h-full w-full select-none object-cover"
+                    />
+                    {showCardTitle && slide.title && (
+                      <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent px-4 pt-10 pb-3">
+                        <p className="text-base font-semibold text-white drop-shadow-md">
+                          {slide.title}
+                        </p>
+                        {slide.subtitle && (
+                          <p className="mt-0.5 text-xs font-medium text-white/85">
+                            {slide.subtitle}
+                          </p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
           </div>

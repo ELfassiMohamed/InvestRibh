@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { ArrowRight, Building2, TrendingUp, CheckCircle2 } from "lucide-react";
 import { Navbar1 } from "@/components/ui/navbar-1";
 import { CinematicFooter } from "@/components/ui/motion-footer";
-import { ModeCard } from "@/components/ModeCard";
+import { CoverflowCarousel } from "@/components/ui/coverflow-carousel";
 import { useProjects } from "@/hooks/use-queries";
 import { modeMeta, projectHasMode } from "@/lib/modes";
 import { type ExploitationMode, type Project } from "@/lib/mock-data";
@@ -107,19 +107,23 @@ function HomePage() {
         {/* Mode chooser — overlapping hero bottom */}
         <div className="relative z-10 -mt-40 sm:-mt-44 lg:-mt-48">
           <div className="mx-auto max-w-[1280px] px-4 sm:px-10">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {modeMeta.map((m) => (
-                <ModeCard
-                  key={m.slug}
-                  slug={m.slug}
-                  labelKey={m.labelKey}
-                  descriptionKey={m.descriptionKey}
-                  icon={m.icon}
-                  image={m.image}
-                  count={countByMode(m.mode)}
-                />
-              ))}
-            </div>
+            <CoverflowCarousel
+              label={t("modes.title")}
+              cardWidth="clamp(240px, 30vw, 380px)"
+              rotate={38}
+              depth={0.7}
+              showCaption
+              showCardTitle
+              showNavigation
+              showPagination
+              slides={modeMeta.map((m) => ({
+                src: m.image,
+                alt: t(m.labelKey),
+                title: t(m.labelKey),
+                subtitle: t("projectsIndex.count", { count: countByMode(m.mode) }),
+                href: `/projets?mode=${m.slug}`,
+              }))}
+            />
           </div>
         </div>
       </div>

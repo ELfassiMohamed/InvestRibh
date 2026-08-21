@@ -2,7 +2,7 @@ import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { TrendingUp, Building2, ShieldCheck } from "lucide-react";
 import type { UserRole } from "@/lib/mock-data";
-import logoImage from "@/assets/place2invest_logo.png";
+import { Navbar1 } from "@/components/ui/navbar-1";
 
 export const Route = createFileRoute("/login")({
   beforeLoad: () => {
@@ -58,33 +58,14 @@ function LoginPage() {
   const { t } = useTranslation();
   return (
     <div className="min-h-screen bg-surface">
-      {/* Top bar */}
-      <div className="border-b border-outline-variant bg-surface-lowest">
-        <div className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-3 sm:px-10">
-          <Link
-            to="/"
-            className="flex items-center gap-2"
-          >
-            <img src={logoImage} alt="Place2Invest" className="h-9 rounded-lg object-contain" />
-          </Link>
-          <Link
-            to="/projets"
-            className="text-sm font-medium text-on-surface-variant hover:text-on-surface"
-          >
-            {t("login.decouvrir")}
-          </Link>
-        </div>
-      </div>
+      {/* Navbar */}
+      <Navbar1 />
 
       <div className="mx-auto max-w-3xl px-4 py-20 sm:px-10">
         <div className="mb-12 text-center">
           <p className="label-sm text-primary">{t("login.connexion")}</p>
-          <h1 className="headline-lg mt-2 text-on-surface">
-            {t("login.choisissez")}
-          </h1>
-          <p className="mt-3 text-on-surface-variant">
-            {t("login.description")}
-          </p>
+          <h1 className="headline-lg mt-2 text-on-surface">{t("login.choisissez")}</h1>
+          <p className="mt-3 text-on-surface-variant">{t("login.description")}</p>
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
@@ -105,9 +86,7 @@ function LoginPage() {
                 <div>
                   <p className="label-sm text-on-surface-variant">{label}</p>
                   <h3 className="headline-md mt-1.5 text-on-surface">{titre}</h3>
-                  <p className="mt-2 text-sm text-on-surface-variant">
-                    {description}
-                  </p>
+                  <p className="mt-2 text-sm text-on-surface-variant">{description}</p>
                 </div>
                 <span className="mt-auto text-sm font-semibold text-primary group-hover:underline">
                   {t("login.seConnecter")}

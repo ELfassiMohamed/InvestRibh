@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
+  Link,
   Outlet,
   createRootRouteWithContext,
   useRouter,
@@ -7,7 +8,7 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import { I18nextProvider, useTranslation } from "react-i18next";
 
 import appCss from "../styles.css?url";
@@ -42,12 +43,12 @@ function NotFoundComponent() {
         <h2 className="mt-4 text-xl font-semibold text-on-surface">{t("common.notFoundTitle")}</h2>
         <p className="mt-2 text-sm text-on-surface-variant">{t("common.notFoundDesc")}</p>
         <div className="mt-6">
-          <a
-            href="/"
+          <Link
+            to="/"
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-on-primary transition-colors hover:bg-primary-container"
           >
             {t("common.notFoundHome")}
-          </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -76,12 +77,12 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
           >
             {t("common.retry")}
           </button>
-          <a
-            href="/"
+          <Link
+            to="/"
             className="inline-flex items-center justify-center rounded-md border border-outline-variant bg-surface-lowest px-4 py-2 text-sm font-medium text-on-surface transition-colors hover:bg-surface-container"
           >
             {t("common.home")}
-          </a>
+          </Link>
         </div>
       </div>
     </div>
@@ -136,12 +137,20 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
   return (
     <I18nextProvider i18n={i18n}>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <PermissionGate>
-            <Outlet />
+            <div key={pathname} className="animate-page-enter motion-reduce:animate-none">
+              <Outlet />
+            </div>
             <FaqFloatButton />
           </PermissionGate>
         </AuthProvider>

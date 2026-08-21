@@ -827,5 +827,29 @@
       ],
       "pointsVigilance": ["Cycle court, sensible à la conjoncture locale."]
     }
+  },
+  "navbar": {
+    "projets": "Projets"
+  },
+  "footer": {
+    "heading": "Prêt à investir ?",
+    "services": "Découvrir nos services",
+    "ouInvestir": "Où investir ?",
+    "faq": "FAQ",
+    "assurance": "Assurance",
+    "accueil": "Accueil",
+    "marquee": [
+      "Découvrir nos services",
+      "Où investir ?",
+      "Location longue durée",
+      "Location courte durée",
+      "Revente",
+      "Promotion immobilière",
+      "Couverture assurance stricte",
+      "Analyse IA multi-agents"
+    ],
+    "crafted": "Conçu avec",
+    "by": "par",
+    "backToTop": "Retour en haut"
   }
 }

@@ -13,7 +13,7 @@ import {
   YAxis,
 } from "recharts";
 
-import { TopUtilityBar } from "@/components/TopUtilityBar";
+import { Navbar1 } from "@/components/ui/navbar-1";
 import { KpiCard } from "@/components/KpiCard";
 import { formatPercent } from "@/lib/format";
 
@@ -169,7 +169,7 @@ function OuInvestirPage() {
 
   return (
     <div className="min-h-screen bg-surface">
-      <TopUtilityBar />
+      <Navbar1 />
 
       {/* Header */}
       <header className="border-b border-outline-variant bg-surface-low">

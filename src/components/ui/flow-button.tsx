@@ -1,5 +1,6 @@
 "use client";
 import { ArrowRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
 export function FlowButton({
   text = "Modern Button",
@@ -44,9 +45,9 @@ export function FlowButton({
 
   if (href) {
     return (
-      <a href={href} className={classes}>
+      <Link to={href} className={classes}>
         {content}
-      </a>
+      </Link>
     );
   }
 

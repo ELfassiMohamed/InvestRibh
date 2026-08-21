@@ -2,9 +2,9 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ArrowRight, Building2, TrendingUp, CheckCircle2 } from "lucide-react";
-import { TopUtilityBar } from "@/components/TopUtilityBar";
-import { HeroSearch } from "@/components/HeroSearch";
-import { ModeCard } from "@/components/ModeCard";
+import { Navbar1 } from "@/components/ui/navbar-1";
+import { CinematicFooter } from "@/components/ui/motion-footer";
+import { CoverflowCarousel } from "@/components/ui/coverflow-carousel";
 import { useProjects } from "@/hooks/use-queries";
 import { modeMeta, projectHasMode } from "@/lib/modes";
 import { type ExploitationMode, type Project } from "@/lib/mock-data";
@@ -74,8 +74,6 @@ function HomePage() {
   return (
     <div className="min-h-screen bg-surface">
       <div className="relative">
-        <TopUtilityBar />
-
         {/* HERO full-bleed */}
         <section className="relative overflow-hidden">
           <img
@@ -88,25 +86,9 @@ function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60" />
           <div className="absolute inset-0 bg-black/10" />
 
-          <div className="relative mx-auto max-w-[1280px] px-4 pt-12 pb-48 sm:px-10 sm:pt-16 sm:pb-56 lg:pb-64">
-            {/* Logo badge */}
-            <div className="mx-auto w-fit">
-              <Link
-                to="/"
-                className="inline-flex items-center rounded-2xl bg-[#1d4dd8] px-6 py-3 shadow-elevated ring-1 ring-white/20"
-              >
-                <span className="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
-                  Place
-                  <span className="text-[#ff4ea1]">2</span>
-                  invest
-                </span>
-              </Link>
-            </div>
-
-            {/* Search */}
-            <div className="mx-auto mt-10 max-w-3xl">
-              <HeroSearch />
-            </div>
+          <div className="relative mx-auto max-w-[1280px] px-4 pt-2 pb-48 sm:px-10 sm:pt-4 sm:pb-56 lg:pb-64">
+            {/* Navbar */}
+            <Navbar1 />
 
             {/* Headline */}
             <div className="mt-16 max-w-2xl sm:mt-24">
@@ -125,19 +107,23 @@ function HomePage() {
         {/* Mode chooser — overlapping hero bottom */}
         <div className="relative z-10 -mt-40 sm:-mt-44 lg:-mt-48">
           <div className="mx-auto max-w-[1280px] px-4 sm:px-10">
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-              {modeMeta.map((m) => (
-                <ModeCard
-                  key={m.slug}
-                  slug={m.slug}
-                  labelKey={m.labelKey}
-                  descriptionKey={m.descriptionKey}
-                  icon={m.icon}
-                  image={m.image}
-                  count={countByMode(m.mode)}
-                />
-              ))}
-            </div>
+            <CoverflowCarousel
+              label={t("modes.title")}
+              cardWidth="clamp(240px, 30vw, 380px)"
+              rotate={38}
+              depth={0.7}
+              showCaption
+              showCardTitle
+              showNavigation
+              showPagination
+              slides={modeMeta.map((m) => ({
+                src: m.image,
+                alt: t(m.labelKey),
+                title: t(m.labelKey),
+                subtitle: t("projectsIndex.count", { count: countByMode(m.mode) }),
+                href: `/projets?mode=${m.slug}`,
+              }))}
+            />
           </div>
         </div>
       </div>
@@ -200,49 +186,7 @@ function HomePage() {
       <InterestForm />
 
       {/* Footer */}
-      <footer className="bg-inverse-surface text-inverse-on-surface">
-        <div className="mx-auto grid max-w-[1280px] gap-8 px-4 py-12 sm:px-10 md:grid-cols-4">
-          <div>
-            <p className="text-lg font-bold">
-              Place<span className="text-inverse-primary">2</span>invest
-            </p>
-            <p className="mt-2 text-sm opacity-70">{t("home.footer.tagline")}</p>
-          </div>
-          {[
-            {
-              id: "plateforme",
-              titre: t("home.footer.plateforme"),
-              liens: t("home.footer.plateformeLinks", { returnObjects: true }) as string[],
-            },
-            {
-              id: "societe",
-              titre: t("home.footer.societe"),
-              liens: t("home.footer.societeLinks", { returnObjects: true }) as string[],
-            },
-            {
-              id: "legal",
-              titre: t("home.footer.legal"),
-              liens: t("home.footer.legalLinks", { returnObjects: true }) as string[],
-            },
-          ].map((col) => (
-            <div key={col.id}>
-              <p className="label-sm">{col.titre}</p>
-              <ul className="mt-3 space-y-2 text-sm opacity-80">
-                {col.liens.map((l) => (
-                  <li key={l} className="hover:opacity-100">
-                    {l}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-        <div className="border-t border-inverse-on-surface/10">
-          <p className="mx-auto max-w-[1280px] px-4 py-4 text-xs opacity-60 sm:px-10">
-            © {new Date().getFullYear()} Place2Invest. {t("common.footer")}
-          </p>
-        </div>
-      </footer>
+      <CinematicFooter />
     </div>
   );
 }
